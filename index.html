@@ -1094,6 +1094,172 @@
       font-size: 0.74rem;
     }
 
+    .reflection-stage {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      align-items: end;
+    }
+
+    .avatar-panel {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+      padding: 10px;
+      border: 1px solid rgba(87, 231, 255, 0.16);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.04);
+      text-align: center;
+    }
+
+    .stick-avatar {
+      --body-w: 34px;
+      --shoulder-w: 74px;
+      --waist-w: 44px;
+      --glow: rgba(87, 231, 255, 0.18);
+      position: relative;
+      width: 100%;
+      height: 166px;
+      filter: drop-shadow(0 0 16px var(--glow));
+    }
+
+    .stick-avatar .head,
+    .stick-avatar .torso,
+    .stick-avatar .arm,
+    .stick-avatar .leg {
+      position: absolute;
+      left: 50%;
+      background: linear-gradient(145deg, var(--avatar-color, #57e7ff), rgba(255, 255, 255, 0.22));
+      box-shadow: inset -7px -8px 14px rgba(0, 0, 0, 0.28);
+    }
+
+    .stick-avatar .head {
+      top: 6px;
+      width: 42px;
+      height: 42px;
+      border-radius: 50%;
+      transform: translateX(-50%);
+    }
+
+    .stick-avatar .glasses {
+      position: absolute;
+      top: 23px;
+      left: 50%;
+      display: none;
+      width: 32px;
+      height: 9px;
+      border-top: 2px solid rgba(7, 9, 15, 0.8);
+      border-bottom: 2px solid rgba(7, 9, 15, 0.8);
+      transform: translateX(-50%);
+    }
+
+    .stick-avatar.has-glasses .glasses {
+      display: block;
+    }
+
+    .stick-avatar .beard {
+      position: absolute;
+      top: 34px;
+      left: 50%;
+      display: none;
+      width: 24px;
+      height: 11px;
+      border-radius: 0 0 14px 14px;
+      background: rgba(7, 9, 15, 0.62);
+      transform: translateX(-50%);
+    }
+
+    .stick-avatar.has-beard .beard {
+      display: block;
+    }
+
+    .stick-avatar .torso {
+      top: 54px;
+      width: var(--body-w);
+      height: 58px;
+      border-radius: 18px 18px 12px 12px;
+      transform: translateX(-50%) perspective(120px) rotateX(8deg);
+    }
+
+    .stick-avatar .shoulders {
+      position: absolute;
+      top: 56px;
+      left: 50%;
+      width: var(--shoulder-w);
+      height: 13px;
+      border-radius: 999px;
+      background: var(--avatar-color, #57e7ff);
+      transform: translateX(-50%);
+      opacity: 0.9;
+    }
+
+    .stick-avatar .waist {
+      position: absolute;
+      top: 105px;
+      left: 50%;
+      width: var(--waist-w);
+      height: 12px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.22);
+      transform: translateX(-50%);
+    }
+
+    .stick-avatar .arm {
+      top: 66px;
+      width: 12px;
+      height: 54px;
+      border-radius: 999px;
+      transform-origin: top center;
+    }
+
+    .stick-avatar .arm.left {
+      transform: translateX(calc(-50% - 34px)) rotate(13deg);
+    }
+
+    .stick-avatar .arm.right {
+      transform: translateX(calc(-50% + 34px)) rotate(-13deg);
+    }
+
+    .stick-avatar .leg {
+      top: 112px;
+      width: 13px;
+      height: 48px;
+      border-radius: 999px;
+      transform-origin: top center;
+    }
+
+    .stick-avatar .leg.left {
+      transform: translateX(calc(-50% - 12px)) rotate(7deg);
+    }
+
+    .stick-avatar .leg.right {
+      transform: translateX(calc(-50% + 12px)) rotate(-7deg);
+    }
+
+    .stick-avatar.milestone {
+      animation: avatarPulse 2.4s ease-in-out infinite;
+    }
+
+    @keyframes avatarPulse {
+      0%, 100% { filter: drop-shadow(0 0 12px var(--glow)); }
+      50% { filter: drop-shadow(0 0 28px var(--glow)); }
+    }
+
+    .timeline-strip {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 4px;
+    }
+
+    .snapshot-card {
+      flex: 0 0 128px;
+      padding: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.04);
+    }
+
     .feedback-copy {
       margin-bottom: 10px;
       color: var(--muted);
@@ -1664,6 +1830,53 @@
         <div class="calendar-grid" id="consistencyCalendar"></div>
       </article>
 
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Reflexo da Evolução</h2>
+          <button class="small-btn" id="updateReflectionBtn" type="button">Atualizar</button>
+        </div>
+        <div class="reflection-stage">
+          <div class="avatar-panel">
+            <span class="tag">Antes</span>
+            <div id="avatarInitial"></div>
+            <p class="muted" id="reflectionInitialText">Início</p>
+          </div>
+          <div class="avatar-panel">
+            <span class="tag cyan-tag">Agora</span>
+            <div id="avatarCurrent"></div>
+            <p class="muted" id="reflectionCurrentText">Atual</p>
+          </div>
+          <div class="avatar-panel">
+            <span class="tag">Potencial</span>
+            <div id="avatarPotential"></div>
+            <p class="muted" id="reflectionPotentialText">Meta</p>
+          </div>
+        </div>
+        <div class="stats-grid" style="margin-top: 10px;">
+          <div class="stat-box">
+            <span>Peso inicial</span>
+            <strong id="reflectionStartWeight">--</strong>
+          </div>
+          <div class="stat-box">
+            <span>Peso atual</span>
+            <strong id="reflectionCurrentWeight">--</strong>
+          </div>
+          <div class="stat-box">
+            <span>Data inicial</span>
+            <strong id="reflectionStartDate">--</strong>
+          </div>
+          <div class="stat-box">
+            <span>Dias de jornada</span>
+            <strong id="reflectionDays">1</strong>
+          </div>
+        </div>
+        <div class="section-title" style="margin-top: 14px;">
+          <h2>Linha do Tempo</h2>
+          <span class="tag" id="reflectionSnapshotCount">0</span>
+        </div>
+        <div class="timeline-strip" id="reflectionTimeline"></div>
+      </article>
+
       <aside class="panel narrator" aria-live="polite">
         <div class="section-title">
           <h2>Narrador</h2>
@@ -1785,6 +1998,13 @@
       </article>
       <article class="panel log-card">
         <div class="section-title">
+          <h2>Conquistas Secretas</h2>
+          <span class="tag boss" id="secretCount">0/?</span>
+        </div>
+        <div class="achievement-list" id="secretList"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
           <h2>Temporada</h2>
           <span class="tag" id="seasonName">Temporada Atual</span>
         </div>
@@ -1882,16 +2102,37 @@
           <span class="tag cyan-tag">Novo jogador</span>
         </div>
         <div class="system-intro-list">
-          <p>O Sistema detectou um novo jogador.</p>
-          <p>O processo de análise está disponível.</p>
-          <p>Algumas informações serão necessárias para construir sua jornada.</p>
-          <p>Tempo estimado: menos de 2 minutos.</p>
+          <p>Você está prestes a iniciar seu Sistema de Ascensão.</p>
+          <p>Antes de liberar seu painel, o Sistema precisa entender quem você é hoje.</p>
+          <p>Algumas perguntas serão feitas para criar seu personagem, sua jornada, seus objetivos e seus primeiros desafios.</p>
+          <p>Suas respostas ficam salvas apenas neste dispositivo.</p>
+        </div>
+        <div class="system-grid">
+          <div class="system-line"><span>Missões</span><strong>Geram XP</strong></div>
+          <div class="system-line"><span>Treinos</span><strong>Contam ciclos</strong></div>
+          <div class="system-line"><span>Objetivos</span><strong>Viram jornadas</strong></div>
+          <div class="system-line"><span>Títulos</span><strong>Desbloqueiam com evolução</strong></div>
+          <div class="system-line wide"><span>Offline</span><strong>Tudo funciona neste dispositivo</strong></div>
         </div>
         <div class="system-explain" id="systemExplain">
           O Ascension System transforma sua vida real em uma evolução de RPG: missões geram XP, hábitos fortalecem atributos, títulos marcam conquistas, objetivos viram arcos de jornada e o progresso real desbloqueia novas camadas do personagem.
         </div>
-        <button class="primary-btn" id="continueIntroBtn" type="button">Continuar</button>
+        <button class="primary-btn" id="continueIntroBtn" type="button">Começar Avaliação</button>
+        <button class="ghost-btn" id="skipIntroBtn" type="button">Ver depois</button>
         <button class="ghost-btn" id="explainSystemBtn" type="button">O que é o Ascension System?</button>
+      </section>
+
+      <section class="onboarding-screen" data-onboarding-screen="prep">
+        <div class="section-title">
+          <h2>Análise Inicial do Personagem</h2>
+          <span class="tag cyan-tag">Preparação</span>
+        </div>
+        <div class="result-frame">
+          <p class="muted">Responda com sinceridade. O Sistema usará suas respostas para montar sua classe inicial, jornada recomendada, boss inicial e atributos.</p>
+          <p class="muted">Tempo estimado: menos de 2 minutos.</p>
+        </div>
+        <button class="primary-btn" id="beginAssessmentBtn" type="button">Iniciar Análise</button>
+        <button class="ghost-btn" id="backToIntroBtn" type="button">Voltar</button>
       </section>
 
       <section class="onboarding-screen" data-onboarding-screen="form">
@@ -1921,13 +2162,47 @@
                 <input id="onboardingAge" type="number" min="8" max="120" inputmode="numeric" placeholder="anos">
               </div>
               <div>
+                <label for="onboardingSex">Sexo</label>
+                <select id="onboardingSex">
+                  <option value="masculino">Masculino</option>
+                  <option value="feminino">Feminino</option>
+                  <option value="outro">Outro</option>
+                </select>
+              </div>
+            </div>
+            <div class="class-rank">
+              <div>
                 <label for="onboardingHeight">Altura</label>
                 <input id="onboardingHeight" type="number" min="80" max="240" inputmode="decimal" placeholder="cm">
+              </div>
+              <div>
+                <label for="onboardingTargetWeight">Peso meta</label>
+                <input id="onboardingTargetWeight" type="number" min="20" max="300" inputmode="decimal" placeholder="opcional">
               </div>
             </div>
             <div>
               <label for="onboardingWeight">Peso atual</label>
               <input id="onboardingWeight" type="number" min="20" max="300" inputmode="decimal" placeholder="kg">
+            </div>
+            <div class="class-rank">
+              <div>
+                <label for="onboardingGlasses">Usa óculos?</label>
+                <select id="onboardingGlasses">
+                  <option value="não">Não</option>
+                  <option value="sim">Sim</option>
+                </select>
+              </div>
+              <div>
+                <label for="onboardingBeard">Possui barba?</label>
+                <select id="onboardingBeard">
+                  <option value="não">Não</option>
+                  <option value="sim">Sim</option>
+                </select>
+              </div>
+            </div>
+            <div>
+              <label for="onboardingAvatarColor">Cor principal do avatar</label>
+              <input id="onboardingAvatarColor" type="color" value="#57e7ff">
             </div>
           </div>
 
@@ -2182,6 +2457,43 @@
     </div>
   </div>
 
+  <div class="modal" id="reflectionModal" role="dialog" aria-modal="true" aria-labelledby="reflectionModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="reflectionModalTitle">Atualização do Reflexo</h2>
+        <button class="small-btn" type="button" data-close-reflection>Fechar</button>
+      </div>
+      <p class="feedback-copy">Deseja atualizar seus dados? Nada é obrigatório. O Sistema apenas registra a evolução detectada.</p>
+      <form class="form-grid" id="reflectionForm">
+        <div class="class-rank">
+          <div>
+            <label for="reflectionWeightInput">Peso atual</label>
+            <input id="reflectionWeightInput" type="number" step="0.1" inputmode="decimal">
+          </div>
+          <div>
+            <label for="reflectionWaistInput">Cintura</label>
+            <input id="reflectionWaistInput" type="number" step="0.1" inputmode="decimal">
+          </div>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="reflectionArmInput">Braço</label>
+            <input id="reflectionArmInput" type="number" step="0.1" inputmode="decimal">
+          </div>
+          <div>
+            <label for="reflectionChestInput">Peitoral</label>
+            <input id="reflectionChestInput" type="number" step="0.1" inputmode="decimal">
+          </div>
+        </div>
+        <div>
+          <label for="reflectionNotesInput">Observações</label>
+          <textarea id="reflectionNotesInput" placeholder="Opcional"></textarea>
+        </div>
+        <button class="primary-btn" type="submit">Salvar Reflexo</button>
+      </form>
+    </div>
+  </div>
+
   <div class="modal" id="cycleModal" role="dialog" aria-modal="true" aria-labelledby="cycleModalTitle">
     <div class="modal-card">
       <div class="section-title">
@@ -2279,6 +2591,24 @@ Obrigado pelo projeto!`;
       "Atributo aumentado. O Sistema registrou uma pequena ruptura no seu padrão antigo."
     ];
 
+    const narrativeMessages = [
+      "A maioria desiste antes deste ponto.",
+      "O Sistema reconheceu sua persistência.",
+      "Disciplina está substituindo motivação.",
+      "O personagem atual não é o mesmo que iniciou a jornada.",
+      "Pequenas ações geram grandes evoluções.",
+      "O progresso foi detectado.",
+      "Você está mais próximo da próxima ascensão.",
+      "Nem todos percebem a própria evolução. O Sistema percebe."
+    ];
+
+    const rareMessages = [
+      "Potencial acima da média detectado.",
+      "O Sistema observou algo incomum.",
+      "Taxa de evolução superior ao esperado.",
+      "Continuidade excepcional identificada."
+    ];
+
     const bossMessages = [
       "Boss derrotado. A ameaça retornará em uma próxima semana.",
       "Boss abatido. O Sistema registrou resistência acima da média.",
@@ -2296,6 +2626,15 @@ Obrigado pelo projeto!`;
       { id: "fameFirstGoal", title: "Primeiro objetivo concluído", desc: "Um alvo real foi conquistado.", check: s => s.primaryGoal.completed },
       { id: "fameFirstTitle", title: "Primeiro título equipado", desc: "Identidade pública desbloqueada.", check: s => Boolean(s.equippedTitle) },
       { id: "fameFirstReport", title: "Primeiro relatório semanal", desc: "O Sistema emitiu seu primeiro parecer.", check: s => s.weeklyReportsGenerated >= 1 }
+    ];
+
+    const secretAchievementDefinitions = [
+      { id: "owl", title: "Coruja", desc: "Completar missões após meia-noite.", check: s => s.secretProgress.lateMissions >= 1 },
+      { id: "awakening", title: "Despertar", desc: "Treinar antes das 6h por 10 vezes.", check: s => s.secretProgress.earlyWorkouts >= 10 },
+      { id: "unbreakable", title: "Inquebrável", desc: "30 dias consecutivos.", check: s => s.streak >= 30 },
+      { id: "persistent", title: "Persistente", desc: "Concluir missão mesmo após falhar no dia anterior.", check: s => s.secretProgress.recoveredAfterBreak },
+      { id: "sunday", title: "Domingo Não é Desculpa", desc: "Concluir missão em 5 domingos.", check: s => s.secretProgress.sundayMissions >= 5 },
+      { id: "trueIron", title: "Ferro de Verdade", desc: "Completar 90 treinos.", check: s => s.totalWorkouts >= 90 }
     ];
 
     const defaultMissions = [
@@ -2383,6 +2722,11 @@ Obrigado pelo projeto!`;
       },
       profile: {
         age: "",
+        sex: "masculino",
+        targetWeight: "",
+        glasses: "não",
+        beard: "não",
+        avatarColor: "#57e7ff",
         works: "sim",
         studies: "sim",
         trainsCurrently: "sim",
@@ -2457,6 +2801,22 @@ Obrigado pelo projeto!`;
       currentSeason: "",
       weeklyReportsGenerated: 0,
       hallOfFame: {},
+      secretAchievements: {},
+      secretProgress: {
+        lateMissions: 0,
+        earlyWorkouts: 0,
+        sundayMissions: 0,
+        hadStreakBreak: false,
+        recoveredAfterBreak: false
+      },
+      reflection: {
+        initial: null,
+        current: null,
+        target: null,
+        snapshots: [],
+        lastPromptDate: "",
+        lastUpdateDate: ""
+      },
       achievements: {},
       exerciseChecks: {},
       log: []
@@ -2499,6 +2859,19 @@ Obrigado pelo projeto!`;
       shareStatusBtn: document.querySelector("#shareStatusBtn"),
       consistencyCalendar: document.querySelector("#consistencyCalendar"),
       calendarMonthLabel: document.querySelector("#calendarMonthLabel"),
+      updateReflectionBtn: document.querySelector("#updateReflectionBtn"),
+      avatarInitial: document.querySelector("#avatarInitial"),
+      avatarCurrent: document.querySelector("#avatarCurrent"),
+      avatarPotential: document.querySelector("#avatarPotential"),
+      reflectionInitialText: document.querySelector("#reflectionInitialText"),
+      reflectionCurrentText: document.querySelector("#reflectionCurrentText"),
+      reflectionPotentialText: document.querySelector("#reflectionPotentialText"),
+      reflectionStartWeight: document.querySelector("#reflectionStartWeight"),
+      reflectionCurrentWeight: document.querySelector("#reflectionCurrentWeight"),
+      reflectionStartDate: document.querySelector("#reflectionStartDate"),
+      reflectionDays: document.querySelector("#reflectionDays"),
+      reflectionSnapshotCount: document.querySelector("#reflectionSnapshotCount"),
+      reflectionTimeline: document.querySelector("#reflectionTimeline"),
       levelValue: document.querySelector("#levelValue"),
       currentExp: document.querySelector("#currentExp"),
       nextExp: document.querySelector("#nextExp"),
@@ -2549,6 +2922,8 @@ Obrigado pelo projeto!`;
       logList: document.querySelector("#logList"),
       fameCount: document.querySelector("#fameCount"),
       fameList: document.querySelector("#fameList"),
+      secretCount: document.querySelector("#secretCount"),
+      secretList: document.querySelector("#secretList"),
       seasonName: document.querySelector("#seasonName"),
       seasonStats: document.querySelector("#seasonStats"),
       weeklyReportBtn: document.querySelector("#weeklyReportBtn"),
@@ -2567,8 +2942,11 @@ Obrigado pelo projeto!`;
       onboardingForm: document.querySelector("#onboardingForm"),
       startJourneyBtn: document.querySelector("#startJourneyBtn"),
       continueIntroBtn: document.querySelector("#continueIntroBtn"),
+      skipIntroBtn: document.querySelector("#skipIntroBtn"),
       explainSystemBtn: document.querySelector("#explainSystemBtn"),
       systemExplain: document.querySelector("#systemExplain"),
+      beginAssessmentBtn: document.querySelector("#beginAssessmentBtn"),
+      backToIntroBtn: document.querySelector("#backToIntroBtn"),
       onboardingStepTag: document.querySelector("#onboardingStepTag"),
       onboardingStepLabel: document.querySelector("#onboardingStepLabel"),
       onboardingProgressBar: document.querySelector("#onboardingProgressBar"),
@@ -2580,6 +2958,11 @@ Obrigado pelo projeto!`;
       onboardingName: document.querySelector("#onboardingName"),
       onboardingCharacterName: document.querySelector("#onboardingCharacterName"),
       onboardingAge: document.querySelector("#onboardingAge"),
+      onboardingSex: document.querySelector("#onboardingSex"),
+      onboardingTargetWeight: document.querySelector("#onboardingTargetWeight"),
+      onboardingGlasses: document.querySelector("#onboardingGlasses"),
+      onboardingBeard: document.querySelector("#onboardingBeard"),
+      onboardingAvatarColor: document.querySelector("#onboardingAvatarColor"),
       onboardingWorks: document.querySelector("#onboardingWorks"),
       onboardingStudies: document.querySelector("#onboardingStudies"),
       onboardingTrains: document.querySelector("#onboardingTrains"),
@@ -2621,6 +3004,13 @@ Obrigado pelo projeto!`;
       shareText: document.querySelector("#shareText"),
       copyShareBtn: document.querySelector("#copyShareBtn"),
       nativeShareBtn: document.querySelector("#nativeShareBtn"),
+      reflectionModal: document.querySelector("#reflectionModal"),
+      reflectionForm: document.querySelector("#reflectionForm"),
+      reflectionWeightInput: document.querySelector("#reflectionWeightInput"),
+      reflectionWaistInput: document.querySelector("#reflectionWaistInput"),
+      reflectionArmInput: document.querySelector("#reflectionArmInput"),
+      reflectionChestInput: document.querySelector("#reflectionChestInput"),
+      reflectionNotesInput: document.querySelector("#reflectionNotesInput"),
       cycleModal: document.querySelector("#cycleModal"),
       repeatCycleBtn: document.querySelector("#repeatCycleBtn"),
       advanceCycleBtn: document.querySelector("#advanceCycleBtn")
@@ -2764,6 +3154,13 @@ Obrigado pelo projeto!`;
         currentSeason: saved.currentSeason || getSeasonKey(),
         weeklyReportsGenerated: Number(saved.weeklyReportsGenerated || 0),
         hallOfFame: { ...(saved.hallOfFame || {}) },
+        secretAchievements: { ...(saved.secretAchievements || {}) },
+        secretProgress: { ...base.secretProgress, ...(saved.secretProgress || {}) },
+        reflection: {
+          ...base.reflection,
+          ...(saved.reflection || {}),
+          snapshots: Array.isArray(saved.reflection?.snapshots) ? saved.reflection.snapshots : []
+        },
         achievements: { ...(saved.achievements || {}) },
         exerciseChecks: { ...(saved.exerciseChecks || {}) },
         log: Array.isArray(saved.log) ? saved.log.slice(0, 40) : []
@@ -2877,6 +3274,9 @@ Obrigado pelo projeto!`;
 
       const yesterday = new Date();
       yesterday.setDate(yesterday.getDate() - 1);
+      if (state.lastActiveDate && state.lastActiveDate !== getDateKey(yesterday)) {
+        state.secretProgress.hadStreakBreak = true;
+      }
       state.streak = state.lastActiveDate === getDateKey(yesterday) ? state.streak + 1 : 1;
       state.lastActiveDate = today;
     }
@@ -2891,6 +3291,16 @@ Obrigado pelo projeto!`;
       today.missions.push(mission.id);
       today.exp += exp;
       updateStreak();
+    }
+
+    function registerSecretActivity(mission) {
+      const now = new Date();
+      if (now.getHours() >= 0 && now.getHours() < 5) state.secretProgress.lateMissions += 1;
+      if (now.getDay() === 0) state.secretProgress.sundayMissions += 1;
+      if (state.secretProgress.hadStreakBreak) {
+        state.secretProgress.recoveredAfterBreak = true;
+        state.secretProgress.hadStreakBreak = false;
+      }
     }
 
     function dailyMissionIds() {
@@ -2960,6 +3370,7 @@ Obrigado pelo projeto!`;
       }
       if (state.level > previousLevel) {
         toast(`Level ${previousLevel} > ${state.level}. Rank atual: ${getRank()}.`);
+        narrate("Novo nível alcançado. Você está mais próximo da próxima ascensão.");
       }
       if (getRank() !== previousRank) {
         toast(`Novo rank atingido: ${getRank()}.`);
@@ -3000,6 +3411,90 @@ Obrigado pelo projeto!`;
     function equippedTitleName() {
       if (!state.equippedTitle) return "Sem título";
       return titleDefinitions.find(title => title.id === state.equippedTitle)?.name || "Sem título";
+    }
+
+    function createReflectionSnapshot(label, profile, formData = null) {
+      const weight = Number(formData?.weight || profile.weight || state.reflection.current?.weight || 0);
+      return {
+        id: `reflection-${Date.now()}-${Math.random().toString(16).slice(2)}`,
+        label,
+        date: new Date().toISOString(),
+        weight,
+        waist: Number(formData?.waist || 0),
+        arm: Number(formData?.arm || 0),
+        chest: Number(formData?.chest || 0),
+        notes: formData?.notes || "",
+        color: profile.avatarColor || "#57e7ff",
+        glasses: profile.glasses === "sim",
+        beard: profile.beard === "sim",
+        targetWeight: Number(profile.targetWeight || 0),
+        journey: profile.goal || "Evolução completa"
+      };
+    }
+
+    function createTargetReflection(profile, assessment) {
+      const target = createReflectionSnapshot("Meta", profile, {
+        weight: profile.targetWeight || profile.weight,
+        notes: assessment.journey
+      });
+      target.isTarget = true;
+      return target;
+    }
+
+    function avatarMetrics(snapshot = {}, mode = "current") {
+      const initial = state.reflection.initial || snapshot;
+      const current = snapshot || initial;
+      const initialWeight = Number(initial.weight || current.weight || 80);
+      const currentWeight = Number(current.weight || initialWeight);
+      const targetWeight = Number(current.targetWeight || state.profile.targetWeight || currentWeight);
+      const lost = Math.max(-20, Math.min(20, initialWeight - currentWeight));
+      const muscle = Math.min(22, Math.floor(state.totalWorkouts / 10) * 2);
+      const discipline = Math.min(16, Math.floor(state.streak / 7) * 2);
+      const vitality = Math.min(12, Math.floor((state.attributes["Vitalidade"] || 10) / 10));
+      const targetShift = mode === "target" ? Math.max(-18, Math.min(18, initialWeight - targetWeight)) : 0;
+      return {
+        body: 34 + muscle * 0.35 - lost * 0.25 - targetShift * 0.2,
+        shoulders: 72 + muscle + (mode === "target" ? 8 : 0),
+        waist: 46 - lost * 0.55 - discipline * 0.25 - targetShift * 0.4,
+        glow: 0.14 + (discipline + vitality) / 100
+      };
+    }
+
+    function avatarHtml(snapshot, mode = "current") {
+      const metrics = avatarMetrics(snapshot, mode);
+      const milestone = state.totalWorkouts >= 10 ? "milestone" : "";
+      const glasses = snapshot?.glasses ? "has-glasses" : "";
+      const beard = snapshot?.beard ? "has-beard" : "";
+      const color = snapshot?.color || state.profile.avatarColor || "#57e7ff";
+      return `
+        <div class="stick-avatar ${milestone} ${glasses} ${beard}" style="--avatar-color:${color}; --body-w:${Math.max(24, metrics.body)}px; --shoulder-w:${Math.max(56, metrics.shoulders)}px; --waist-w:${Math.max(28, metrics.waist)}px; --glow:rgba(87,231,255,${metrics.glow});">
+          <div class="head"></div><div class="glasses"></div><div class="beard"></div>
+          <div class="shoulders"></div><div class="torso"></div><div class="waist"></div>
+          <div class="arm left"></div><div class="arm right"></div>
+          <div class="leg left"></div><div class="leg right"></div>
+        </div>
+      `;
+    }
+
+    function ensureReflection() {
+      if (!state.reflection.initial) {
+        const snapshot = createReflectionSnapshot("Início", state.profile, null);
+        state.reflection.initial = snapshot;
+        state.reflection.current = snapshot;
+        state.reflection.target = createTargetReflection(state.profile, state.systemAssessment);
+        state.reflection.snapshots = [snapshot];
+      }
+      const milestones = [30, 60, 90, 180, 365];
+      const existing = new Set(state.reflection.snapshots.map(snapshot => snapshot.label));
+      milestones.forEach(day => {
+        if (daysUsingSystem() >= day && !existing.has(`${day} dias`)) {
+          const snapshot = {
+            ...createReflectionSnapshot(`${day} dias`, state.profile, state.reflection.current),
+            label: `${day} dias`
+          };
+          state.reflection.snapshots.push(snapshot);
+        }
+      });
     }
 
     function goalProgress() {
@@ -3051,6 +3546,9 @@ Obrigado pelo projeto!`;
       const message = activeDays >= 4
         ? "O Sistema reconheceu sua evolução esta semana."
         : "A semana foi difícil, mas o personagem ainda está de pé.";
+      const initial = state.reflection.initial;
+      const current = state.reflection.current || initial;
+      const weightChange = initial?.weight && current?.weight ? `${(Number(current.weight) - Number(initial.weight)).toFixed(1)} kg desde o início` : "Sem alteração registrada";
 
       return `RELATÓRIO DA SEMANA
 
@@ -3062,6 +3560,11 @@ Maior atributo evoluído: ${strongestAttributeName()}
 Títulos desbloqueados: ${Object.keys(state.unlockedTitles).length}
 Dias ativos: ${activeDays}
 Melhor sequência: ${state.streak} dias
+Mudanças detectadas:
+- Peso: ${weightChange}
+- Medidas: ${current?.waist || current?.arm || current?.chest ? "medidas registradas" : "sem novas medidas"}
+- Sequência: ${state.streak} dias
+- Consistência: ${activeDays}/7 dias ativos
 
 ${message}`;
     }
@@ -3111,6 +3614,7 @@ Objetivo: ${goal}`;
       state.completedMissions += 1;
       ensureSeason().missions += 1;
       state.missionCompletions[mission.id] = (state.missionCompletions[mission.id] || 0) + 1;
+      registerSecretActivity(mission);
       addExp(mission.exp);
       addAttribute(mission.attribute, attributeGainFor(mission.difficulty));
       registerDailyMission(mission, mission.exp);
@@ -3120,7 +3624,7 @@ Objetivo: ${goal}`;
       }
 
       addLog(mission.name, `+${mission.exp} EXP | +${attributeGainFor(mission.difficulty)} ${mission.attribute}`);
-      narrate(randomItem(systemMessages));
+      narrate(`${randomItem(systemMessages)} ${systemNarrative()}`);
       checkAchievements();
       await saveState();
       render();
@@ -3138,6 +3642,7 @@ Objetivo: ${goal}`;
         toast("Token de renomeação desbloqueado.");
         addLog("Token de renomeação", "+1 token disponível");
       }
+      if (new Date().getHours() < 6) state.secretProgress.earlyWorkouts += 1;
       state.cycleProgress += 1;
       state.exerciseChecks[getWorkoutKey()] = [];
       if (state.cycleProgress >= CYCLE_SIZE) {
@@ -3156,7 +3661,7 @@ Objetivo: ${goal}`;
       registerWorkoutProgress();
       addAttribute("Disciplina", 2);
       addLog("Treino do dia", "+1 treino no ciclo | +2 Disciplina");
-      narrate("Treino registrado. O shape ainda está carregando, mas o sistema viu esforço.");
+      narrate(`Treino registrado. O reflexo do personagem demonstra evolução contínua. ${systemNarrative()}`);
       checkAchievements();
       await saveState();
       render();
@@ -3176,7 +3681,7 @@ Objetivo: ${goal}`;
       addAttribute("Disciplina", 5);
       getTodayData().bosses.push(getWeeklyBoss());
       addLog(`Boss: ${getWeeklyBoss()}`, "+90 EXP | +5 Disciplina");
-      narrate(randomItem(bossMessages));
+      narrate(`${randomItem(bossMessages)} ${systemNarrative()}`);
       checkAchievements();
       await saveState();
       render();
@@ -3221,6 +3726,7 @@ Objetivo: ${goal}`;
       }
       checkTitles();
       checkHallOfFame();
+      checkSecretAchievements();
     }
 
     function checkTitles() {
@@ -3243,6 +3749,17 @@ Objetivo: ${goal}`;
         if (!state.hallOfFame[item.id] && item.check(state)) {
           state.hallOfFame[item.id] = new Date().toISOString();
           addLog("Hall da Fama", item.title);
+        }
+      });
+    }
+
+    function checkSecretAchievements() {
+      secretAchievementDefinitions.forEach(item => {
+        if (!state.secretAchievements[item.id] && item.check(state)) {
+          state.secretAchievements[item.id] = new Date().toISOString();
+          toast(`Conquista secreta desbloqueada: ${item.title}`);
+          addLog("Conquista secreta", item.title);
+          narrate("O Sistema observou algo incomum. Uma conquista secreta foi revelada.");
         }
       });
     }
@@ -3271,6 +3788,10 @@ Objetivo: ${goal}`;
       return items[Math.floor(Math.random() * items.length)];
     }
 
+    function systemNarrative() {
+      return Math.random() < 0.08 ? randomItem(rareMessages) : randomItem(narrativeMessages);
+    }
+
     function openFeedback() {
       const url = `https://wa.me/${FEEDBACK_WHATSAPP}?text=${encodeURIComponent(FEEDBACK_MESSAGE)}`;
       window.open(url, "_blank", "noopener");
@@ -3282,6 +3803,7 @@ Objetivo: ${goal}`;
       renderMilestone();
       renderGoal();
       renderCalendar();
+      renderReflection();
       renderWorkout();
       renderTrainingPlan();
       renderAttributes();
@@ -3291,6 +3813,7 @@ Objetivo: ${goal}`;
       renderTitles();
       renderStats();
       renderHallOfFame();
+      renderSecretAchievements();
       renderSeason();
       renderLog();
     }
@@ -3394,6 +3917,33 @@ Objetivo: ${goal}`;
         const type = getActivityType(key);
         return `<div class="day-cell ${type}" title="${key}">${index + 1}</div>`;
       }).join("");
+    }
+
+    function renderReflection() {
+      ensureReflection();
+      const initial = state.reflection.initial;
+      const current = state.reflection.current || initial;
+      const target = state.reflection.target || createTargetReflection(state.profile, state.systemAssessment);
+      const startDate = new Date(initial.date);
+      el.avatarInitial.innerHTML = avatarHtml(initial, "initial");
+      el.avatarCurrent.innerHTML = avatarHtml(current, "current");
+      el.avatarPotential.innerHTML = avatarHtml(target, "target");
+      el.reflectionInitialText.textContent = initial.label || "Início";
+      el.reflectionCurrentText.textContent = current.notes ? "Atualizado" : "Atual";
+      el.reflectionPotentialText.textContent = state.systemAssessment.journey || "Potencial";
+      el.reflectionStartWeight.textContent = initial.weight ? `${initial.weight} kg` : "--";
+      el.reflectionCurrentWeight.textContent = current.weight ? `${current.weight} kg` : "--";
+      el.reflectionStartDate.textContent = startDate.toLocaleDateString("pt-BR");
+      el.reflectionDays.textContent = daysUsingSystem();
+      el.reflectionSnapshotCount.textContent = `${state.reflection.snapshots.length} registros`;
+      el.reflectionTimeline.innerHTML = state.reflection.snapshots.map(snapshot => `
+        <div class="snapshot-card">
+          ${avatarHtml(snapshot, "current")}
+          <strong>${snapshot.label}</strong>
+          <span class="muted">${new Date(snapshot.date).toLocaleDateString("pt-BR")}</span>
+          <span class="muted">${snapshot.weight ? `${snapshot.weight} kg` : "--"}</span>
+        </div>
+      `).join("");
     }
 
     function renderWorkout() {
@@ -3569,6 +4119,24 @@ Objetivo: ${goal}`;
       }).join("");
     }
 
+    function renderSecretAchievements() {
+      checkSecretAchievements();
+      const unlocked = Object.keys(state.secretAchievements).length;
+      el.secretCount.textContent = `${unlocked}/${secretAchievementDefinitions.length}`;
+      el.secretList.innerHTML = secretAchievementDefinitions.map(item => {
+        const isUnlocked = Boolean(state.secretAchievements[item.id]);
+        return `
+          <div class="achievement ${isUnlocked ? "unlocked" : ""}">
+            <div class="achievement-icon">${isUnlocked ? "★" : "?"}</div>
+            <div>
+              <strong>${isUnlocked ? item.title : "???"}</strong>
+              <span>${isUnlocked ? item.desc : "Descrição oculta."}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
     function renderSeason() {
       const season = ensureSeason();
       el.seasonName.textContent = getSeasonName(state.currentSeason);
@@ -3730,6 +4298,11 @@ Objetivo: ${goal}`;
       const profile = {
         ...state.profile,
         age: el.onboardingAge.value,
+        sex: el.onboardingSex.value,
+        targetWeight: el.onboardingTargetWeight.value,
+        glasses: el.onboardingGlasses.value,
+        beard: el.onboardingBeard.value,
+        avatarColor: el.onboardingAvatarColor.value,
         works: el.onboardingWorks.value,
         studies: el.onboardingStudies.value,
         trainsCurrently: el.onboardingTrains.value,
@@ -3744,6 +4317,7 @@ Objetivo: ${goal}`;
         reminderTime: el.onboardingReminderTime.value
       };
       const systemAssessment = buildSystemAssessment(profile);
+      const initialReflection = createReflectionSnapshot("Início", profile, null);
       return {
         onboarded: true,
         startedAt: state.startedAt || new Date().toISOString(),
@@ -3754,6 +4328,15 @@ Objetivo: ${goal}`;
         nickname: slugify(characterName),
         profile,
         systemAssessment,
+        reflection: {
+          ...state.reflection,
+          initial: initialReflection,
+          current: initialReflection,
+          target: createTargetReflection(profile, systemAssessment),
+          snapshots: [initialReflection],
+          lastPromptDate: getDateKey(),
+          lastUpdateDate: getDateKey()
+        },
         notifications: {
         ...state.notifications,
         enabled: el.onboardingReminderEnabled.value === "true",
@@ -3932,6 +4515,54 @@ Objetivo: ${goal}`;
       }
     }
 
+    function showReflectionModal() {
+      ensureReflection();
+      const current = state.reflection.current || {};
+      el.reflectionWeightInput.value = current.weight || "";
+      el.reflectionWaistInput.value = current.waist || "";
+      el.reflectionArmInput.value = current.arm || "";
+      el.reflectionChestInput.value = current.chest || "";
+      el.reflectionNotesInput.value = "";
+      el.reflectionModal.classList.add("show");
+    }
+
+    function closeReflectionModal() {
+      el.reflectionModal.classList.remove("show");
+      el.reflectionForm.reset();
+    }
+
+    async function saveReflectionUpdate() {
+      const snapshot = createReflectionSnapshot("Agora", state.profile, {
+        weight: el.reflectionWeightInput.value,
+        waist: el.reflectionWaistInput.value,
+        arm: el.reflectionArmInput.value,
+        chest: el.reflectionChestInput.value,
+        notes: el.reflectionNotesInput.value
+      });
+      state.reflection.current = snapshot;
+      state.reflection.lastUpdateDate = getDateKey();
+      state.reflection.lastPromptDate = getDateKey();
+      state.reflection.snapshots.push(snapshot);
+      state.reflection.snapshots = state.reflection.snapshots.slice(-24);
+      addLog("Reflexo atualizado", snapshot.weight ? `${snapshot.weight} kg` : "Medidas opcionais registradas");
+      narrate("O Sistema detectou progresso físico. O reflexo do personagem demonstra evolução contínua.");
+      closeReflectionModal();
+      await saveState();
+      render();
+    }
+
+    function maybePromptReflectionUpdate() {
+      if (!state.onboarded) return;
+      ensureReflection();
+      const last = state.reflection.lastPromptDate ? new Date(`${state.reflection.lastPromptDate}T00:00:00`) : new Date(state.startedAt);
+      const days = Math.floor((Date.now() - last.getTime()) / 86400000);
+      if (days >= 7) {
+        state.reflection.lastPromptDate = getDateKey();
+        toast("Atualização do Reflexo disponível.");
+        showReflectionModal();
+      }
+    }
+
     async function renameCharacter() {
       const nextName = el.newCharacterName.value.trim();
       if (!nextName || nextName === state.characterName) {
@@ -4104,11 +4735,17 @@ Objetivo: ${goal}`;
       });
 
       el.startJourneyBtn.addEventListener("click", () => showOnboardingScreen("intro"));
-      el.continueIntroBtn.addEventListener("click", () => {
+      el.continueIntroBtn.addEventListener("click", () => showOnboardingScreen("prep"));
+      el.skipIntroBtn.addEventListener("click", () => {
+        showOnboardingScreen("splash");
+        el.systemExplain.classList.remove("show");
+      });
+      el.beginAssessmentBtn.addEventListener("click", () => {
         showOnboardingScreen("form");
         renderOnboardingStep();
         el.onboardingName.focus();
       });
+      el.backToIntroBtn.addEventListener("click", () => showOnboardingScreen("intro"));
       el.explainSystemBtn.addEventListener("click", () => {
         el.systemExplain.classList.toggle("show");
       });
@@ -4163,6 +4800,17 @@ Objetivo: ${goal}`;
 
       el.copyShareBtn.addEventListener("click", () => copyText(shareStatusText()));
       el.nativeShareBtn.addEventListener("click", shareStatus);
+      el.updateReflectionBtn.addEventListener("click", showReflectionModal);
+      el.reflectionForm.addEventListener("submit", event => {
+        event.preventDefault();
+        saveReflectionUpdate();
+      });
+      document.querySelectorAll("[data-close-reflection]").forEach(button => {
+        button.addEventListener("click", closeReflectionModal);
+      });
+      el.reflectionModal.addEventListener("click", event => {
+        if (event.target === el.reflectionModal) closeReflectionModal();
+      });
 
       el.dailyMissionList.addEventListener("click", event => {
         const button = event.target.closest("[data-daily-mission]");
@@ -4375,6 +5023,7 @@ Objetivo: ${goal}`;
       if (state.cycleReadyReview) showCycleModal();
       await saveState();
       scheduleReminderCheck();
+      window.setTimeout(maybePromptReflectionUpdate, 900);
       registerServiceWorker();
     }
 
