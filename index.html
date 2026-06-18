@@ -1,0 +1,4034 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <!-- =========================
+       HEAD / PWA
+  ========================== -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#07090f">
+  <meta name="description" content="Ascension System: desenvolvimento pessoal gamificado com RPG, treino, hábitos, finanças e missões.">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="Ascension">
+  <link rel="manifest" href="./manifest.json">
+  <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <title>Ascension System</title>
+
+  <!-- =========================
+       CSS
+  ========================== -->
+  <style>
+    :root {
+      color-scheme: dark;
+      --bg: #07090f;
+      --bg-2: #0d111a;
+      --panel: rgba(17, 22, 33, 0.88);
+      --panel-strong: rgba(23, 30, 44, 0.96);
+      --line: rgba(104, 232, 255, 0.18);
+      --line-strong: rgba(104, 232, 255, 0.44);
+      --text: #f0f7ff;
+      --muted: #91a0af;
+      --cyan: #57e7ff;
+      --green: #65f29c;
+      --gold: #ffd166;
+      --red: #ff6077;
+      --violet: #a990ff;
+      --ink: rgba(0, 0, 0, 0.32);
+      --shadow: 0 18px 54px rgba(0, 0, 0, 0.42);
+      --radius: 8px;
+      --safe-bottom: env(safe-area-inset-bottom, 0px);
+    }
+
+    * {
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      min-height: 100vh;
+      margin: 0;
+      background:
+        radial-gradient(circle at 18% 0%, rgba(87, 231, 255, 0.16), transparent 23rem),
+        radial-gradient(circle at 86% 18%, rgba(169, 144, 255, 0.14), transparent 22rem),
+        linear-gradient(145deg, #05060a 0%, #0b1018 48%, #05070c 100%);
+      color: var(--text);
+      font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      overflow-x: hidden;
+      user-select: none;
+    }
+
+    body::before {
+      position: fixed;
+      inset: 0;
+      z-index: -2;
+      pointer-events: none;
+      content: "";
+      background-image:
+        linear-gradient(rgba(87, 231, 255, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(87, 231, 255, 0.045) 1px, transparent 1px);
+      background-size: 38px 38px;
+      mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 88%);
+    }
+
+    body::after {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      content: "";
+      background: linear-gradient(rgba(255, 255, 255, 0.02), transparent 1px);
+      background-size: 100% 6px;
+      opacity: 0.42;
+    }
+
+    button,
+    input,
+    select,
+    textarea {
+      font: inherit;
+    }
+
+    button {
+      border: 0;
+      cursor: pointer;
+    }
+
+    input,
+    select,
+    textarea {
+      position: relative;
+      z-index: 1;
+      display: block;
+      width: 100%;
+      height: 44px;
+      min-height: 44px;
+      border: 1px solid rgba(87, 231, 255, 0.22);
+      border-radius: var(--radius);
+      outline: none;
+      background: rgba(0, 0, 0, 0.28);
+      color: var(--text);
+      padding: 0 12px;
+      pointer-events: auto;
+    }
+
+    select {
+      appearance: auto;
+      -webkit-appearance: menulist;
+      line-height: normal;
+    }
+
+    textarea {
+      height: auto;
+      min-height: 78px;
+      padding-top: 10px;
+      resize: vertical;
+    }
+
+    select option {
+      background: #111827;
+      color: var(--text);
+    }
+
+    input:focus,
+    select:focus,
+    textarea:focus {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(87, 231, 255, 0.12);
+    }
+
+    h1,
+    h2,
+    h3,
+    p {
+      margin: 0;
+    }
+
+    .app {
+      width: min(1180px, 100%);
+      min-height: 100vh;
+      margin: 0 auto;
+      padding: 14px 12px calc(94px + var(--safe-bottom));
+    }
+
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 30;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 8px 0 12px;
+      background: linear-gradient(to bottom, rgba(7, 9, 15, 0.94), rgba(7, 9, 15, 0.72), transparent);
+      backdrop-filter: blur(14px);
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      min-width: 0;
+      gap: 10px;
+    }
+
+    .sigil {
+      display: grid;
+      flex: 0 0 auto;
+      width: 40px;
+      height: 40px;
+      place-items: center;
+      border: 1px solid var(--line-strong);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(87, 231, 255, 0.16), rgba(101, 242, 156, 0.08));
+      color: var(--cyan);
+      font-size: 20px;
+      font-weight: 950;
+      box-shadow: 0 0 26px rgba(87, 231, 255, 0.24), inset 0 0 18px rgba(87, 231, 255, 0.08);
+    }
+
+    h1 {
+      font-size: clamp(1.05rem, 5vw, 2.1rem);
+      font-weight: 900;
+      line-height: 1;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .subtitle {
+      margin-top: 4px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 800;
+      text-transform: uppercase;
+    }
+
+    .top-actions {
+      display: flex;
+      flex: 0 0 auto;
+      gap: 8px;
+    }
+
+    .icon-btn,
+    .small-btn,
+    .primary-btn,
+    .ghost-btn,
+    .danger-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 42px;
+      border-radius: var(--radius);
+      font-size: 0.82rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .icon-btn {
+      width: 42px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+      font-size: 1.05rem;
+    }
+
+    .small-btn {
+      min-height: 36px;
+      padding: 0 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--muted);
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 0 14px;
+      border: 1px solid rgba(87, 231, 255, 0.5);
+      background: linear-gradient(135deg, rgba(87, 231, 255, 0.2), rgba(101, 242, 156, 0.12));
+      color: var(--text);
+      box-shadow: inset 0 0 18px rgba(87, 231, 255, 0.08);
+    }
+
+    .ghost-btn {
+      width: 100%;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 255, 255, 0.13);
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--text);
+    }
+
+    .danger-btn {
+      width: 100%;
+      padding: 0 14px;
+      border: 1px solid rgba(255, 96, 119, 0.36);
+      background: rgba(255, 96, 119, 0.1);
+      color: #ffc6cf;
+    }
+
+    .icon-btn:active,
+    .small-btn:active,
+    .primary-btn:active,
+    .ghost-btn:active,
+    .danger-btn:active,
+    .nav-link:active,
+    .mission:active,
+    .exercise-check:active {
+      transform: translateY(1px);
+    }
+
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      background: linear-gradient(160deg, rgba(17, 22, 33, 0.92), rgba(9, 12, 19, 0.82));
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    .section-title h2 {
+      font-size: 0.9rem;
+      font-weight: 900;
+      letter-spacing: 0;
+      text-transform: uppercase;
+    }
+
+    .tag {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 26px;
+      padding: 0 9px;
+      border: 1px solid rgba(255, 209, 102, 0.38);
+      border-radius: 999px;
+      background: rgba(255, 209, 102, 0.1);
+      color: #ffe1a0;
+      font-size: 0.7rem;
+      font-weight: 900;
+      white-space: nowrap;
+      text-transform: uppercase;
+    }
+
+    .cyan-tag {
+      border-color: rgba(87, 231, 255, 0.38);
+      background: rgba(87, 231, 255, 0.1);
+      color: var(--cyan);
+    }
+
+    .tooltip {
+      display: inline-grid;
+      width: 18px;
+      height: 18px;
+      place-items: center;
+      border: 1px solid rgba(87, 231, 255, 0.28);
+      border-radius: 50%;
+      color: var(--cyan);
+      font-size: 0.7rem;
+      font-weight: 950;
+    }
+
+    .screen {
+      display: none;
+      animation: rise 0.2s ease;
+    }
+
+    .screen.active {
+      display: grid;
+      gap: 12px;
+    }
+
+    @keyframes rise {
+      from {
+        opacity: 0;
+        transform: translateY(6px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .status-panel {
+      position: relative;
+      overflow: hidden;
+      padding: 14px;
+    }
+
+    .status-panel::before {
+      position: absolute;
+      inset: -70px -90px auto auto;
+      width: 250px;
+      height: 250px;
+      content: "";
+      background: conic-gradient(from 180deg, transparent, rgba(87, 231, 255, 0.25), rgba(101, 242, 156, 0.16), transparent);
+      filter: blur(5px);
+      opacity: 0.78;
+      animation: rotateAura 18s linear infinite;
+    }
+
+    @keyframes rotateAura {
+      to {
+        transform: rotate(360deg);
+      }
+    }
+
+    .identity {
+      position: relative;
+      z-index: 1;
+      display: grid;
+      gap: 12px;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 6px;
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .name-input {
+      font-size: 1.02rem;
+      font-weight: 850;
+    }
+
+    .class-rank,
+    .stats-grid,
+    .quick-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+    }
+
+    .mini-stat,
+    .stat-box {
+      min-width: 0;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .mini-stat {
+      padding: 10px;
+    }
+
+    .stat-box {
+      min-height: 74px;
+      padding: 11px;
+    }
+
+    .mini-stat span,
+    .stat-box span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .mini-stat strong,
+    .stat-box strong {
+      display: block;
+      margin-top: 6px;
+      overflow-wrap: anywhere;
+      color: var(--text);
+      font-size: 0.95rem;
+    }
+
+    .stat-box strong {
+      font-size: 1.12rem;
+    }
+
+    .wide {
+      grid-column: 1 / -1;
+    }
+
+    .level-block {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .level-orb {
+      display: grid;
+      width: 78px;
+      height: 78px;
+      place-items: center;
+      border: 1px solid rgba(87, 231, 255, 0.56);
+      border-radius: 50%;
+      background:
+        radial-gradient(circle, rgba(87, 231, 255, 0.18), rgba(87, 231, 255, 0.04) 58%, transparent 60%),
+        linear-gradient(160deg, rgba(87, 231, 255, 0.18), rgba(169, 144, 255, 0.1));
+      color: var(--cyan);
+      font-size: 1.92rem;
+      font-weight: 950;
+      box-shadow: 0 0 42px rgba(87, 231, 255, 0.24), inset 0 0 24px rgba(87, 231, 255, 0.1);
+    }
+
+    .progress-meta {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      color: var(--muted);
+      font-size: 0.77rem;
+      font-weight: 900;
+    }
+
+    .progress {
+      height: 12px;
+      margin-top: 8px;
+      overflow: hidden;
+      border: 1px solid rgba(87, 231, 255, 0.18);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.34);
+    }
+
+    .progress > i {
+      display: block;
+      width: 0%;
+      height: 100%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, var(--cyan), var(--green), var(--gold));
+      box-shadow: 0 0 18px rgba(87, 231, 255, 0.42);
+      transition: width 0.28s ease;
+    }
+
+    .narrator {
+      padding: 13px;
+      border-color: rgba(169, 144, 255, 0.28);
+      background: linear-gradient(145deg, rgba(32, 26, 47, 0.84), rgba(10, 12, 18, 0.88));
+    }
+
+    .narrator p {
+      color: #dce0ff;
+      font-size: 0.9rem;
+      line-height: 1.42;
+    }
+
+    .narrator strong {
+      color: var(--violet);
+      text-transform: uppercase;
+    }
+
+    .workout-card,
+    .attributes,
+    .missions,
+    .boss-card,
+    .achievements,
+    .backup-card,
+    .feedback-card,
+    .log-card {
+      padding: 14px;
+    }
+
+    .workout-hero {
+      display: grid;
+      gap: 12px;
+    }
+
+    .workout-name {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .workout-name h3 {
+      font-size: 1.22rem;
+      line-height: 1.12;
+    }
+
+    .workout-name p,
+    .muted {
+      color: var(--muted);
+      font-size: 0.84rem;
+      line-height: 1.4;
+    }
+
+    .exercise-list,
+    .attribute-list,
+    .mission-list,
+    .achievement-list,
+    .log-list,
+    .plan-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .exercise-check {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      align-items: center;
+      min-height: 48px;
+      padding: 9px 10px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .exercise-check input {
+      width: 20px;
+      min-height: 20px;
+      accent-color: var(--cyan);
+    }
+
+    .exercise-check span {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 800;
+    }
+
+    .exercise-check.done span {
+      color: var(--muted);
+      text-decoration: line-through;
+    }
+
+    .plan-day,
+    .mission,
+    .achievement,
+    .log-item {
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .plan-day {
+      padding: 12px;
+    }
+
+    .plan-day h3 {
+      margin-bottom: 8px;
+      color: var(--cyan);
+      font-size: 0.96rem;
+    }
+
+    .plan-day ul {
+      margin: 0;
+      padding-left: 18px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.5;
+    }
+
+    .attribute {
+      display: grid;
+      gap: 7px;
+    }
+
+    .attribute-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .attribute-name {
+      font-size: 0.86rem;
+      font-weight: 900;
+    }
+
+    .attribute-value {
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 900;
+    }
+
+    .attribute .progress {
+      height: 10px;
+      margin: 0;
+    }
+
+    .filters {
+      display: flex;
+      gap: 8px;
+      overflow-x: auto;
+      padding-bottom: 3px;
+      scrollbar-width: none;
+    }
+
+    .filters::-webkit-scrollbar {
+      display: none;
+    }
+
+    .filter-btn {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      min-height: 34px;
+      padding: 0 11px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.055);
+      color: var(--muted);
+      font-size: 0.75rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .filter-btn.active {
+      border-color: rgba(87, 231, 255, 0.52);
+      background: rgba(87, 231, 255, 0.12);
+      color: var(--cyan);
+    }
+
+    .mission {
+      display: grid;
+      gap: 11px;
+      padding: 12px;
+    }
+
+    .mission-title {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .mission-title h3 {
+      font-size: 0.98rem;
+      line-height: 1.22;
+    }
+
+    .difficulty {
+      flex: 0 0 auto;
+      min-width: 58px;
+      padding: 5px 7px;
+      border-radius: 999px;
+      text-align: center;
+      font-size: 0.66rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .easy {
+      background: rgba(101, 242, 156, 0.14);
+      color: #a7ffc9;
+    }
+
+    .medium {
+      background: rgba(255, 209, 102, 0.14);
+      color: #ffe3a0;
+    }
+
+    .hard {
+      background: rgba(255, 96, 119, 0.14);
+      color: #ffbdc7;
+    }
+
+    .boss {
+      background: rgba(169, 144, 255, 0.16);
+      color: #d7cbff;
+    }
+
+    .mission-meta {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+    }
+
+    .chip {
+      min-height: 25px;
+      padding: 5px 8px;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.18);
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 850;
+    }
+
+    .boss-display {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(169, 144, 255, 0.25);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(169, 144, 255, 0.12), rgba(255, 96, 119, 0.08));
+    }
+
+    .boss-display h3 {
+      font-size: 1.2rem;
+    }
+
+    .achievement {
+      display: grid;
+      grid-template-columns: 34px 1fr;
+      gap: 9px;
+      align-items: center;
+      min-height: 54px;
+      padding: 10px;
+    }
+
+    .achievement-icon {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--muted);
+      font-weight: 950;
+    }
+
+    .achievement.unlocked .achievement-icon {
+      background: rgba(255, 209, 102, 0.16);
+      color: var(--gold);
+    }
+
+    .achievement strong {
+      display: block;
+      font-size: 0.88rem;
+    }
+
+    .achievement span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.76rem;
+    }
+
+    .log-item {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      padding: 10px;
+      color: var(--muted);
+      font-size: 0.77rem;
+    }
+
+    .log-item strong {
+      color: var(--text);
+      font-size: 0.8rem;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .backup-actions {
+      display: grid;
+      gap: 9px;
+    }
+
+    .settings-grid {
+      display: grid;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+
+    #customMissionForm .mission-choice-field {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
+    }
+
+    .choice-button {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      width: 100%;
+      min-height: 56px;
+      padding: 12px 14px;
+      border: 1px solid rgba(87, 231, 255, 0.22);
+      border-radius: var(--radius);
+      background: rgba(0, 0, 0, 0.28);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 850;
+      line-height: 1.2;
+      text-align: left;
+      touch-action: manipulation;
+    }
+
+    .choice-button::after {
+      flex: 0 0 auto;
+      content: "▾";
+      color: var(--cyan);
+      pointer-events: none;
+    }
+
+    .choice-button[aria-expanded="true"] {
+      border-color: var(--cyan);
+      box-shadow: 0 0 0 3px rgba(87, 231, 255, 0.12);
+    }
+
+    .choice-menu {
+      position: absolute;
+      right: 0;
+      left: 0;
+      z-index: 70;
+      display: none;
+      gap: 6px;
+      margin-top: 6px;
+      padding: 7px;
+      border: 1px solid rgba(87, 231, 255, 0.28);
+      border-radius: var(--radius);
+      background: rgba(10, 14, 22, 0.98);
+      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.48);
+    }
+
+    .choice-menu.open {
+      display: grid;
+    }
+
+    .choice-option {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      min-height: 46px;
+      padding: 10px 11px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+      cursor: pointer;
+      font-weight: 850;
+      text-align: left;
+    }
+
+    .choice-option.active,
+    .choice-option:focus {
+      border-color: rgba(87, 231, 255, 0.48);
+      background: rgba(87, 231, 255, 0.12);
+      outline: none;
+    }
+
+    .profile-actions {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px;
+      align-items: end;
+    }
+
+    .token-line {
+      display: grid;
+      gap: 6px;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 0.78rem;
+      font-weight: 850;
+    }
+
+    .title-list {
+      display: grid;
+      gap: 9px;
+    }
+
+    .title-card {
+      display: grid;
+      gap: 9px;
+      padding: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .title-card.locked {
+      opacity: 0.58;
+    }
+
+    .title-card-head {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .title-card strong {
+      display: block;
+      font-size: 0.9rem;
+    }
+
+    .title-card span {
+      color: var(--muted);
+      font-size: 0.76rem;
+      line-height: 1.35;
+    }
+
+    .system-grid,
+    .calendar-grid,
+    .fame-grid,
+    .season-grid {
+      display: grid;
+      gap: 8px;
+    }
+
+    .system-grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .system-line {
+      min-height: 58px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+    }
+
+    .system-line span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.67rem;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .system-line strong {
+      display: block;
+      margin-top: 5px;
+      color: var(--text);
+      font-size: 0.92rem;
+    }
+
+    .evolution-card,
+    .share-card {
+      display: grid;
+      gap: 10px;
+      padding: 14px;
+      border: 1px solid rgba(255, 209, 102, 0.28);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(255, 209, 102, 0.1), rgba(87, 231, 255, 0.07));
+    }
+
+    .objective-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .calendar-grid {
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day-cell {
+      display: grid;
+      min-height: 42px;
+      place-items: center;
+      border: 1px solid rgba(255, 255, 255, 0.075);
+      border-radius: 7px;
+      background: rgba(255, 255, 255, 0.035);
+      color: var(--muted);
+      font-size: 0.74rem;
+      font-weight: 900;
+    }
+
+    .day-cell.mission {
+      border-color: rgba(87, 231, 255, 0.28);
+      background: rgba(87, 231, 255, 0.1);
+      color: var(--cyan);
+    }
+
+    .day-cell.workout {
+      border-color: rgba(101, 242, 156, 0.32);
+      background: rgba(101, 242, 156, 0.12);
+      color: var(--green);
+    }
+
+    .day-cell.boss-day {
+      border-color: rgba(169, 144, 255, 0.36);
+      background: rgba(169, 144, 255, 0.14);
+      color: #d7cbff;
+    }
+
+    .share-output {
+      min-height: 132px;
+      white-space: pre-line;
+      user-select: text;
+    }
+
+    .fame-item {
+      display: grid;
+      grid-template-columns: 32px 1fr;
+      gap: 9px;
+      align-items: center;
+      min-height: 52px;
+      padding: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.04);
+      opacity: 0.58;
+    }
+
+    .fame-item.unlocked {
+      opacity: 1;
+      border-color: rgba(255, 209, 102, 0.3);
+      background: rgba(255, 209, 102, 0.08);
+    }
+
+    .fame-item b {
+      display: grid;
+      width: 32px;
+      height: 32px;
+      place-items: center;
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.07);
+      color: var(--gold);
+    }
+
+    .fame-item strong {
+      display: block;
+      font-size: 0.86rem;
+    }
+
+    .fame-item span {
+      display: block;
+      margin-top: 2px;
+      color: var(--muted);
+      font-size: 0.74rem;
+    }
+
+    .feedback-copy {
+      margin-bottom: 10px;
+      color: var(--muted);
+      font-size: 0.86rem;
+      line-height: 1.45;
+    }
+
+    .hidden-input {
+      position: fixed;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .bottom-nav {
+      position: fixed;
+      right: 10px;
+      bottom: calc(10px + var(--safe-bottom));
+      left: 10px;
+      z-index: 40;
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 6px;
+      width: min(560px, calc(100% - 20px));
+      margin: 0 auto;
+      padding: 7px;
+      border: 1px solid rgba(87, 231, 255, 0.18);
+      border-radius: 16px;
+      background: rgba(7, 9, 15, 0.86);
+      box-shadow: 0 12px 38px rgba(0, 0, 0, 0.42);
+      backdrop-filter: blur(16px);
+    }
+
+    .nav-link {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 48px;
+      border-radius: 10px;
+      color: var(--muted);
+      font-size: 0.66rem;
+      font-weight: 900;
+      gap: 2px;
+      text-decoration: none;
+      text-transform: uppercase;
+    }
+
+    .nav-link b {
+      font-size: 1.04rem;
+      line-height: 1;
+    }
+
+    .nav-link.active {
+      background: rgba(87, 231, 255, 0.12);
+      color: var(--cyan);
+    }
+
+    .modal {
+      position: fixed;
+      inset: 0;
+      z-index: 80;
+      display: none;
+      place-items: end center;
+      padding: 18px 12px calc(18px + var(--safe-bottom));
+      background: rgba(2, 4, 8, 0.72);
+      backdrop-filter: blur(8px);
+    }
+
+    .modal.show {
+      display: grid;
+    }
+
+    .modal-card {
+      width: min(520px, 100%);
+      max-height: calc(100vh - 32px);
+      overflow: auto;
+      padding: 15px;
+      border: 1px solid var(--line-strong);
+      border-radius: 14px;
+      background: rgba(10, 14, 22, 0.98);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
+    }
+
+    .form-grid {
+      display: grid;
+      gap: 10px;
+    }
+
+    .choice-grid {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .choice-row {
+      display: grid;
+      grid-template-columns: 1fr auto auto;
+      align-items: center;
+      gap: 8px;
+      min-height: 44px;
+      padding: 9px;
+      border: 1px solid rgba(255, 255, 255, 0.085);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+      font-size: 0.84rem;
+      font-weight: 850;
+    }
+
+    .choice-row input {
+      width: 18px;
+      min-height: 18px;
+      accent-color: var(--cyan);
+    }
+
+    .modal-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 9px;
+      margin-top: 12px;
+    }
+
+    .toast {
+      position: fixed;
+      right: 14px;
+      bottom: calc(84px + var(--safe-bottom));
+      left: 14px;
+      z-index: 90;
+      display: none;
+      max-width: 520px;
+      margin: 0 auto;
+      padding: 12px 13px;
+      border: 1px solid rgba(87, 231, 255, 0.38);
+      border-radius: var(--radius);
+      background: rgba(9, 13, 21, 0.96);
+      color: var(--text);
+      box-shadow: 0 14px 42px rgba(0, 0, 0, 0.44);
+      font-size: 0.86rem;
+      font-weight: 850;
+    }
+
+    .toast.show {
+      display: block;
+      animation: toast 2.4s ease forwards;
+    }
+
+    @keyframes toast {
+      0% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+      12%, 80% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(8px);
+      }
+    }
+
+    @media (min-width: 760px) {
+      .app {
+        padding: 20px 20px 44px;
+      }
+
+      .screen.active {
+        grid-template-columns: 1fr 1fr;
+        align-items: start;
+      }
+
+      .status-panel,
+      .workout-card,
+      .missions {
+        grid-column: span 1;
+      }
+
+      .narrator,
+      .plan-list,
+      .backup-card,
+      .log-card {
+        grid-column: 1 / -1;
+      }
+
+      .mission {
+        grid-template-columns: 1fr 140px;
+        align-items: center;
+      }
+
+      .backup-actions {
+        grid-template-columns: repeat(3, 1fr);
+      }
+
+      .bottom-nav {
+        display: none;
+      }
+    }
+
+    @media (min-width: 1080px) {
+      .screen.active {
+        grid-template-columns: 0.92fr 1.08fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- =========================
+       HTML
+  ========================== -->
+  <div class="toast" id="toast" aria-live="polite"></div>
+
+  <main class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="sigil" aria-hidden="true">A</div>
+        <div>
+          <h1>Ascension System</h1>
+          <p class="subtitle">Evolução da vida inteira</p>
+        </div>
+      </div>
+      <div class="top-actions">
+        <button class="icon-btn" id="installBtn" type="button" title="Instalar app" aria-label="Instalar app">+</button>
+        <button class="icon-btn" id="newMissionBtn" type="button" title="Nova missão" aria-label="Nova missão">✦</button>
+      </div>
+    </header>
+
+    <section class="screen active" id="screen-status" aria-label="Dashboard principal">
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Hoje</h2>
+          <span class="tag cyan-tag" id="dailyProgressTag">0/4</span>
+        </div>
+        <div class="workout-hero">
+          <div class="workout-name">
+            <div>
+              <h3 id="todayGreeting">Bom dia, Caçador.</h3>
+              <p id="mainMissionText">Missão principal: Ir para academia</p>
+            </div>
+            <span class="tag" id="streakTag">0 dias</span>
+          </div>
+          <div>
+            <div class="progress-meta">
+              <span>Progresso diário</span>
+              <span id="dailyProgressText">0%</span>
+            </div>
+            <div class="progress" aria-label="Progresso diário"><i id="dailyProgressBar"></i></div>
+          </div>
+          <div class="quick-grid" id="dailyMissionList"></div>
+          <p class="feedback-copy">Seu feedback ajuda o sistema a evoluir. Todo grande protagonista começa com testes.</p>
+          <button class="ghost-btn" type="button" data-feedback>Enviar Feedback</button>
+        </div>
+      </article>
+
+      <article class="panel status-panel">
+        <div class="section-title">
+          <h2>ASCENSION SYSTEM</h2>
+          <span class="tag cyan-tag" id="rankTag">Ferro</span>
+        </div>
+
+        <div class="identity">
+          <div class="system-grid">
+            <div class="system-line wide">
+              <span>Jogador</span>
+              <strong id="systemPlayerName">Caçador Iniciante</strong>
+            </div>
+            <div class="system-line">
+              <span>Classe</span>
+              <strong id="systemClass">Humano Comum</strong>
+            </div>
+            <div class="system-line">
+              <span>Jornada</span>
+              <strong id="systemJourney">Ascensão Completa</strong>
+            </div>
+            <div class="system-line">
+              <span>Boss atual</span>
+              <strong id="systemBoss">Segunda-feira</strong>
+            </div>
+            <div class="system-line">
+              <span>Título</span>
+              <strong id="systemTitle">Sem título</strong>
+            </div>
+          </div>
+
+          <div>
+            <div class="profile-actions">
+              <div>
+                <label for="characterName">Nome do personagem <span class="tooltip" title="Renomear agora consome tokens. Você ganha 1 token a cada 10 treinos concluídos.">?</span></label>
+                <input class="name-input" id="characterName" maxlength="32" autocomplete="off" readonly>
+              </div>
+              <button class="small-btn" id="renameBtn" type="button">Renomear</button>
+            </div>
+            <div class="token-line">
+              <span id="renameTokenText">Tokens disponíveis: 0</span>
+              <span id="nextRenameTokenText">Próximo token em 10 treinos</span>
+            </div>
+          </div>
+
+          <div class="class-rank">
+            <div class="mini-stat">
+              <span>Classe inicial</span>
+              <strong id="profileClassValue">Humano Comum</strong>
+            </div>
+            <div class="mini-stat">
+              <span>Rank <span class="tooltip" title="Ranks sobem por nível. Títulos são independentes e podem ser equipados.">?</span></span>
+              <strong id="rankValue">Ferro</strong>
+            </div>
+            <div class="mini-stat wide">
+              <span>Título equipado <span class="tooltip" title="Títulos são conquistas equipáveis. Eles não substituem seu rank.">?</span></span>
+              <strong id="equippedTitleValue">Sem título</strong>
+            </div>
+          </div>
+
+          <div class="level-block">
+            <div class="level-orb" id="levelValue">1</div>
+            <div>
+              <div class="progress-meta">
+                <span>EXP <b id="currentExp">0</b>/<b id="nextExp">100</b></span>
+                <span id="expPercent">0%</span>
+              </div>
+              <div class="progress" aria-label="Barra de EXP"><i id="expBar"></i></div>
+            </div>
+          </div>
+
+          <div class="stats-grid">
+            <div class="stat-box">
+              <span>Dias consecutivos</span>
+              <strong id="streakDays">0</strong>
+            </div>
+            <div class="stat-box">
+              <span>Missões concluídas</span>
+              <strong id="completedMissions">0</strong>
+            </div>
+            <div class="stat-box">
+              <span>Treinos concluídos</span>
+              <strong id="totalWorkouts">0</strong>
+            </div>
+            <div class="stat-box">
+              <span>Bosses derrotados</span>
+              <strong id="bossesDefeated">0</strong>
+            </div>
+            <div class="stat-box">
+              <span>Conquistas</span>
+              <strong id="achievementScore">0/8</strong>
+            </div>
+            <div class="stat-box">
+              <span>XP total</span>
+              <strong id="totalExp">0</strong>
+            </div>
+            <div class="stat-box">
+              <span>Tempo no sistema</span>
+              <strong id="daysUsing">1 dia</strong>
+            </div>
+            <div class="stat-box wide">
+              <span>Ciclo de treino atual</span>
+              <strong id="cycleName">Ciclo 1 - Base</strong>
+              <div class="progress-meta" style="margin-top: 10px;">
+                <span>Progresso do ciclo</span>
+                <span id="cycleText">0/90 treinos</span>
+              </div>
+              <div class="progress" aria-label="Progresso do ciclo"><i id="cycleBar"></i></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Próxima Evolução</h2>
+          <span class="tag">Marco</span>
+        </div>
+        <div class="evolution-card">
+          <strong id="nextMilestoneTitle">Novo marco detectado</strong>
+          <p class="muted" id="nextMilestoneText">Complete ações reais para revelar sua próxima evolução.</p>
+        </div>
+      </article>
+
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Objetivo Principal</h2>
+          <button class="small-btn" id="editGoalBtn" type="button">Editar</button>
+        </div>
+        <div class="workout-hero">
+          <div class="workout-name">
+            <div>
+              <h3 id="goalName">Nenhum objetivo definido</h3>
+              <p id="goalMeta" class="muted">Crie uma missão de longo prazo para o Sistema rastrear.</p>
+            </div>
+            <span class="tag cyan-tag" id="goalPercent">0%</span>
+          </div>
+          <div>
+            <div class="progress-meta">
+              <span id="goalProgressText">0 / 0</span>
+              <span id="goalDeadlineText">Sem prazo</span>
+            </div>
+            <div class="progress" aria-label="Progresso do objetivo"><i id="goalProgressBar"></i></div>
+          </div>
+          <div class="objective-actions">
+            <button class="primary-btn" id="goalProgressBtn" type="button">Atualizar</button>
+            <button class="ghost-btn" id="shareStatusBtn" type="button">Compartilhar Status</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Calendário de Consistência</h2>
+          <span class="tag" id="calendarMonthLabel">Mês atual</span>
+        </div>
+        <div class="calendar-grid" id="consistencyCalendar"></div>
+      </article>
+
+      <aside class="panel narrator" aria-live="polite">
+        <div class="section-title">
+          <h2>Narrador</h2>
+          <span class="tag">Sistema ativo</span>
+        </div>
+        <p id="narratorText"><strong>[Sistema]</strong> Bem-vindo. Seu potencial está intacto, o que é uma forma elegante de dizer que ainda não foi usado.</p>
+      </aside>
+
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Treino de Hoje</h2>
+          <span class="tag cyan-tag" id="todayWorkoutCode">A</span>
+        </div>
+        <div class="workout-hero">
+          <div class="workout-name">
+            <div>
+              <h3 id="todayWorkoutName">Peito + Bíceps</h3>
+              <p id="todayWorkoutNote">Ciclo 1 - Base</p>
+            </div>
+            <span class="tag" id="exerciseDoneCount">0/0</span>
+          </div>
+          <div class="exercise-list" id="exerciseList"></div>
+          <button class="primary-btn" id="completeWorkoutBtn" type="button">Concluir treino</button>
+        </div>
+      </article>
+
+      <article class="panel attributes">
+        <div class="section-title">
+          <h2>Atributos</h2>
+          <span class="tag" id="powerScore">Poder 60</span>
+        </div>
+        <div class="attribute-list" id="attributeList"></div>
+      </article>
+    </section>
+
+    <section class="screen" id="screen-training" aria-label="Ciclo de treino">
+      <article class="panel workout-card">
+        <div class="section-title">
+          <h2>Ciclo de Treino</h2>
+          <span class="tag cyan-tag" id="trainingCycleTag">0/90</span>
+        </div>
+        <div class="stats-grid">
+          <div class="stat-box">
+            <span>Ciclo</span>
+            <strong id="cycleNumber">1</strong>
+          </div>
+          <div class="stat-box">
+            <span>Modelo</span>
+            <strong id="cycleModel">ABC</strong>
+          </div>
+          <div class="stat-box wide">
+            <span>Regra</span>
+            <strong>90 treinos reais concluídos</strong>
+          </div>
+        </div>
+      </article>
+      <div class="plan-list" id="trainingPlan"></div>
+    </section>
+
+    <section class="screen" id="screen-missions" aria-label="Sistema de missões">
+      <article class="panel missions">
+        <div class="section-title">
+          <h2>Missões</h2>
+          <span class="tag" id="missionCount">8</span>
+        </div>
+        <div class="filters" id="filters"></div>
+        <div class="mission-list" id="missionList" style="margin-top: 12px;"></div>
+      </article>
+
+      <article class="panel boss-card">
+        <div class="section-title">
+          <h2>Boss da Semana</h2>
+          <span class="tag boss" id="bossStatus">Disponível</span>
+        </div>
+        <div class="boss-display">
+          <h3 id="weeklyBossName">Segunda-feira</h3>
+          <p class="muted" id="weeklyBossReward">Recompensa: +90 EXP</p>
+          <button class="primary-btn" id="defeatBossBtn" type="button">Derrotar boss</button>
+        </div>
+      </article>
+    </section>
+
+    <section class="screen" id="screen-achievements" aria-label="Conquistas">
+      <article class="panel achievements">
+        <div class="section-title">
+          <h2>Conquistas</h2>
+          <span class="tag" id="achievementCount">0/8</span>
+        </div>
+        <div class="achievement-list" id="achievementList"></div>
+      </article>
+      <article class="panel achievements">
+        <div class="section-title">
+          <h2>Títulos</h2>
+          <span class="tag cyan-tag" id="titleCount">0/0</span>
+        </div>
+        <p class="feedback-copy">Títulos são independentes de rank. Desbloqueie, equipe um por vez, ou remova para ficar sem título.</p>
+        <div class="title-list" id="titleList"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
+          <h2>Estatísticas</h2>
+          <span class="tag cyan-tag">Resumo</span>
+        </div>
+        <div class="stats-grid" id="statsGrid"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
+          <h2>Registro</h2>
+          <span class="tag">Últimas ações</span>
+        </div>
+        <div class="log-list" id="logList"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
+          <h2>Hall da Fama</h2>
+          <span class="tag cyan-tag" id="fameCount">0/10</span>
+        </div>
+        <div class="fame-grid" id="fameList"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
+          <h2>Temporada</h2>
+          <span class="tag" id="seasonName">Temporada Atual</span>
+        </div>
+        <div class="stats-grid" id="seasonStats"></div>
+      </article>
+      <article class="panel log-card">
+        <div class="section-title">
+          <h2>Relatório Semanal</h2>
+          <button class="small-btn" id="weeklyReportBtn" type="button">Ver relatório</button>
+        </div>
+        <div class="share-output system-line wide" id="weeklyReportOutput">O relatório será gerado localmente quando você solicitar.</div>
+      </article>
+    </section>
+
+    <section class="screen" id="screen-backup" aria-label="Configurações e backup">
+      <article class="panel backup-card">
+        <div class="section-title">
+          <h2>Configurações</h2>
+          <span class="tag cyan-tag">Local</span>
+        </div>
+        <div style="margin-bottom: 12px;">
+          <label for="workoutLimit">Limite de treinos por dia</label>
+          <select id="workoutLimit">
+            <option value="1">1 treino por dia</option>
+            <option value="2">2 treinos por dia</option>
+          </select>
+        </div>
+        <div class="settings-grid">
+          <div>
+            <label for="reminderEnabled">Lembrete de treino</label>
+            <select id="reminderEnabled">
+              <option value="false">Desativado</option>
+              <option value="true">Ativado</option>
+            </select>
+          </div>
+          <div class="class-rank">
+            <div>
+              <label for="usualWorkoutTime">Horário que costuma treinar</label>
+              <input id="usualWorkoutTime" type="time">
+            </div>
+            <div>
+              <label for="reminderTime">Horário do lembrete</label>
+              <input id="reminderTime" type="time">
+            </div>
+          </div>
+          <button class="ghost-btn" id="testNotificationBtn" type="button">Testar notificação</button>
+        </div>
+        <div class="backup-actions">
+          <button class="primary-btn" id="exportBtn" type="button">Exportar JSON</button>
+          <button class="ghost-btn" id="importBtn" type="button">Importar JSON</button>
+          <button class="danger-btn" id="resetBtn" type="button">Resetar progresso</button>
+          <button class="ghost-btn" type="button" data-feedback>Enviar Feedback</button>
+        </div>
+        <input class="hidden-input" id="importFile" type="file" accept="application/json,.json">
+      </article>
+      <article class="panel backup-card">
+        <div class="section-title">
+          <h2>Sobre o Projeto</h2>
+          <span class="tag">V1</span>
+        </div>
+        <p class="muted">Transforme sua vida inteira em um RPG. A academia é uma parte da evolução, não o jogo inteiro.</p>
+        <p class="feedback-copy" style="margin-top: 10px;">Seu feedback ajuda o sistema a evoluir. Todo grande protagonista começa com testes.</p>
+        <button class="primary-btn" type="button" data-feedback>Enviar Feedback</button>
+      </article>
+      <article class="panel backup-card">
+        <div class="section-title">
+          <h2>Próximas expansões</h2>
+          <span class="tag">V2+</span>
+        </div>
+        <p class="muted">A camada de dados já fica isolada para adicionar login, backup em nuvem e sincronização com Firebase ou Supabase em versões futuras.</p>
+      </article>
+    </section>
+  </main>
+
+  <nav class="bottom-nav" aria-label="Navegação principal">
+    <a class="nav-link active" href="#status" data-screen="status"><b>◆</b>Hoje</a>
+    <a class="nav-link" href="#training" data-screen="training"><b>▣</b>Treino</a>
+    <a class="nav-link" href="#missions" data-screen="missions"><b>✦</b>Missões</a>
+    <a class="nav-link" href="#achievements" data-screen="achievements"><b>★</b>Ranks</a>
+    <a class="nav-link" href="#backup" data-screen="backup"><b>≡</b>Config</a>
+  </nav>
+
+  <div class="modal" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="onboardingTitle">Avaliação Inicial do Sistema</h2>
+        <span class="tag cyan-tag">Análise</span>
+      </div>
+      <p class="feedback-copy">Antes de iniciar sua jornada, o Sistema precisa analisar seu personagem.</p>
+      <form class="form-grid" id="onboardingForm">
+        <div>
+          <label for="onboardingName">Nome real</label>
+          <input id="onboardingName" maxlength="32" required placeholder="Ex: Anderson">
+        </div>
+        <div>
+          <label for="onboardingCharacterName">Nome do personagem/apelido</label>
+          <input id="onboardingCharacterName" maxlength="32" placeholder="Ex: Shadow Runner">
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="onboardingAge">Idade</label>
+            <input id="onboardingAge" type="number" min="8" max="120" inputmode="numeric" placeholder="anos">
+          </div>
+          <div>
+            <label for="onboardingWeight">Peso atual</label>
+            <input id="onboardingWeight" type="number" min="20" max="300" inputmode="decimal" placeholder="kg">
+          </div>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="onboardingHeight">Altura</label>
+            <input id="onboardingHeight" type="number" min="80" max="240" inputmode="decimal" placeholder="cm">
+          </div>
+          <div>
+            <label for="onboardingTrainingDays">Quantas vezes por semana?</label>
+            <select id="onboardingTrainingDays">
+              <option value="0">Ainda não treino</option>
+              <option value="1">1 vez</option>
+              <option value="2">2 vezes</option>
+              <option value="3">3 vezes</option>
+              <option value="4">4 vezes</option>
+              <option value="5">5 vezes</option>
+              <option value="6">6 vezes</option>
+            </select>
+          </div>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="onboardingWorks">Você trabalha?</label>
+            <select id="onboardingWorks">
+              <option value="sim">Sim</option>
+              <option value="não">Não</option>
+            </select>
+          </div>
+          <div>
+            <label for="onboardingStudies">Você estuda?</label>
+            <select id="onboardingStudies">
+              <option value="sim">Sim</option>
+              <option value="não">Não</option>
+            </select>
+          </div>
+        </div>
+        <div>
+          <label for="onboardingTrains">Você treina atualmente?</label>
+          <select id="onboardingTrains">
+            <option value="sim">Sim</option>
+            <option value="não">Não</option>
+          </select>
+        </div>
+        <div>
+          <label for="onboardingGoal">Objetivo principal</label>
+          <select id="onboardingGoal">
+            <option>Evolução completa</option>
+            <option>Evolução física</option>
+            <option>Saúde</option>
+            <option>Disciplina</option>
+            <option>Finanças</option>
+            <option>Conhecimento</option>
+            <option>Relacionamentos</option>
+          </select>
+        </div>
+        <div>
+          <label for="onboardingObstacle">Maior obstáculo hoje</label>
+          <select id="onboardingObstacle">
+            <option>Preguiça</option>
+            <option>Falta de tempo</option>
+            <option>Falta de dinheiro</option>
+            <option>Sono ruim</option>
+            <option>Falta de organização</option>
+            <option>Ansiedade</option>
+            <option>Falta de consistência</option>
+          </select>
+        </div>
+        <div>
+          <label for="onboardingExperience">Nível atual</label>
+          <select id="onboardingExperience">
+            <option>Iniciante</option>
+            <option>Intermediário</option>
+            <option>Avançado</option>
+          </select>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="onboardingWorkoutTime">Horário que costuma treinar</label>
+            <input id="onboardingWorkoutTime" type="time">
+          </div>
+          <div>
+            <label for="onboardingReminderTime">Horário do lembrete</label>
+            <input id="onboardingReminderTime" type="time">
+          </div>
+        </div>
+        <div>
+          <label for="onboardingReminderEnabled">Deseja receber lembretes?</label>
+          <select id="onboardingReminderEnabled">
+            <option value="true">Sim</option>
+            <option value="false">Não</option>
+          </select>
+        </div>
+        <button class="primary-btn" type="submit">Iniciar sistema</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="missionModal" role="dialog" aria-modal="true" aria-labelledby="missionModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="missionModalTitle">Nova missão</h2>
+        <button class="small-btn" type="button" data-close-modal>Fechar</button>
+      </div>
+      <form class="form-grid" id="customMissionForm">
+        <div>
+          <label for="customMissionName">Nome</label>
+          <input id="customMissionName" maxlength="48" required placeholder="Ex: Revisar orçamento">
+        </div>
+        <div class="mission-choice-field">
+          <label id="customMissionCategoryLabel">Categoria</label>
+          <input id="customMissionCategory" type="hidden" value="Academia">
+          <button class="choice-button" id="customMissionCategoryButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="customMissionCategoryMenu" aria-labelledby="customMissionCategoryLabel customMissionCategoryButton">
+            Academia
+          </button>
+          <div class="choice-menu" id="customMissionCategoryMenu" role="listbox" aria-labelledby="customMissionCategoryLabel"></div>
+        </div>
+        <div class="class-rank">
+          <div class="mission-choice-field">
+            <label id="customMissionDifficultyLabel">Dificuldade</label>
+            <input id="customMissionDifficulty" type="hidden" value="fácil">
+            <button class="choice-button" id="customMissionDifficultyButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="customMissionDifficultyMenu" aria-labelledby="customMissionDifficultyLabel customMissionDifficultyButton">
+              Fácil
+            </button>
+            <div class="choice-menu" id="customMissionDifficultyMenu" role="listbox" aria-labelledby="customMissionDifficultyLabel"></div>
+          </div>
+          <div class="mission-choice-field">
+            <label id="customMissionAttributeLabel">Atributo</label>
+            <input id="customMissionAttribute" type="hidden" value="Força">
+            <button class="choice-button" id="customMissionAttributeButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="customMissionAttributeMenu" aria-labelledby="customMissionAttributeLabel customMissionAttributeButton">
+              Força
+            </button>
+            <div class="choice-menu" id="customMissionAttributeMenu" role="listbox" aria-labelledby="customMissionAttributeLabel"></div>
+          </div>
+        </div>
+        <button class="primary-btn" type="submit">Criar missão</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="renameModal" role="dialog" aria-modal="true" aria-labelledby="renameModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="renameModalTitle">Renomear personagem</h2>
+        <button class="small-btn" type="button" data-close-rename>Fechar</button>
+      </div>
+      <form class="form-grid" id="renameForm">
+        <p class="muted" id="renameHelp">Você precisa de 1 token de renomeação.</p>
+        <div>
+          <label for="newCharacterName">Novo nome</label>
+          <input id="newCharacterName" maxlength="32" required>
+        </div>
+        <button class="primary-btn" type="submit">Consumir token</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="goalModal" role="dialog" aria-modal="true" aria-labelledby="goalModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="goalModalTitle">Objetivo Principal</h2>
+        <button class="small-btn" type="button" data-close-goal>Fechar</button>
+      </div>
+      <form class="form-grid" id="goalForm">
+        <div>
+          <label for="goalInputName">Nome do objetivo</label>
+          <input id="goalInputName" maxlength="60" placeholder="Ex: Perder 10kg">
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="goalInputType">Tipo</label>
+            <select id="goalInputType">
+              <option>Evolução física</option>
+              <option>Saúde</option>
+              <option>Disciplina</option>
+              <option>Finanças</option>
+              <option>Conhecimento</option>
+              <option>Relacionamentos</option>
+              <option>Organização</option>
+            </select>
+          </div>
+          <div>
+            <label for="goalInputUnit">Unidade</label>
+            <input id="goalInputUnit" maxlength="16" placeholder="kg, R$, livros">
+          </div>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="goalInputStart">Valor inicial</label>
+            <input id="goalInputStart" type="number" step="0.01" inputmode="decimal">
+          </div>
+          <div>
+            <label for="goalInputTarget">Valor alvo</label>
+            <input id="goalInputTarget" type="number" step="0.01" inputmode="decimal">
+          </div>
+        </div>
+        <div class="class-rank">
+          <div>
+            <label for="goalInputCurrent">Valor atual</label>
+            <input id="goalInputCurrent" type="number" step="0.01" inputmode="decimal">
+          </div>
+          <div>
+            <label for="goalInputDeadline">Prazo opcional</label>
+            <input id="goalInputDeadline" type="date">
+          </div>
+        </div>
+        <button class="primary-btn" type="submit">Salvar objetivo</button>
+      </form>
+    </div>
+  </div>
+
+  <div class="modal" id="shareModal" role="dialog" aria-modal="true" aria-labelledby="shareModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="shareModalTitle">Compartilhar Status</h2>
+        <button class="small-btn" type="button" data-close-share>Fechar</button>
+      </div>
+      <div class="share-card" id="shareCard">
+        <strong>ASCENSION SYSTEM</strong>
+        <div class="share-output" id="shareText"></div>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="copyShareBtn" type="button">Copiar texto</button>
+        <button class="primary-btn" id="nativeShareBtn" type="button">Compartilhar</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal" id="cycleModal" role="dialog" aria-modal="true" aria-labelledby="cycleModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="cycleModalTitle">Avaliação de evolução</h2>
+        <span class="tag cyan-tag">90/90</span>
+      </div>
+      <p class="muted">Ciclo completo. O sistema exige um relatório honesto antes de liberar o próximo portão.</p>
+      <div class="choice-grid">
+        <div class="choice-row">
+          <span>Você evoluiu cargas ou repetições?</span>
+          <label><input type="radio" name="evolved" value="sim" checked> Sim</label>
+          <label><input type="radio" name="evolved" value="não"> Não</label>
+        </div>
+        <div class="choice-row">
+          <span>Você teve dores ou lesões?</span>
+          <label><input type="radio" name="pain" value="sim"> Sim</label>
+          <label><input type="radio" name="pain" value="não" checked> Não</label>
+        </div>
+        <div class="choice-row">
+          <span>Sua consistência foi boa?</span>
+          <label><input type="radio" name="consistency" value="sim" checked> Sim</label>
+          <label><input type="radio" name="consistency" value="não"> Não</label>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="ghost-btn" id="repeatCycleBtn" type="button">Repetir ciclo</button>
+        <button class="primary-btn" id="advanceCycleBtn" type="button">Avançar ciclo</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================
+       JAVASCRIPT
+  ========================== -->
+  <script>
+    const FEEDBACK_WHATSAPP = "5511977993017";
+    const APP_VERSION = "1.0.0";
+    const STORE_NAME = "ascension-state";
+    const DB_NAME = "ascension-system-db";
+    const DB_VERSION = 1;
+    const CYCLE_SIZE = 90;
+    const BACKUP_TYPE = "ascension-system-backup";
+    const FEEDBACK_MESSAGE = `Olá Anderson!
+
+Acabei de testar o Ascension System.
+
+Meu feedback:
+
+⭐ O que gostei:
+
+Problemas encontrados:
+
+Sugestões:
+
+Modelo do celular:
+
+Nota geral (0 a 10):
+
+Obrigado pelo projeto!`;
+
+    const attributes = ["Força", "Inteligência", "Disciplina", "Vitalidade", "Prosperidade", "Carisma"];
+    const futureClasses = ["Guerreiro", "Erudito", "Mercador", "Aventureiro"];
+    const REMINDER_MESSAGE = "Ascension System: você treinou hoje? Registre sua missão antes que o sistema finja que nada aconteceu.";
+
+    const titleDefinitions = [
+      { id: "str10", name: "Aprendiz do Ferro", group: "Força", desc: "Alcance 10 pontos de Força.", check: s => s.attributes["Força"] >= 10 },
+      { id: "str50", name: "Portador do Peso", group: "Força", desc: "Alcance 50 pontos de Força.", check: s => s.attributes["Força"] >= 50 },
+      { id: "str100", name: "Guerreiro do Ferro", group: "Força", desc: "Alcance 100 pontos de Força.", check: s => s.attributes["Força"] >= 100 },
+      { id: "str250", name: "Quebrador de Barras", group: "Força", desc: "Alcance 250 pontos de Força.", check: s => s.titleProgress.force >= 250 },
+      { id: "str500", name: "Monarca da Força", group: "Força", desc: "Alcance 500 pontos de Força.", check: s => s.titleProgress.force >= 500 },
+      { id: "int10", name: "Estudante", group: "Inteligência", desc: "Alcance 10 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 10 },
+      { id: "int50", name: "Pesquisador", group: "Inteligência", desc: "Alcance 50 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 50 },
+      { id: "int100", name: "Erudito", group: "Inteligência", desc: "Alcance 100 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 100 },
+      { id: "int250", name: "Arquivista Arcano", group: "Inteligência", desc: "Acumule 250 pontos de Inteligência.", check: s => s.titleProgress.intelligence >= 250 },
+      { id: "int500", name: "Sábio Supremo", group: "Inteligência", desc: "Acumule 500 pontos de Inteligência.", check: s => s.titleProgress.intelligence >= 500 },
+      { id: "disc10", name: "Persistente", group: "Disciplina", desc: "Mantenha 10 dias consecutivos.", check: s => s.streak >= 10 },
+      { id: "disc30", name: "Inabalável", group: "Disciplina", desc: "Mantenha 30 dias consecutivos.", check: s => s.streak >= 30 },
+      { id: "disc100", name: "Discípulo da Rotina", group: "Disciplina", desc: "Mantenha 100 dias consecutivos.", check: s => s.streak >= 100 },
+      { id: "disc365", name: "Lenda da Disciplina", group: "Disciplina", desc: "Mantenha 365 dias consecutivos.", check: s => s.streak >= 365 },
+      { id: "firstWorkoutTitle", name: "Iniciado", group: "Especial", desc: "Conclua o primeiro treino.", check: s => s.totalWorkouts >= 1 },
+      { id: "shapeDisciple", name: "Discípulo do Shape", group: "Especial", desc: "Conclua 10 treinos.", check: s => s.totalWorkouts >= 10 },
+      { id: "musclePainSurvivor", name: "Sobrevivente da Dor Muscular", group: "Especial", desc: "Conclua 30 treinos.", check: s => s.totalWorkouts >= 30 },
+      { id: "ironVeteran", name: "Veterano do Ferro", group: "Especial", desc: "Conclua 90 treinos.", check: s => s.totalWorkouts >= 90 },
+      { id: "bossHunter", name: "Caçador de Chefes", group: "Especial", desc: "Derrote o primeiro boss.", check: s => s.bossesDefeated >= 1 },
+      { id: "conqueror", name: "Conquistador", group: "Especial", desc: "Derrote 10 bosses.", check: s => s.bossesDefeated >= 10 },
+      { id: "mealNecromancer", name: "Necromante das Marmitas", group: "Especial", desc: "Faça a primeira marmita.", check: s => (s.missionCompletions.mealprep || 0) >= 1 },
+      { id: "collegeSurvivorTitle", name: "Sobrevivente da Faculdade", group: "Especial", desc: "Conclua 30 missões de estudo.", check: s => studyMissionCount(s) >= 30 }
+    ];
+
+    const systemMessages = [
+      "Missão concluída. O Sistema reconheceu seu esforço.",
+      "O personagem demonstrou evolução acima do esperado.",
+      "Novo marco detectado.",
+      "Você ainda não venceu a vida, mas hoje ganhou XP.",
+      "Atributo aumentado. O Sistema registrou uma pequena ruptura no seu padrão antigo."
+    ];
+
+    const bossMessages = [
+      "Boss derrotado. A ameaça retornará em uma próxima semana.",
+      "Boss abatido. O Sistema registrou resistência acima da média.",
+      "A ameaça semanal caiu. Seu personagem continua de pé."
+    ];
+
+    const hallOfFameDefinitions = [
+      { id: "fameFirstWorkout", title: "Primeiro treino", desc: "O corpo recebeu o chamado.", check: s => s.totalWorkouts >= 1 },
+      { id: "fame10Workouts", title: "10 treinos", desc: "Disciplina começou a deixar rastro.", check: s => s.totalWorkouts >= 10 },
+      { id: "fame30Workouts", title: "30 treinos", desc: "A dor muscular virou conhecida.", check: s => s.totalWorkouts >= 30 },
+      { id: "fame90Workouts", title: "90 treinos", desc: "Um ciclo inteiro foi vencido.", check: s => s.totalWorkouts >= 90 },
+      { id: "fameFirstBoss", title: "Primeiro boss derrotado", desc: "A primeira ameaça caiu.", check: s => s.bossesDefeated >= 1 },
+      { id: "fame7Streak", title: "7 dias de sequência", desc: "O personagem manteve presença.", check: s => s.streak >= 7 },
+      { id: "fame30Streak", title: "30 dias de sequência", desc: "A rotina virou pacto.", check: s => s.streak >= 30 },
+      { id: "fameFirstGoal", title: "Primeiro objetivo concluído", desc: "Um alvo real foi conquistado.", check: s => s.primaryGoal.completed },
+      { id: "fameFirstTitle", title: "Primeiro título equipado", desc: "Identidade pública desbloqueada.", check: s => Boolean(s.equippedTitle) },
+      { id: "fameFirstReport", title: "Primeiro relatório semanal", desc: "O Sistema emitiu seu primeiro parecer.", check: s => s.weeklyReportsGenerated >= 1 }
+    ];
+
+    const defaultMissions = [
+      { id: "gym", name: "Ir para academia", category: "Academia", difficulty: "média", exp: 35, attribute: "Força", training: true, fixed: true },
+      { id: "study", name: "Estudar por 30 minutos", category: "Estudo", difficulty: "média", exp: 30, attribute: "Inteligência", fixed: true },
+      { id: "mealprep", name: "Fazer marmitas", category: "Saúde", difficulty: "média", exp: 25, attribute: "Disciplina", fixed: true },
+      { id: "water", name: "Beber 2 litros de água", category: "Saúde", difficulty: "fácil", exp: 15, attribute: "Vitalidade", fixed: true },
+      { id: "finance", name: "Organizar finanças", category: "Finanças", difficulty: "difícil", exp: 45, attribute: "Prosperidade", fixed: true },
+      { id: "sleep", name: "Dormir antes das 23h", category: "Hábitos", difficulty: "difícil", exp: 40, attribute: "Vitalidade", fixed: true },
+      { id: "college", name: "Resolver exercício da faculdade", category: "Estudo", difficulty: "boss", exp: 70, attribute: "Inteligência", fixed: true },
+      { id: "walk", name: "Caminhar 20 minutos", category: "Saúde", difficulty: "fácil", exp: 20, attribute: "Vitalidade", fixed: true }
+    ];
+
+    const weeklyBosses = [
+      "Segunda-feira",
+      "Semana de provas",
+      "Preguiça acumulada",
+      "Contas atrasadas",
+      "Treino de pernas",
+      "Falta de disciplina"
+    ];
+
+    const workoutPlans = {
+      1: {
+        name: "Base",
+        model: "ABC",
+        note: "Fundação técnica, constância e execução limpa.",
+        days: [
+          { code: "A", title: "Peito + Bíceps + Antebraço", exercises: ["Supino reto 3x8-12", "Supino inclinado 3x8-12", "Crucifixo 3x10-12", "Rosca direta 3x10", "Rosca punho 3x12"] },
+          { code: "B", title: "Costas + Tríceps + Ombro", exercises: ["Puxada alta 3x8-12", "Remada baixa 3x8-12", "Remada unilateral 3x10", "Tríceps corda 3x10-12", "Elevação lateral 3x12"] },
+          { code: "C", title: "Pernas", exercises: ["Agachamento 3x8-12", "Leg press 3x10", "Cadeira extensora 3x12", "Mesa flexora 3x12", "Panturrilha 4x12"] }
+        ]
+      },
+      2: {
+        name: "Progressão",
+        model: "ABCD",
+        note: "Mais foco por grupo muscular e progressão semanal.",
+        days: [
+          { code: "A", title: "Peito", exercises: ["Supino reto 4x6-10", "Supino inclinado 3x8-10", "Crossover 3x12", "Flexão 3x máximo"] },
+          { code: "B", title: "Costas", exercises: ["Barra ou puxada 4x6-10", "Remada curvada 3x8-10", "Remada baixa 3x10", "Pulldown 3x12"] },
+          { code: "C", title: "Pernas", exercises: ["Agachamento 4x6-10", "Leg press 4x10", "Stiff 3x8-10", "Mesa flexora 3x12", "Panturrilha 4x12"] },
+          { code: "D", title: "Ombro + Braços", exercises: ["Desenvolvimento 4x6-10", "Elevação lateral 4x12", "Rosca direta 3x10", "Tríceps corda 3x10", "Rosca martelo 3x10"] }
+        ]
+      },
+      3: {
+        name: "Intensificação",
+        model: "ABCD com técnicas",
+        note: "Progressão de carga, mais volume e descanso observado.",
+        days: [
+          { code: "A", title: "Peito técnico", exercises: ["Supino reto 5x5-8 com progressão", "Inclinado halter 4x8-10", "Crossover 3x12-15", "Descanso 90s nos compostos"] },
+          { code: "B", title: "Costas volume", exercises: ["Puxada 4x8-10", "Remada curvada 4x8", "Remada baixa 3x10-12", "Pulldown 3x12-15", "Controlar a excêntrica"] },
+          { code: "C", title: "Pernas boss", exercises: ["Agachamento 5x5-8", "Leg press 4x10-12", "Stiff 4x8-10", "Extensora drop leve 2x", "Descanso 2min nos pesados"] },
+          { code: "D", title: "Ombro + Braços volume", exercises: ["Desenvolvimento 4x6-8", "Elevação lateral 5x12", "Rosca direta 4x8-10", "Tríceps testa 4x8-10", "Finalizar com bombeamento"] }
+        ]
+      }
+    };
+
+    const achievements = [
+      { id: "firstMission", title: "Primeira missão concluída", desc: "Saiu do prólogo.", check: s => s.completedMissions >= 1 },
+      { id: "firstWorkout", title: "Primeiro treino concluído", desc: "O contrato com o ferro foi assinado.", check: s => s.totalWorkouts >= 1 },
+      { id: "tenWorkouts", title: "10 treinos concluídos", desc: "A constância começou a ficar suspeita.", check: s => s.totalWorkouts >= 10 },
+      { id: "thirtyWorkouts", title: "30 treinos concluídos", desc: "O tutorial ficou para trás.", check: s => s.totalWorkouts >= 30 },
+      { id: "ninetyWorkouts", title: "90 treinos concluídos", desc: "Um ciclo completo. Nada casual.", check: s => s.totalWorkouts >= 90 },
+      { id: "firstBoss", title: "Primeiro boss derrotado", desc: "A vida continua apelona.", check: s => s.bossesDefeated >= 1 },
+      { id: "mealMaster", title: "Mestre das Marmitas", desc: "A cozinha virou inventário.", check: s => (s.missionCompletions.mealprep || 0) >= 5 },
+      { id: "collegeSurvivor", title: "Sobrevivente da Faculdade", desc: "A academia mental também dói.", check: s => (s.missionCompletions.college || 0) >= 1 }
+    ];
+
+    const defaultState = {
+      version: APP_VERSION,
+      onboarded: false,
+      startedAt: new Date().toISOString(),
+      name: "Caçador Iniciante",
+      realName: "",
+      characterName: "Caçador Iniciante",
+      nickname: "cacador-iniciante",
+      playerId: "",
+      equippedTitle: "",
+      unlockedTitles: {},
+      renameTokensSpent: 0,
+      lastRank: "Ferro",
+      titleProgress: {
+        force: 10,
+        intelligence: 10
+      },
+      profile: {
+        age: "",
+        works: "sim",
+        studies: "sim",
+        trainsCurrently: "sim",
+        obstacle: "Preguiça",
+        weight: "",
+        height: "",
+        goal: "Evolução completa",
+        trainingDays: 3,
+        experience: "Iniciante",
+        usualWorkoutTime: "",
+        reminderEnabled: false,
+        reminderTime: ""
+      },
+      systemAssessment: {
+        initialClass: "Recomeçante",
+        journey: "Ascensão Completa",
+        initialBoss: "Falta de consistência",
+        strongestAttribute: "Disciplina",
+        weakestAttribute: "Vitalidade"
+      },
+      primaryGoal: {
+        name: "",
+        type: "Evolução completa",
+        start: 0,
+        target: 0,
+        current: 0,
+        unit: "",
+        deadline: "",
+        completed: false
+      },
+      level: 1,
+      exp: 0,
+      totalExp: 0,
+      streak: 0,
+      lastActiveDate: "",
+      completedMissions: 0,
+      totalWorkouts: 0,
+      workoutLimitPerDay: 1,
+      notifications: {
+        enabled: false,
+        reminderTime: "",
+        usualWorkoutTime: "",
+        lastReminderDate: "",
+        permission: "default"
+      },
+      sync: {
+        playerId: "",
+        nickname: "",
+        rank: "Ferro",
+        equippedTitle: "",
+        provider: null,
+        lastSyncedAt: null
+      },
+      trainingCycle: 1,
+      cycleProgress: 0,
+      cycleReadyReview: false,
+      bossesDefeated: 0,
+      defeatedBosses: {},
+      attributes: {
+        "Força": 10,
+        "Inteligência": 10,
+        "Disciplina": 10,
+        "Vitalidade": 10,
+        "Prosperidade": 10,
+        "Carisma": 10
+      },
+      customMissions: [],
+      missionCompletions: {},
+      daily: {},
+      workoutsByDate: {},
+      seasons: {},
+      currentSeason: "",
+      weeklyReportsGenerated: 0,
+      hallOfFame: {},
+      achievements: {},
+      exerciseChecks: {},
+      log: []
+    };
+
+    let db;
+    let state = structuredClone(defaultState);
+    let activeFilter = "Todos";
+    let deferredInstallPrompt = null;
+    let reminderTimer = null;
+
+    const el = {
+      toast: document.querySelector("#toast"),
+      installBtn: document.querySelector("#installBtn"),
+      characterName: document.querySelector("#characterName"),
+      renameBtn: document.querySelector("#renameBtn"),
+      renameTokenText: document.querySelector("#renameTokenText"),
+      nextRenameTokenText: document.querySelector("#nextRenameTokenText"),
+      rankTag: document.querySelector("#rankTag"),
+      rankValue: document.querySelector("#rankValue"),
+      equippedTitleValue: document.querySelector("#equippedTitleValue"),
+      systemPlayerName: document.querySelector("#systemPlayerName"),
+      systemClass: document.querySelector("#systemClass"),
+      profileClassValue: document.querySelector("#profileClassValue"),
+      systemJourney: document.querySelector("#systemJourney"),
+      systemBoss: document.querySelector("#systemBoss"),
+      systemTitle: document.querySelector("#systemTitle"),
+      nextMilestoneTitle: document.querySelector("#nextMilestoneTitle"),
+      nextMilestoneText: document.querySelector("#nextMilestoneText"),
+      goalName: document.querySelector("#goalName"),
+      goalMeta: document.querySelector("#goalMeta"),
+      goalPercent: document.querySelector("#goalPercent"),
+      goalProgressText: document.querySelector("#goalProgressText"),
+      goalDeadlineText: document.querySelector("#goalDeadlineText"),
+      goalProgressBar: document.querySelector("#goalProgressBar"),
+      editGoalBtn: document.querySelector("#editGoalBtn"),
+      goalProgressBtn: document.querySelector("#goalProgressBtn"),
+      shareStatusBtn: document.querySelector("#shareStatusBtn"),
+      consistencyCalendar: document.querySelector("#consistencyCalendar"),
+      calendarMonthLabel: document.querySelector("#calendarMonthLabel"),
+      levelValue: document.querySelector("#levelValue"),
+      currentExp: document.querySelector("#currentExp"),
+      nextExp: document.querySelector("#nextExp"),
+      expPercent: document.querySelector("#expPercent"),
+      expBar: document.querySelector("#expBar"),
+      todayGreeting: document.querySelector("#todayGreeting"),
+      mainMissionText: document.querySelector("#mainMissionText"),
+      dailyProgressTag: document.querySelector("#dailyProgressTag"),
+      dailyProgressText: document.querySelector("#dailyProgressText"),
+      dailyProgressBar: document.querySelector("#dailyProgressBar"),
+      dailyMissionList: document.querySelector("#dailyMissionList"),
+      streakTag: document.querySelector("#streakTag"),
+      streakDays: document.querySelector("#streakDays"),
+      totalExp: document.querySelector("#totalExp"),
+      daysUsing: document.querySelector("#daysUsing"),
+      completedMissions: document.querySelector("#completedMissions"),
+      totalWorkouts: document.querySelector("#totalWorkouts"),
+      bossesDefeated: document.querySelector("#bossesDefeated"),
+      achievementScore: document.querySelector("#achievementScore"),
+      cycleName: document.querySelector("#cycleName"),
+      cycleText: document.querySelector("#cycleText"),
+      cycleBar: document.querySelector("#cycleBar"),
+      narratorText: document.querySelector("#narratorText"),
+      todayWorkoutCode: document.querySelector("#todayWorkoutCode"),
+      todayWorkoutName: document.querySelector("#todayWorkoutName"),
+      todayWorkoutNote: document.querySelector("#todayWorkoutNote"),
+      exerciseDoneCount: document.querySelector("#exerciseDoneCount"),
+      exerciseList: document.querySelector("#exerciseList"),
+      completeWorkoutBtn: document.querySelector("#completeWorkoutBtn"),
+      attributeList: document.querySelector("#attributeList"),
+      powerScore: document.querySelector("#powerScore"),
+      trainingCycleTag: document.querySelector("#trainingCycleTag"),
+      cycleNumber: document.querySelector("#cycleNumber"),
+      cycleModel: document.querySelector("#cycleModel"),
+      trainingPlan: document.querySelector("#trainingPlan"),
+      missionCount: document.querySelector("#missionCount"),
+      filters: document.querySelector("#filters"),
+      missionList: document.querySelector("#missionList"),
+      bossStatus: document.querySelector("#bossStatus"),
+      weeklyBossName: document.querySelector("#weeklyBossName"),
+      weeklyBossReward: document.querySelector("#weeklyBossReward"),
+      defeatBossBtn: document.querySelector("#defeatBossBtn"),
+      achievementCount: document.querySelector("#achievementCount"),
+      achievementList: document.querySelector("#achievementList"),
+      titleCount: document.querySelector("#titleCount"),
+      titleList: document.querySelector("#titleList"),
+      statsGrid: document.querySelector("#statsGrid"),
+      logList: document.querySelector("#logList"),
+      fameCount: document.querySelector("#fameCount"),
+      fameList: document.querySelector("#fameList"),
+      seasonName: document.querySelector("#seasonName"),
+      seasonStats: document.querySelector("#seasonStats"),
+      weeklyReportBtn: document.querySelector("#weeklyReportBtn"),
+      weeklyReportOutput: document.querySelector("#weeklyReportOutput"),
+      workoutLimit: document.querySelector("#workoutLimit"),
+      reminderEnabled: document.querySelector("#reminderEnabled"),
+      usualWorkoutTime: document.querySelector("#usualWorkoutTime"),
+      reminderTime: document.querySelector("#reminderTime"),
+      testNotificationBtn: document.querySelector("#testNotificationBtn"),
+      exportBtn: document.querySelector("#exportBtn"),
+      importBtn: document.querySelector("#importBtn"),
+      importFile: document.querySelector("#importFile"),
+      resetBtn: document.querySelector("#resetBtn"),
+      newMissionBtn: document.querySelector("#newMissionBtn"),
+      onboardingModal: document.querySelector("#onboardingModal"),
+      onboardingForm: document.querySelector("#onboardingForm"),
+      onboardingName: document.querySelector("#onboardingName"),
+      onboardingCharacterName: document.querySelector("#onboardingCharacterName"),
+      onboardingAge: document.querySelector("#onboardingAge"),
+      onboardingWorks: document.querySelector("#onboardingWorks"),
+      onboardingStudies: document.querySelector("#onboardingStudies"),
+      onboardingTrains: document.querySelector("#onboardingTrains"),
+      onboardingObstacle: document.querySelector("#onboardingObstacle"),
+      onboardingWeight: document.querySelector("#onboardingWeight"),
+      onboardingHeight: document.querySelector("#onboardingHeight"),
+      onboardingGoal: document.querySelector("#onboardingGoal"),
+      onboardingTrainingDays: document.querySelector("#onboardingTrainingDays"),
+      onboardingExperience: document.querySelector("#onboardingExperience"),
+      onboardingWorkoutTime: document.querySelector("#onboardingWorkoutTime"),
+      onboardingReminderTime: document.querySelector("#onboardingReminderTime"),
+      onboardingReminderEnabled: document.querySelector("#onboardingReminderEnabled"),
+      missionModal: document.querySelector("#missionModal"),
+      customMissionForm: document.querySelector("#customMissionForm"),
+      customMissionName: document.querySelector("#customMissionName"),
+      customMissionCategory: document.querySelector("#customMissionCategory"),
+      customMissionCategoryButton: document.querySelector("#customMissionCategoryButton"),
+      customMissionCategoryMenu: document.querySelector("#customMissionCategoryMenu"),
+      customMissionDifficulty: document.querySelector("#customMissionDifficulty"),
+      customMissionDifficultyButton: document.querySelector("#customMissionDifficultyButton"),
+      customMissionDifficultyMenu: document.querySelector("#customMissionDifficultyMenu"),
+      customMissionAttribute: document.querySelector("#customMissionAttribute"),
+      customMissionAttributeButton: document.querySelector("#customMissionAttributeButton"),
+      customMissionAttributeMenu: document.querySelector("#customMissionAttributeMenu"),
+      renameModal: document.querySelector("#renameModal"),
+      renameForm: document.querySelector("#renameForm"),
+      renameHelp: document.querySelector("#renameHelp"),
+      newCharacterName: document.querySelector("#newCharacterName"),
+      goalModal: document.querySelector("#goalModal"),
+      goalForm: document.querySelector("#goalForm"),
+      goalInputName: document.querySelector("#goalInputName"),
+      goalInputType: document.querySelector("#goalInputType"),
+      goalInputUnit: document.querySelector("#goalInputUnit"),
+      goalInputStart: document.querySelector("#goalInputStart"),
+      goalInputTarget: document.querySelector("#goalInputTarget"),
+      goalInputCurrent: document.querySelector("#goalInputCurrent"),
+      goalInputDeadline: document.querySelector("#goalInputDeadline"),
+      shareModal: document.querySelector("#shareModal"),
+      shareText: document.querySelector("#shareText"),
+      copyShareBtn: document.querySelector("#copyShareBtn"),
+      nativeShareBtn: document.querySelector("#nativeShareBtn"),
+      cycleModal: document.querySelector("#cycleModal"),
+      repeatCycleBtn: document.querySelector("#repeatCycleBtn"),
+      advanceCycleBtn: document.querySelector("#advanceCycleBtn")
+    };
+
+    const customChoiceControls = {
+      category: {
+        input: el.customMissionCategory,
+        button: el.customMissionCategoryButton,
+        menu: el.customMissionCategoryMenu,
+        options: [
+          { value: "Academia", label: "Academia" },
+          { value: "Estudos", label: "Estudos" },
+          { value: "Saúde", label: "Saúde" },
+          { value: "Finanças", label: "Finanças" },
+          { value: "Social", label: "Social" },
+          { value: "Casa", label: "Casa" },
+          { value: "Personalizada", label: "Personalizada" }
+        ]
+      },
+      difficulty: {
+        input: el.customMissionDifficulty,
+        button: el.customMissionDifficultyButton,
+        menu: el.customMissionDifficultyMenu,
+        options: [
+          { value: "fácil", label: "Fácil" },
+          { value: "média", label: "Média" },
+          { value: "difícil", label: "Difícil" },
+          { value: "boss", label: "Boss" }
+        ]
+      },
+      attribute: {
+        input: el.customMissionAttribute,
+        button: el.customMissionAttributeButton,
+        menu: el.customMissionAttributeMenu,
+        options: attributes.map(attribute => ({ value: attribute, label: attribute }))
+      }
+    };
+
+    function openDb() {
+      return new Promise((resolve, reject) => {
+        if (!("indexedDB" in window)) {
+          resolve(null);
+          return;
+        }
+
+        const request = indexedDB.open(DB_NAME, DB_VERSION);
+        request.onupgradeneeded = () => {
+          const database = request.result;
+          if (!database.objectStoreNames.contains(STORE_NAME)) {
+            database.createObjectStore(STORE_NAME);
+          }
+        };
+        request.onsuccess = () => resolve(request.result);
+        request.onerror = () => reject(request.error);
+      });
+    }
+
+    function readStateFromDb(database) {
+      return new Promise(resolve => {
+        if (!database) {
+          const fallback = localStorage.getItem(STORE_NAME);
+          resolve(fallback ? JSON.parse(fallback) : null);
+          return;
+        }
+        const transaction = database.transaction(STORE_NAME, "readonly");
+        const request = transaction.objectStore(STORE_NAME).get("state");
+        request.onsuccess = () => resolve(request.result || null);
+        request.onerror = () => resolve(null);
+      });
+    }
+
+    function saveState() {
+      state.version = APP_VERSION;
+      state.name = state.characterName;
+      state.nickname = state.nickname || slugify(state.characterName);
+      state.sync = {
+        ...state.sync,
+        playerId: state.playerId,
+        nickname: state.nickname,
+        rank: getRank(),
+        equippedTitle: state.equippedTitle
+      };
+      if (!db) {
+        localStorage.setItem(STORE_NAME, JSON.stringify(state));
+        return Promise.resolve();
+      }
+      return new Promise(resolve => {
+        const transaction = db.transaction(STORE_NAME, "readwrite");
+        transaction.objectStore(STORE_NAME).put(state, "state");
+        transaction.oncomplete = () => resolve();
+        transaction.onerror = () => {
+          localStorage.setItem(STORE_NAME, JSON.stringify(state));
+          resolve();
+        };
+      });
+    }
+
+    function mergeState(saved) {
+      const base = structuredClone(defaultState);
+      if (!saved || typeof saved !== "object") {
+        base.playerId = createPlayerId();
+        base.sync.playerId = base.playerId;
+        return base;
+      }
+
+      const migratedName = saved.characterName || saved.name || base.characterName;
+      const playerId = saved.playerId || saved.sync?.playerId || createPlayerId();
+      const migrated = {
+        ...base,
+        ...saved,
+        name: migratedName,
+        realName: saved.realName || "",
+        characterName: migratedName,
+        nickname: saved.nickname || slugify(migratedName),
+        playerId,
+        equippedTitle: saved.equippedTitle || "",
+        unlockedTitles: { ...(saved.unlockedTitles || {}) },
+        renameTokensSpent: Number(saved.renameTokensSpent || 0),
+        lastRank: saved.lastRank || getRank(saved.level || base.level),
+        profile: { ...base.profile, ...(saved.profile || {}) },
+        systemAssessment: { ...base.systemAssessment, ...(saved.systemAssessment || {}) },
+        primaryGoal: { ...base.primaryGoal, ...(saved.primaryGoal || {}) },
+        notifications: { ...base.notifications, ...(saved.notifications || {}) },
+        sync: {
+          ...base.sync,
+          ...(saved.sync || {}),
+          playerId,
+          nickname: saved.nickname || slugify(migratedName),
+          rank: getRank(saved.level || base.level),
+          equippedTitle: saved.equippedTitle || ""
+        },
+        titleProgress: { ...base.titleProgress, ...(saved.titleProgress || {}) },
+        attributes: { ...base.attributes, ...(saved.attributes || {}) },
+        defeatedBosses: { ...(saved.defeatedBosses || {}) },
+        customMissions: Array.isArray(saved.customMissions) ? saved.customMissions : [],
+        missionCompletions: { ...(saved.missionCompletions || {}) },
+        daily: { ...(saved.daily || {}) },
+        workoutsByDate: { ...(saved.workoutsByDate || {}) },
+        seasons: { ...(saved.seasons || {}) },
+        currentSeason: saved.currentSeason || getSeasonKey(),
+        weeklyReportsGenerated: Number(saved.weeklyReportsGenerated || 0),
+        hallOfFame: { ...(saved.hallOfFame || {}) },
+        achievements: { ...(saved.achievements || {}) },
+        exerciseChecks: { ...(saved.exerciseChecks || {}) },
+        log: Array.isArray(saved.log) ? saved.log.slice(0, 40) : []
+      };
+      migrated.titleProgress.force = Math.max(migrated.titleProgress.force || 0, migrated.attributes["Força"] || 0);
+      migrated.titleProgress.intelligence = Math.max(migrated.titleProgress.intelligence || 0, migrated.attributes["Inteligência"] || 0);
+      return migrated;
+    }
+
+    function expToNext(level) {
+      return Math.floor(100 + (level - 1) * 45 + Math.pow(level - 1, 1.42) * 18);
+    }
+
+    function slugify(value) {
+      return String(value || "cacador")
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase()
+        .replace(/[^a-z0-9]+/g, "-")
+        .replace(/(^-|-$)/g, "") || "cacador";
+    }
+
+    function createPlayerId() {
+      if (crypto?.randomUUID) return crypto.randomUUID();
+      return `player-${Date.now()}-${Math.random().toString(16).slice(2)}`;
+    }
+
+    function getRank(level = state.level) {
+      if (level >= 50) return "Lenda";
+      if (level >= 40) return "Mestre";
+      if (level >= 30) return "Diamante";
+      if (level >= 20) return "Platina";
+      if (level >= 15) return "Ouro";
+      if (level >= 10) return "Prata";
+      if (level >= 5) return "Bronze";
+      return "Ferro";
+    }
+
+    function getPlan() {
+      if (state.trainingCycle <= 1) return workoutPlans[1];
+      if (state.trainingCycle === 2) return workoutPlans[2];
+      return workoutPlans[3];
+    }
+
+    function getTodayWorkout() {
+      const plan = getPlan();
+      return plan.days[state.cycleProgress % plan.days.length];
+    }
+
+    function getWorkoutKey() {
+      const workout = getTodayWorkout();
+      return `cycle-${state.trainingCycle}-step-${state.cycleProgress}-${workout.code}`;
+    }
+
+    function getWeekKey() {
+      const now = new Date();
+      const firstDay = new Date(now.getFullYear(), 0, 1);
+      const dayMs = 24 * 60 * 60 * 1000;
+      const week = Math.ceil((((now - firstDay) / dayMs) + firstDay.getDay() + 1) / 7);
+      return `${now.getFullYear()}-${week}`;
+    }
+
+    function getWeeklyBoss() {
+      const now = new Date();
+      const firstDay = new Date(now.getFullYear(), 0, 1);
+      const week = Math.ceil((((now - firstDay) / 86400000) + firstDay.getDay() + 1) / 7);
+      return weeklyBosses[week % weeklyBosses.length];
+    }
+
+    function getDateKey(date = new Date()) {
+      return date.toISOString().slice(0, 10);
+    }
+
+    function getSeasonKey(date = new Date()) {
+      return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}`;
+    }
+
+    function getSeasonName(key = getSeasonKey()) {
+      const [year, month] = key.split("-").map(Number);
+      const date = new Date(year, month - 1, 1);
+      const label = date.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
+      return `Temporada ${label.charAt(0).toUpperCase()}${label.slice(1)}`;
+    }
+
+    function ensureSeason() {
+      const key = getSeasonKey();
+      state.currentSeason = key;
+      if (!state.seasons[key]) {
+        state.seasons[key] = { xp: 0, missions: 0, workouts: 0, bosses: 0, titles: 0 };
+      }
+      return state.seasons[key];
+    }
+
+    function getTodayData() {
+      const key = getDateKey();
+      if (!state.daily[key]) {
+        state.daily[key] = { missions: [], bosses: [], exp: 0 };
+      }
+      return state.daily[key];
+    }
+
+    function daysUsingSystem() {
+      const started = new Date(state.startedAt || new Date());
+      const diff = Date.now() - started.getTime();
+      return Math.max(1, Math.floor(diff / 86400000) + 1);
+    }
+
+    function updateStreak() {
+      const today = getDateKey();
+      if (state.lastActiveDate === today) return;
+
+      const yesterday = new Date();
+      yesterday.setDate(yesterday.getDate() - 1);
+      state.streak = state.lastActiveDate === getDateKey(yesterday) ? state.streak + 1 : 1;
+      state.lastActiveDate = today;
+    }
+
+    function canRegisterWorkout() {
+      const today = getDateKey();
+      return (state.workoutsByDate[today] || 0) < state.workoutLimitPerDay;
+    }
+
+    function registerDailyMission(mission, exp) {
+      const today = getTodayData();
+      today.missions.push(mission.id);
+      today.exp += exp;
+      updateStreak();
+    }
+
+    function dailyMissionIds() {
+      return ["gym", "study", "water", "finance"];
+    }
+
+    function buildSystemAssessment(profile) {
+      const goal = profile.goal;
+      const obstacle = profile.obstacle;
+      let initialClass = "Recomeçante";
+      if (goal === "Evolução física") initialClass = profile.trainingDays >= 4 ? "Guerreiro" : "Aventureiro";
+      if (goal === "Conhecimento") initialClass = "Erudito";
+      if (goal === "Finanças") initialClass = "Mercador";
+      if (goal === "Disciplina") initialClass = "Executor";
+      if (goal === "Evolução completa") initialClass = "Sobrevivente";
+
+      const journeyMap = {
+        "Evolução física": "Ascensão Física",
+        "Finanças": "Ascensão Financeira",
+        "Conhecimento": "Ascensão Mental",
+        "Disciplina": "Ascensão da Disciplina",
+        "Saúde": "Ascensão Física",
+        "Relacionamentos": "Ascensão Mental",
+        "Evolução completa": "Ascensão Completa"
+      };
+      const weakMap = {
+        "Preguiça": "Disciplina",
+        "Falta de tempo": "Disciplina",
+        "Falta de dinheiro": "Prosperidade",
+        "Sono ruim": "Vitalidade",
+        "Falta de organização": "Inteligência",
+        "Ansiedade": "Vitalidade",
+        "Falta de consistência": "Disciplina"
+      };
+      const strongMap = {
+        "Evolução física": "Força",
+        "Saúde": "Vitalidade",
+        "Disciplina": "Disciplina",
+        "Finanças": "Prosperidade",
+        "Conhecimento": "Inteligência",
+        "Relacionamentos": "Carisma",
+        "Evolução completa": "Disciplina"
+      };
+
+      return {
+        initialClass,
+        journey: journeyMap[goal] || "Ascensão Completa",
+        initialBoss: obstacle || "Falta de consistência",
+        strongestAttribute: strongMap[goal] || "Disciplina",
+        weakestAttribute: weakMap[obstacle] || "Vitalidade"
+      };
+    }
+
+    function allMissions() {
+      return [...defaultMissions, ...state.customMissions];
+    }
+
+    function addExp(amount) {
+      const previousLevel = state.level;
+      const previousRank = getRank(state.level);
+      state.exp += amount;
+      state.totalExp += amount;
+      ensureSeason().xp += amount;
+      while (state.exp >= expToNext(state.level)) {
+        state.exp -= expToNext(state.level);
+        state.level += 1;
+      }
+      if (state.level > previousLevel) {
+        toast(`Level ${previousLevel} > ${state.level}. Rank atual: ${getRank()}.`);
+      }
+      if (getRank() !== previousRank) {
+        toast(`Novo rank atingido: ${getRank()}.`);
+        addLog("Novo rank", getRank());
+      }
+    }
+
+    function addAttribute(name, amount) {
+      state.attributes[name] = Math.min(100, (state.attributes[name] || 0) + amount);
+      if (name === "Força") state.titleProgress.force = (state.titleProgress.force || 0) + amount;
+      if (name === "Inteligência") state.titleProgress.intelligence = (state.titleProgress.intelligence || 0) + amount;
+    }
+
+    function attributeGainFor(difficulty) {
+      return { "fácil": 2, "média": 4, "difícil": 6, "boss": 10 }[difficulty] || 3;
+    }
+
+    function earnedRenameTokens() {
+      return Math.floor(state.totalWorkouts / 10);
+    }
+
+    function availableRenameTokens() {
+      return Math.max(0, earnedRenameTokens() - state.renameTokensSpent);
+    }
+
+    function workoutsUntilNextRenameToken() {
+      const remainder = state.totalWorkouts % 10;
+      return remainder === 0 && state.totalWorkouts > 0 ? 10 : 10 - remainder;
+    }
+
+    function studyMissionCount(targetState = state) {
+      const ids = allMissions()
+        .filter(mission => mission.category === "Estudo" || mission.category === "Estudos")
+        .map(mission => mission.id);
+      return ids.reduce((sum, id) => sum + (targetState.missionCompletions[id] || 0), 0);
+    }
+
+    function equippedTitleName() {
+      if (!state.equippedTitle) return "Sem título";
+      return titleDefinitions.find(title => title.id === state.equippedTitle)?.name || "Sem título";
+    }
+
+    function goalProgress() {
+      const goal = state.primaryGoal;
+      const total = Math.abs(Number(goal.target) - Number(goal.start));
+      const done = Math.abs(Number(goal.current) - Number(goal.start));
+      const percent = total > 0 ? Math.min(100, Math.round((done / total) * 100)) : 0;
+      return { total, done, percent };
+    }
+
+    function nextMilestone() {
+      const candidates = [
+        { left: Math.max(0, 10 - state.totalWorkouts), title: "Título próximo", text: `Faltam ${Math.max(0, 10 - state.totalWorkouts)} treinos para desbloquear Discípulo do Shape.` },
+        { left: Math.max(0, 7 - state.streak), title: "Sequência próxima", text: `Faltam ${Math.max(0, 7 - state.streak)} dias para manter uma sequência de 7 dias.` },
+        { left: Math.max(0, expToNext(state.level) - state.exp), title: "Próximo nível", text: `Faltam ${Math.max(0, expToNext(state.level) - state.exp)} XP para o próximo nível.` },
+        { left: Math.max(0, 50 - state.attributes["Força"]), title: "Força em ascensão", text: `Faltam ${Math.max(0, 50 - state.attributes["Força"])} pontos de Força para desbloquear Portador do Peso.` }
+      ].filter(item => item.left > 0);
+      return candidates.sort((a, b) => a.left - b.left)[0] || { title: "Marco conquistado", text: "Novo marco detectado. Continue avançando para revelar uma evolução maior." };
+    }
+
+    function getActivityType(dateKey) {
+      const data = state.daily[dateKey];
+      if (!data) return "";
+      if (data.bosses?.length) return "boss-day";
+      if ((state.workoutsByDate[dateKey] || 0) > 0) return "workout";
+      if (data.missions?.length) return "mission";
+      return "";
+    }
+
+    function getWeekDates() {
+      const today = new Date();
+      const day = today.getDay();
+      const start = new Date(today);
+      start.setDate(today.getDate() - day);
+      return Array.from({ length: 7 }, (_, index) => {
+        const date = new Date(start);
+        date.setDate(start.getDate() + index);
+        return date;
+      });
+    }
+
+    function weeklyReportText() {
+      const dates = getWeekDates().map(getDateKey);
+      const missions = dates.reduce((sum, key) => sum + (state.daily[key]?.missions?.length || 0), 0);
+      const workouts = dates.reduce((sum, key) => sum + (state.workoutsByDate[key] || 0), 0);
+      const xp = dates.reduce((sum, key) => sum + (state.daily[key]?.exp || 0), 0);
+      const bosses = dates.reduce((sum, key) => sum + (state.daily[key]?.bosses?.length || 0), 0);
+      const activeDays = dates.filter(key => state.daily[key]?.missions?.length || state.workoutsByDate[key] || state.daily[key]?.bosses?.length).length;
+      const message = activeDays >= 4
+        ? "O Sistema reconheceu sua evolução esta semana."
+        : "A semana foi difícil, mas o personagem ainda está de pé.";
+
+      return `RELATÓRIO DA SEMANA
+
+Missões concluídas: ${missions}
+Treinos concluídos: ${workouts}
+XP ganho: ${xp}
+Bosses derrotados: ${bosses}
+Maior atributo evoluído: ${strongestAttributeName()}
+Títulos desbloqueados: ${Object.keys(state.unlockedTitles).length}
+Dias ativos: ${activeDays}
+Melhor sequência: ${state.streak} dias
+
+${message}`;
+    }
+
+    function strongestAttributeName() {
+      return attributes
+        .map(attribute => [attribute, state.attributes[attribute] || 0])
+        .sort((a, b) => b[1] - a[1])[0][0];
+    }
+
+    function shareStatusText() {
+      const goal = state.primaryGoal.name || "Sem objetivo definido";
+      return `Meu status no Ascension System:
+Jogador: ${state.characterName}
+Classe: ${state.systemAssessment.initialClass}
+Rank: ${getRank()}
+Título: ${equippedTitleName()}
+Nível: ${state.level}
+Sequência: ${state.streak} dias
+Treinos: ${state.cycleProgress} / ${CYCLE_SIZE}
+Objetivo: ${goal}`;
+    }
+
+    async function completeMission(missionId, options = {}) {
+      const mission = allMissions().find(item => item.id === missionId);
+      if (!mission) return;
+      const today = getTodayData();
+
+      if (mission.category === "Academia" && state.cycleReadyReview) {
+        showCycleModal();
+        narrate("Ciclo em 90/90. Faça a avaliação antes de registrar outro treino.");
+        return;
+      }
+
+      if (mission.category !== "Academia" && today.missions.includes(mission.id)) {
+        narrate("Essa missão já foi concluída hoje. Anti-farm ativado, protagonista.");
+        toast("Missão diária já concluída.");
+        return;
+      }
+
+      if (mission.category === "Academia" && !options.skipTraining && !canRegisterWorkout()) {
+        narrate(`Limite diário de ${state.workoutLimitPerDay} treino(s) atingido. Anti-farm ativado.`);
+        toast("Treino bloqueado pelo anti-farm diário.");
+        return;
+      }
+
+      state.completedMissions += 1;
+      ensureSeason().missions += 1;
+      state.missionCompletions[mission.id] = (state.missionCompletions[mission.id] || 0) + 1;
+      addExp(mission.exp);
+      addAttribute(mission.attribute, attributeGainFor(mission.difficulty));
+      registerDailyMission(mission, mission.exp);
+
+      if (mission.category === "Academia" && !options.skipTraining) {
+        registerWorkoutProgress();
+      }
+
+      addLog(mission.name, `+${mission.exp} EXP | +${attributeGainFor(mission.difficulty)} ${mission.attribute}`);
+      narrate(randomItem(systemMessages));
+      checkAchievements();
+      await saveState();
+      render();
+      if (state.cycleReadyReview) showCycleModal();
+    }
+
+    function registerWorkoutProgress() {
+      if (state.cycleProgress >= CYCLE_SIZE) return;
+      const today = getDateKey();
+      const previousTokens = earnedRenameTokens();
+      state.totalWorkouts += 1;
+      ensureSeason().workouts += 1;
+      state.workoutsByDate[today] = (state.workoutsByDate[today] || 0) + 1;
+      if (earnedRenameTokens() > previousTokens) {
+        toast("Token de renomeação desbloqueado.");
+        addLog("Token de renomeação", "+1 token disponível");
+      }
+      state.cycleProgress += 1;
+      state.exerciseChecks[getWorkoutKey()] = [];
+      if (state.cycleProgress >= CYCLE_SIZE) {
+        state.cycleProgress = CYCLE_SIZE;
+        state.cycleReadyReview = true;
+      }
+    }
+
+    async function completeWorkout() {
+      if (!canRegisterWorkout()) {
+        narrate(`Limite diário de ${state.workoutLimitPerDay} treino(s) atingido. O sistema percebeu a tentativa de farm.`);
+        toast("Treino bloqueado pelo anti-farm diário.");
+        return;
+      }
+      await completeMission("gym", { skipTraining: true });
+      registerWorkoutProgress();
+      addAttribute("Disciplina", 2);
+      addLog("Treino do dia", "+1 treino no ciclo | +2 Disciplina");
+      narrate("Treino registrado. O shape ainda está carregando, mas o sistema viu esforço.");
+      checkAchievements();
+      await saveState();
+      render();
+      if (state.cycleReadyReview) showCycleModal();
+    }
+
+    async function defeatBoss() {
+      const weekKey = getWeekKey();
+      if (state.defeatedBosses[weekKey]) {
+        narrate("Boss já derrotado nesta semana. Farm duplicado bloqueado pelo sistema.");
+        return;
+      }
+      state.defeatedBosses[weekKey] = true;
+      state.bossesDefeated += 1;
+      ensureSeason().bosses += 1;
+      addExp(90);
+      addAttribute("Disciplina", 5);
+      getTodayData().bosses.push(getWeeklyBoss());
+      addLog(`Boss: ${getWeeklyBoss()}`, "+90 EXP | +5 Disciplina");
+      narrate(randomItem(bossMessages));
+      checkAchievements();
+      await saveState();
+      render();
+    }
+
+    async function advanceCycle() {
+      state.trainingCycle += 1;
+      state.cycleProgress = 0;
+      state.cycleReadyReview = false;
+      addExp(180);
+      addAttribute("Força", 8);
+      addAttribute("Vitalidade", 5);
+      addLog(`Ciclo ${state.trainingCycle} desbloqueado`, "+180 EXP bônus");
+      narrate("Novo ciclo desbloqueado. O sistema reconheceu sua evolução.");
+      closeCycleModal();
+      checkAchievements();
+      await saveState();
+      render();
+    }
+
+    async function repeatCycle() {
+      state.cycleProgress = 0;
+      state.cycleReadyReview = false;
+      addLog(`Ciclo ${state.trainingCycle} repetido`, "Contador reiniciado");
+      narrate("Ciclo repetido. Até protagonista precisa farmar antes do boss.");
+      closeCycleModal();
+      await saveState();
+      render();
+    }
+
+    function checkAchievements() {
+      const unlocked = [];
+      achievements.forEach(achievement => {
+        if (!state.achievements[achievement.id] && achievement.check(state)) {
+          state.achievements[achievement.id] = new Date().toISOString();
+          unlocked.push(achievement.title);
+          addLog("Conquista desbloqueada", achievement.title);
+        }
+      });
+      if (unlocked.length) {
+        toast(`Conquista desbloqueada: ${unlocked[0]}`);
+      }
+      checkTitles();
+      checkHallOfFame();
+    }
+
+    function checkTitles() {
+      const unlocked = [];
+      titleDefinitions.forEach(title => {
+        if (!state.unlockedTitles[title.id] && title.check(state)) {
+          state.unlockedTitles[title.id] = new Date().toISOString();
+          unlocked.push(title.name);
+          ensureSeason().titles += 1;
+          addLog("Título desbloqueado", title.name);
+        }
+      });
+      if (unlocked.length) {
+        toast(`Título desbloqueado: ${unlocked[0]}`);
+      }
+    }
+
+    function checkHallOfFame() {
+      hallOfFameDefinitions.forEach(item => {
+        if (!state.hallOfFame[item.id] && item.check(state)) {
+          state.hallOfFame[item.id] = new Date().toISOString();
+          addLog("Hall da Fama", item.title);
+        }
+      });
+    }
+
+    function addLog(title, detail) {
+      state.log.unshift({
+        title,
+        detail,
+        date: new Date().toLocaleString("pt-BR", { day: "2-digit", month: "2-digit", hour: "2-digit", minute: "2-digit" })
+      });
+      state.log = state.log.slice(0, 40);
+    }
+
+    function narrate(message) {
+      el.narratorText.innerHTML = `<strong>[Sistema]</strong> ${message}`;
+    }
+
+    function toast(message) {
+      el.toast.textContent = message;
+      el.toast.classList.remove("show");
+      void el.toast.offsetWidth;
+      el.toast.classList.add("show");
+    }
+
+    function randomItem(items) {
+      return items[Math.floor(Math.random() * items.length)];
+    }
+
+    function openFeedback() {
+      const url = `https://wa.me/${FEEDBACK_WHATSAPP}?text=${encodeURIComponent(FEEDBACK_MESSAGE)}`;
+      window.open(url, "_blank", "noopener");
+    }
+
+    function render() {
+      renderToday();
+      renderStatus();
+      renderMilestone();
+      renderGoal();
+      renderCalendar();
+      renderWorkout();
+      renderTrainingPlan();
+      renderAttributes();
+      renderMissions();
+      renderBoss();
+      renderAchievements();
+      renderTitles();
+      renderStats();
+      renderHallOfFame();
+      renderSeason();
+      renderLog();
+    }
+
+    function renderToday() {
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+      const today = getTodayData();
+      const ids = dailyMissionIds();
+      const completed = ids.filter(id => today.missions.includes(id)).length;
+      const percent = Math.round((completed / ids.length) * 100);
+      const mainMission = allMissions().find(mission => !today.missions.includes(mission.id)) || allMissions()[0];
+
+      el.todayGreeting.textContent = `${greeting}, ${state.characterName}.`;
+      el.mainMissionText.textContent = `Missão principal: ${mainMission.name}`;
+      el.dailyProgressTag.textContent = `${completed}/${ids.length}`;
+      el.dailyProgressText.textContent = `${percent}%`;
+      el.dailyProgressBar.style.width = `${percent}%`;
+      el.streakTag.textContent = `${state.streak} dia${state.streak === 1 ? "" : "s"}`;
+      el.dailyMissionList.innerHTML = ids.map(id => {
+        const mission = allMissions().find(item => item.id === id);
+        const done = today.missions.includes(id);
+        return `
+          <button class="${done ? "ghost-btn" : "primary-btn"}" type="button" data-daily-mission="${id}">
+            ${done ? "Feita" : mission.name}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function renderStatus() {
+      const next = expToNext(state.level);
+      const expPercent = Math.min(100, Math.round((state.exp / next) * 100));
+      const rank = getRank();
+      const plan = getPlan();
+      const unlockedAchievements = Object.keys(state.achievements).length;
+
+      el.characterName.value = state.characterName;
+      el.systemPlayerName.textContent = state.characterName;
+      el.systemClass.textContent = state.systemAssessment.initialClass;
+      el.profileClassValue.textContent = state.systemAssessment.initialClass;
+      el.systemJourney.textContent = state.systemAssessment.journey;
+      el.systemBoss.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
+      el.systemTitle.textContent = equippedTitleName();
+      el.rankTag.textContent = rank;
+      el.rankValue.textContent = rank;
+      el.equippedTitleValue.textContent = equippedTitleName();
+      el.renameTokenText.textContent = `Tokens disponíveis: ${availableRenameTokens()}`;
+      el.nextRenameTokenText.textContent = `Próximo token em ${workoutsUntilNextRenameToken()} treino(s)`;
+      el.levelValue.textContent = state.level;
+      el.currentExp.textContent = state.exp;
+      el.nextExp.textContent = next;
+      el.expPercent.textContent = `${expPercent}%`;
+      el.expBar.style.width = `${expPercent}%`;
+      el.completedMissions.textContent = state.completedMissions;
+      el.streakDays.textContent = state.streak;
+      el.totalExp.textContent = state.totalExp;
+      el.daysUsing.textContent = `${daysUsingSystem()} dia${daysUsingSystem() === 1 ? "" : "s"}`;
+      el.totalWorkouts.textContent = state.totalWorkouts;
+      el.bossesDefeated.textContent = state.bossesDefeated;
+      el.achievementScore.textContent = `${unlockedAchievements}/${achievements.length}`;
+      el.cycleName.textContent = `Ciclo ${state.trainingCycle} - ${plan.name}`;
+      el.cycleText.textContent = `${state.cycleProgress}/${CYCLE_SIZE} treinos`;
+      el.cycleBar.style.width = `${Math.round((state.cycleProgress / CYCLE_SIZE) * 100)}%`;
+      el.trainingCycleTag.textContent = `${state.cycleProgress}/${CYCLE_SIZE}`;
+      el.cycleNumber.textContent = state.trainingCycle;
+      el.cycleModel.textContent = plan.model;
+      el.workoutLimit.value = String(state.workoutLimitPerDay);
+      el.reminderEnabled.value = String(Boolean(state.notifications.enabled));
+      el.usualWorkoutTime.value = state.notifications.usualWorkoutTime || state.profile.usualWorkoutTime || "";
+      el.reminderTime.value = state.notifications.reminderTime || state.profile.reminderTime || "";
+    }
+
+    function renderMilestone() {
+      const milestone = nextMilestone();
+      el.nextMilestoneTitle.textContent = milestone.title;
+      el.nextMilestoneText.textContent = milestone.text;
+    }
+
+    function renderGoal() {
+      const goal = state.primaryGoal;
+      const progress = goalProgress();
+      const hasGoal = Boolean(goal.name);
+      el.goalName.textContent = hasGoal ? goal.name : "Nenhum objetivo definido";
+      el.goalMeta.textContent = hasGoal ? `${goal.type} | ${goal.unit || "unidade livre"}` : "Crie uma missão de longo prazo para o Sistema rastrear.";
+      el.goalPercent.textContent = `${progress.percent}%`;
+      el.goalProgressText.textContent = hasGoal ? `${progress.done}${goal.unit ? ` ${goal.unit}` : ""} / ${progress.total}${goal.unit ? ` ${goal.unit}` : ""}` : "0 / 0";
+      el.goalDeadlineText.textContent = goal.deadline ? `Prazo: ${new Date(`${goal.deadline}T00:00:00`).toLocaleDateString("pt-BR")}` : "Sem prazo";
+      el.goalProgressBar.style.width = `${progress.percent}%`;
+    }
+
+    function renderCalendar() {
+      const now = new Date();
+      const year = now.getFullYear();
+      const month = now.getMonth();
+      const days = new Date(year, month + 1, 0).getDate();
+      el.calendarMonthLabel.textContent = now.toLocaleDateString("pt-BR", { month: "long" });
+      el.consistencyCalendar.innerHTML = Array.from({ length: days }, (_, index) => {
+        const date = new Date(year, month, index + 1);
+        const key = getDateKey(date);
+        const type = getActivityType(key);
+        return `<div class="day-cell ${type}" title="${key}">${index + 1}</div>`;
+      }).join("");
+    }
+
+    function renderWorkout() {
+      const workout = getTodayWorkout();
+      const plan = getPlan();
+      const key = getWorkoutKey();
+      const checked = state.exerciseChecks[key] || [];
+
+      el.todayWorkoutCode.textContent = workout.code;
+      el.todayWorkoutName.textContent = workout.title;
+      el.todayWorkoutNote.textContent = `Ciclo ${state.trainingCycle} - ${plan.name}`;
+      el.exerciseDoneCount.textContent = `${checked.length}/${workout.exercises.length}`;
+      el.completeWorkoutBtn.disabled = state.cycleReadyReview;
+      el.completeWorkoutBtn.textContent = state.cycleReadyReview ? "Avaliar ciclo" : "Concluir treino";
+      el.exerciseList.innerHTML = workout.exercises.map((exercise, index) => {
+        const done = checked.includes(index);
+        return `
+          <label class="exercise-check ${done ? "done" : ""}">
+            <input type="checkbox" data-exercise="${index}" ${done ? "checked" : ""}>
+            <span>${exercise}</span>
+          </label>
+        `;
+      }).join("");
+    }
+
+    function renderTrainingPlan() {
+      const plan = getPlan();
+      el.trainingPlan.innerHTML = plan.days.map(day => `
+        <article class="panel plan-day">
+          <h3>${day.code}: ${day.title}</h3>
+          <ul>${day.exercises.map(exercise => `<li>${exercise}</li>`).join("")}</ul>
+        </article>
+      `).join("");
+    }
+
+    function renderAttributes() {
+      const power = attributes.reduce((sum, name) => sum + (state.attributes[name] || 0), 0);
+      el.powerScore.textContent = `Poder ${power}`;
+      el.attributeList.innerHTML = attributes.map(name => {
+        const value = state.attributes[name] || 0;
+        return `
+          <div class="attribute">
+            <div class="attribute-header">
+              <span class="attribute-name">${name}</span>
+              <span class="attribute-value">${value}/100</span>
+            </div>
+            <div class="progress" aria-label="${name}"><i style="width: ${value}%"></i></div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderFilters() {
+      const categories = ["Todos", ...new Set(allMissions().map(mission => mission.category))];
+      el.filters.innerHTML = categories.map(category => `
+        <button class="filter-btn ${category === activeFilter ? "active" : ""}" type="button" data-filter="${category}">
+          ${category}
+        </button>
+      `).join("");
+    }
+
+    function renderMissions() {
+      renderFilters();
+      const missions = activeFilter === "Todos" ? allMissions() : allMissions().filter(mission => mission.category === activeFilter);
+      el.missionCount.textContent = `${missions.length}`;
+      el.missionList.innerHTML = missions.map(mission => `
+        <div class="mission">
+          <div>
+            <div class="mission-title">
+              <h3>${mission.name}</h3>
+              <span class="difficulty ${difficultyClass(mission.difficulty)}">${mission.difficulty}</span>
+            </div>
+            <div class="mission-meta" style="margin-top: 8px;">
+              <span class="chip">${mission.category}</span>
+              <span class="chip">+${mission.exp} EXP</span>
+              <span class="chip">${mission.attribute}</span>
+            </div>
+          </div>
+          <button class="primary-btn" type="button" data-mission="${mission.id}">Concluir</button>
+        </div>
+      `).join("");
+    }
+
+    function difficultyClass(difficulty) {
+      return { "fácil": "easy", "média": "medium", "difícil": "hard", "boss": "boss" }[difficulty] || "medium";
+    }
+
+    function renderBoss() {
+      const weekKey = getWeekKey();
+      const defeated = Boolean(state.defeatedBosses[weekKey]);
+      el.weeklyBossName.textContent = getWeeklyBoss();
+      el.weeklyBossReward.textContent = "Recompensa: +90 EXP e +5 Disciplina";
+      el.bossStatus.textContent = defeated ? "Derrotado" : "Disponível";
+      el.defeatBossBtn.disabled = defeated;
+      el.defeatBossBtn.textContent = defeated ? "Boss derrotado" : "Derrotar boss";
+    }
+
+    function renderAchievements() {
+      const unlocked = Object.keys(state.achievements).length;
+      el.achievementCount.textContent = `${unlocked}/${achievements.length}`;
+      el.achievementList.innerHTML = achievements.map(achievement => {
+        const isUnlocked = Boolean(state.achievements[achievement.id]);
+        return `
+          <div class="achievement ${isUnlocked ? "unlocked" : ""}">
+            <div class="achievement-icon">${isUnlocked ? "★" : "?"}</div>
+            <div>
+              <strong>${achievement.title}</strong>
+              <span>${achievement.desc}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderTitles() {
+      const unlockedCount = Object.keys(state.unlockedTitles).length;
+      el.titleCount.textContent = `${unlockedCount}/${titleDefinitions.length}`;
+      el.titleList.innerHTML = titleDefinitions.map(title => {
+        const unlocked = Boolean(state.unlockedTitles[title.id]);
+        const equipped = state.equippedTitle === title.id;
+        const action = unlocked
+          ? `<button class="${equipped ? "ghost-btn" : "primary-btn"}" type="button" data-title-action="${equipped ? "remove" : "equip"}" data-title-id="${title.id}">${equipped ? "Remover" : "Equipar"}</button>`
+          : `<button class="ghost-btn" type="button" disabled>Bloqueado</button>`;
+        return `
+          <div class="title-card ${unlocked ? "" : "locked"}">
+            <div class="title-card-head">
+              <div>
+                <strong>${title.name}</strong>
+                <span>${title.group} | ${title.desc}</span>
+              </div>
+              <span class="tag ${unlocked ? "cyan-tag" : ""}">${equipped ? "Equipado" : unlocked ? "Livre" : "Bloqueado"}</span>
+            </div>
+            ${action}
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderStats() {
+      const days = daysUsingSystem();
+      const stats = [
+        ["XP total", state.totalExp],
+        ["Treinos totais", state.totalWorkouts],
+        ["Bosses derrotados", state.bossesDefeated],
+        ["Missões concluídas", state.completedMissions],
+        ["Dias consecutivos", state.streak],
+        ["Tempo utilizando", `${days} dia${days === 1 ? "" : "s"}`]
+      ];
+
+      el.statsGrid.innerHTML = stats.map(([label, value]) => `
+        <div class="stat-box">
+          <span>${label}</span>
+          <strong>${value}</strong>
+        </div>
+      `).join("");
+    }
+
+    function renderHallOfFame() {
+      checkHallOfFame();
+      const unlocked = Object.keys(state.hallOfFame).length;
+      el.fameCount.textContent = `${unlocked}/${hallOfFameDefinitions.length}`;
+      el.fameList.innerHTML = hallOfFameDefinitions.map(item => {
+        const isUnlocked = Boolean(state.hallOfFame[item.id]);
+        return `
+          <div class="fame-item ${isUnlocked ? "unlocked" : ""}">
+            <b>${isUnlocked ? "★" : "?"}</b>
+            <div>
+              <strong>${item.title}</strong>
+              <span>${item.desc}</span>
+            </div>
+          </div>
+        `;
+      }).join("");
+    }
+
+    function renderSeason() {
+      const season = ensureSeason();
+      el.seasonName.textContent = getSeasonName(state.currentSeason);
+      const stats = [
+        ["XP da temporada", season.xp],
+        ["Missões", season.missions],
+        ["Treinos", season.workouts],
+        ["Bosses", season.bosses],
+        ["Títulos", season.titles]
+      ];
+      el.seasonStats.innerHTML = stats.map(([label, value]) => `
+        <div class="stat-box">
+          <span>${label}</span>
+          <strong>${value}</strong>
+        </div>
+      `).join("");
+    }
+
+    function renderLog() {
+      if (!state.log.length) {
+        el.logList.innerHTML = `<p class="empty">Nenhuma ação registrada ainda. O vazio está confortável demais.</p>`;
+        return;
+      }
+      el.logList.innerHTML = state.log.map(item => `
+        <div class="log-item">
+          <div>
+            <strong>${item.title}</strong><br>
+            ${item.detail}
+          </div>
+          <span>${item.date}</span>
+        </div>
+      `).join("");
+    }
+
+    function initCustomChoiceControls() {
+      Object.entries(customChoiceControls).forEach(([key, control]) => {
+        control.menu.innerHTML = control.options.map(option => `
+          <button class="choice-option" type="button" role="option" data-choice="${key}" data-value="${option.value}" aria-selected="${option.value === control.input.value}">
+            ${option.label}
+          </button>
+        `).join("");
+        syncChoiceButton(key);
+      });
+    }
+
+    function syncChoiceButton(key) {
+      const control = customChoiceControls[key];
+      const selected = control.options.find(option => option.value === control.input.value) || control.options[0];
+      control.input.value = selected.value;
+      control.button.textContent = selected.label;
+      control.menu.querySelectorAll(".choice-option").forEach(option => {
+        const active = option.dataset.value === selected.value;
+        option.classList.toggle("active", active);
+        option.setAttribute("aria-selected", String(active));
+      });
+    }
+
+    function closeChoiceMenus() {
+      Object.values(customChoiceControls).forEach(control => {
+        control.button.setAttribute("aria-expanded", "false");
+        control.menu.classList.remove("open");
+      });
+    }
+
+    function openChoiceMenu(key, focusFirst = false) {
+      const control = customChoiceControls[key];
+      closeChoiceMenus();
+      control.button.setAttribute("aria-expanded", "true");
+      control.menu.classList.add("open");
+      if (focusFirst) {
+        const active = control.menu.querySelector(".choice-option.active") || control.menu.querySelector(".choice-option");
+        active?.focus();
+      }
+    }
+
+    function selectChoice(key, value) {
+      const control = customChoiceControls[key];
+      control.input.value = value;
+      syncChoiceButton(key);
+      closeChoiceMenus();
+      control.button.focus();
+    }
+
+    function resetCustomChoices() {
+      customChoiceControls.category.input.value = "Academia";
+      customChoiceControls.difficulty.input.value = "fácil";
+      customChoiceControls.attribute.input.value = "Força";
+      Object.keys(customChoiceControls).forEach(syncChoiceButton);
+      closeChoiceMenus();
+    }
+
+    function showMissionModal() {
+      resetCustomChoices();
+      el.missionModal.classList.add("show");
+      el.customMissionName.focus();
+    }
+
+    function closeMissionModal() {
+      el.missionModal.classList.remove("show");
+      el.customMissionForm.reset();
+      resetCustomChoices();
+    }
+
+    function showCycleModal() {
+      el.cycleModal.classList.add("show");
+    }
+
+    function closeCycleModal() {
+      el.cycleModal.classList.remove("show");
+    }
+
+    function showOnboarding() {
+      el.onboardingName.value = state.characterName === "Caçador Iniciante" ? "" : state.characterName;
+      el.onboardingModal.classList.add("show");
+      el.onboardingName.focus();
+    }
+
+    async function finishOnboarding() {
+      state.onboarded = true;
+      state.startedAt = state.startedAt || new Date().toISOString();
+      state.playerId = state.playerId || createPlayerId();
+      state.realName = el.onboardingName.value.trim();
+      state.characterName = el.onboardingCharacterName.value.trim() || state.realName || "Caçador Iniciante";
+      state.name = state.characterName;
+      state.nickname = slugify(state.characterName);
+      state.profile = {
+        ...state.profile,
+        age: el.onboardingAge.value,
+        works: el.onboardingWorks.value,
+        studies: el.onboardingStudies.value,
+        trainsCurrently: el.onboardingTrains.value,
+        obstacle: el.onboardingObstacle.value,
+        weight: el.onboardingWeight.value,
+        height: el.onboardingHeight.value,
+        goal: el.onboardingGoal.value,
+        trainingDays: Number(el.onboardingTrainingDays.value),
+        experience: el.onboardingExperience.value,
+        usualWorkoutTime: el.onboardingWorkoutTime.value,
+        reminderEnabled: el.onboardingReminderEnabled.value === "true",
+        reminderTime: el.onboardingReminderTime.value
+      };
+      state.systemAssessment = buildSystemAssessment(state.profile);
+      state.notifications = {
+        ...state.notifications,
+        enabled: el.onboardingReminderEnabled.value === "true",
+        usualWorkoutTime: el.onboardingWorkoutTime.value,
+        reminderTime: el.onboardingReminderTime.value,
+        permission: "Notification" in window ? Notification.permission : "unsupported"
+      };
+      addLog("Avaliação inicial", `${state.systemAssessment.initialClass} | ${state.systemAssessment.journey}`);
+      narrate(`Avaliação concluída. Classe ${state.systemAssessment.initialClass} atribuída. Boss inicial: ${state.systemAssessment.initialBoss}.`);
+      el.onboardingModal.classList.remove("show");
+      if (state.notifications.enabled) await requestNotificationPermission();
+      await saveState();
+      render();
+      scheduleReminderCheck();
+    }
+
+    function showRenameModal() {
+      const tokens = availableRenameTokens();
+      if (tokens < 1) {
+        const missing = workoutsUntilNextRenameToken();
+        const message = `Renomeação bloqueada. Complete mais ${missing} treinos para desbloquear um novo nome. Até protagonista precisa farmar identidade.`;
+        narrate(message);
+        toast("Renomeação bloqueada.");
+        return;
+      }
+      el.renameHelp.textContent = `Tokens disponíveis: ${tokens}. A troca consome 1 token.`;
+      el.newCharacterName.value = state.characterName;
+      el.renameModal.classList.add("show");
+      el.newCharacterName.focus();
+    }
+
+    function closeRenameModal() {
+      el.renameModal.classList.remove("show");
+      el.renameForm.reset();
+    }
+
+    function showGoalModal() {
+      const goal = state.primaryGoal;
+      el.goalInputName.value = goal.name || "";
+      el.goalInputType.value = goal.type || "Evolução física";
+      el.goalInputUnit.value = goal.unit || "";
+      el.goalInputStart.value = goal.start;
+      el.goalInputTarget.value = goal.target;
+      el.goalInputCurrent.value = goal.current;
+      el.goalInputDeadline.value = goal.deadline || "";
+      el.goalModal.classList.add("show");
+      el.goalInputName.focus();
+    }
+
+    function closeGoalModal() {
+      el.goalModal.classList.remove("show");
+    }
+
+    async function savePrimaryGoal() {
+      state.primaryGoal = {
+        name: el.goalInputName.value.trim(),
+        type: el.goalInputType.value,
+        unit: el.goalInputUnit.value.trim(),
+        start: Number(el.goalInputStart.value || 0),
+        target: Number(el.goalInputTarget.value || 0),
+        current: Number(el.goalInputCurrent.value || 0),
+        deadline: el.goalInputDeadline.value,
+        completed: false
+      };
+      state.primaryGoal.completed = goalProgress().percent >= 100 && Boolean(state.primaryGoal.name);
+      addLog("Objetivo atualizado", state.primaryGoal.name || "Objetivo sem nome");
+      narrate("Objetivo atualizado. Novo marco detectado no mapa da sua evolução.");
+      checkAchievements();
+      closeGoalModal();
+      await saveState();
+      render();
+    }
+
+    async function quickUpdateGoalProgress() {
+      if (!state.primaryGoal.name) {
+        showGoalModal();
+        return;
+      }
+      const next = prompt("Novo valor atual do objetivo:", String(state.primaryGoal.current));
+      if (next === null) return;
+      state.primaryGoal.current = Number(next || state.primaryGoal.current);
+      state.primaryGoal.completed = goalProgress().percent >= 100;
+      addLog("Objetivo atualizado", `${state.primaryGoal.current}${state.primaryGoal.unit ? ` ${state.primaryGoal.unit}` : ""}`);
+      narrate(state.primaryGoal.completed ? "Objetivo concluído. O Sistema reconheceu uma evolução real." : "Objetivo atualizado. O personagem avançou mais um fragmento.");
+      checkAchievements();
+      await saveState();
+      render();
+    }
+
+    async function showWeeklyReport() {
+      const text = weeklyReportText();
+      state.weeklyReportsGenerated += 1;
+      el.weeklyReportOutput.textContent = text;
+      addLog("Relatório semanal", "Relatório gerado localmente");
+      narrate(text.includes("reconheceu") ? "O Sistema reconheceu sua evolução esta semana." : "A semana foi difícil, mas o personagem ainda está de pé.");
+      checkAchievements();
+      await saveState();
+      renderHallOfFame();
+    }
+
+    function showShareModal() {
+      el.shareText.textContent = shareStatusText();
+      el.shareModal.classList.add("show");
+    }
+
+    function closeShareModal() {
+      el.shareModal.classList.remove("show");
+    }
+
+    async function shareStatus() {
+      const text = shareStatusText();
+      if (navigator.share) {
+        try {
+          await navigator.share({ title: "Ascension System", text });
+          return;
+        } catch {}
+      }
+      await copyText(text);
+    }
+
+    async function copyText(text) {
+      try {
+        await navigator.clipboard.writeText(text);
+        toast("Status copiado.");
+      } catch {
+        el.shareText.textContent = text;
+        toast("Copie o texto exibido na tela.");
+      }
+    }
+
+    async function renameCharacter() {
+      const nextName = el.newCharacterName.value.trim();
+      if (!nextName || nextName === state.characterName) {
+        closeRenameModal();
+        return;
+      }
+      if (availableRenameTokens() < 1) {
+        showRenameModal();
+        return;
+      }
+      const oldName = state.characterName;
+      state.characterName = nextName;
+      state.name = nextName;
+      state.nickname = slugify(nextName);
+      state.renameTokensSpent += 1;
+      addLog("Personagem renomeado", `${oldName} > ${nextName}`);
+      narrate("Nome alterado. Identidade nova equipada, histórico antigo continua te julgando.");
+      closeRenameModal();
+      await saveState();
+      render();
+    }
+
+    async function equipTitle(titleId) {
+      if (!state.unlockedTitles[titleId]) return;
+      state.equippedTitle = titleId;
+      addLog("Título equipado", equippedTitleName());
+      await saveState();
+      render();
+    }
+
+    async function removeTitle() {
+      state.equippedTitle = "";
+      addLog("Título removido", "Sem título equipado");
+      await saveState();
+      render();
+    }
+
+    async function requestNotificationPermission() {
+      if (!("Notification" in window)) {
+        toast("Notificações não são suportadas neste navegador.");
+        state.notifications.permission = "unsupported";
+        await saveState();
+        return false;
+      }
+      if (Notification.permission === "granted") {
+        state.notifications.permission = "granted";
+        await saveState();
+        return true;
+      }
+      if (Notification.permission === "denied") {
+        state.notifications.permission = "denied";
+        await saveState();
+        toast("Permissão de notificação está bloqueada no navegador.");
+        return false;
+      }
+      const permission = await Notification.requestPermission();
+      state.notifications.permission = permission;
+      await saveState();
+      return permission === "granted";
+    }
+
+    async function showReminderNotification(allowPermissionRequest = true) {
+      let allowed = "Notification" in window && Notification.permission === "granted";
+      if (!allowed && allowPermissionRequest) {
+        allowed = await requestNotificationPermission();
+      }
+      if (!allowed) return;
+      if (navigator.serviceWorker?.ready) {
+        const registration = await navigator.serviceWorker.ready;
+        registration.showNotification("Ascension System", {
+          body: REMINDER_MESSAGE,
+          icon: "./icons/icon-192.png",
+          badge: "./icons/icon-192.png"
+        });
+        return;
+      }
+      new Notification("Ascension System", { body: REMINDER_MESSAGE, icon: "./icons/icon-192.png" });
+    }
+
+    function scheduleReminderCheck() {
+      if (reminderTimer) window.clearInterval(reminderTimer);
+      reminderTimer = window.setInterval(async () => {
+        if (!state.notifications.enabled || !state.notifications.reminderTime) return;
+        const now = new Date();
+        const time = now.toTimeString().slice(0, 5);
+        const today = getDateKey(now);
+        if (time === state.notifications.reminderTime && state.notifications.lastReminderDate !== today) {
+          state.notifications.lastReminderDate = today;
+          await saveState();
+          showReminderNotification(false);
+        }
+      }, 60000);
+    }
+
+    function exportBackup() {
+      const payload = {
+        type: BACKUP_TYPE,
+        exportedAt: new Date().toISOString(),
+        appVersion: APP_VERSION,
+        state
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = `ascension-system-backup-${new Date().toISOString().slice(0, 10)}.json`;
+      link.click();
+      URL.revokeObjectURL(url);
+      toast("Backup exportado em JSON.");
+    }
+
+    async function importBackup(file) {
+      if (!file) return;
+      try {
+        const text = await file.text();
+        const parsed = JSON.parse(text);
+        const importedState = parsed.type === BACKUP_TYPE ? parsed.state : parsed;
+        if (!importedState || typeof importedState !== "object") throw new Error("Backup inválido");
+        state = mergeState(importedState);
+        checkAchievements();
+        await saveState();
+        narrate("Backup importado. Seu progresso atravessou dimensões sem precisar de login.");
+        render();
+      } catch {
+        toast("Não foi possível importar esse JSON.");
+      } finally {
+        el.importFile.value = "";
+      }
+    }
+
+    async function resetProgress() {
+      const typed = prompt("Digite RESET para resetar todo o progresso do Ascension System.");
+      if (typed !== "RESET") {
+        toast("Reset cancelado.");
+        return;
+      }
+      state = structuredClone(defaultState);
+      state.playerId = createPlayerId();
+      state.sync.playerId = state.playerId;
+      await saveState();
+      narrate("Progresso resetado. Até protagonista às vezes apaga o save.");
+      render();
+      showOnboarding();
+    }
+
+    function switchScreen(screenName) {
+      document.querySelectorAll(".screen").forEach(screen => screen.classList.remove("active"));
+      document.querySelector(`#screen-${screenName}`).classList.add("active");
+      document.querySelectorAll(".nav-link").forEach(link => {
+        link.classList.toggle("active", link.dataset.screen === screenName);
+      });
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function screenFromHash() {
+      const hash = location.hash.replace("#", "");
+      return ["status", "training", "missions", "achievements", "backup"].includes(hash) ? hash : "status";
+    }
+
+    function bindEvents() {
+      el.renameBtn.addEventListener("click", showRenameModal);
+      el.editGoalBtn.addEventListener("click", showGoalModal);
+      el.goalProgressBtn.addEventListener("click", quickUpdateGoalProgress);
+      el.shareStatusBtn.addEventListener("click", showShareModal);
+      el.weeklyReportBtn.addEventListener("click", showWeeklyReport);
+
+      el.onboardingForm.addEventListener("submit", event => {
+        event.preventDefault();
+        finishOnboarding();
+      });
+
+      el.goalForm.addEventListener("submit", event => {
+        event.preventDefault();
+        savePrimaryGoal();
+      });
+
+      el.renameForm.addEventListener("submit", event => {
+        event.preventDefault();
+        renameCharacter();
+      });
+
+      document.querySelectorAll("[data-close-rename]").forEach(button => {
+        button.addEventListener("click", closeRenameModal);
+      });
+
+      document.querySelectorAll("[data-close-goal]").forEach(button => {
+        button.addEventListener("click", closeGoalModal);
+      });
+
+      document.querySelectorAll("[data-close-share]").forEach(button => {
+        button.addEventListener("click", closeShareModal);
+      });
+
+      el.renameModal.addEventListener("click", event => {
+        if (event.target === el.renameModal) closeRenameModal();
+      });
+
+      el.goalModal.addEventListener("click", event => {
+        if (event.target === el.goalModal) closeGoalModal();
+      });
+
+      el.shareModal.addEventListener("click", event => {
+        if (event.target === el.shareModal) closeShareModal();
+      });
+
+      el.copyShareBtn.addEventListener("click", () => copyText(shareStatusText()));
+      el.nativeShareBtn.addEventListener("click", shareStatus);
+
+      el.dailyMissionList.addEventListener("click", event => {
+        const button = event.target.closest("[data-daily-mission]");
+        if (!button) return;
+        completeMission(button.dataset.dailyMission);
+      });
+
+      el.exerciseList.addEventListener("change", async event => {
+        const checkbox = event.target.closest("[data-exercise]");
+        if (!checkbox) return;
+        const key = getWorkoutKey();
+        const index = Number(checkbox.dataset.exercise);
+        const current = new Set(state.exerciseChecks[key] || []);
+        checkbox.checked ? current.add(index) : current.delete(index);
+        state.exerciseChecks[key] = [...current].sort((a, b) => a - b);
+        await saveState();
+        renderWorkout();
+      });
+
+      el.completeWorkoutBtn.addEventListener("click", () => {
+        state.cycleReadyReview ? showCycleModal() : completeWorkout();
+      });
+
+      el.filters.addEventListener("click", event => {
+        const button = event.target.closest("[data-filter]");
+        if (!button) return;
+        activeFilter = button.dataset.filter;
+        renderMissions();
+      });
+
+      el.missionList.addEventListener("click", event => {
+        const button = event.target.closest("[data-mission]");
+        if (!button) return;
+        completeMission(button.dataset.mission);
+      });
+
+      el.defeatBossBtn.addEventListener("click", defeatBoss);
+      el.advanceCycleBtn.addEventListener("click", advanceCycle);
+      el.repeatCycleBtn.addEventListener("click", repeatCycle);
+      el.exportBtn.addEventListener("click", exportBackup);
+      el.importBtn.addEventListener("click", () => el.importFile.click());
+      el.importFile.addEventListener("change", event => importBackup(event.target.files[0]));
+      el.resetBtn.addEventListener("click", resetProgress);
+      el.newMissionBtn.addEventListener("click", showMissionModal);
+      el.workoutLimit.addEventListener("change", async event => {
+        state.workoutLimitPerDay = Number(event.target.value);
+        await saveState();
+        toast(`Anti-farm ajustado para ${state.workoutLimitPerDay} treino(s) por dia.`);
+      });
+
+      el.reminderEnabled.addEventListener("change", async event => {
+        state.notifications.enabled = event.target.value === "true";
+        if (state.notifications.enabled) await requestNotificationPermission();
+        await saveState();
+        scheduleReminderCheck();
+        toast(state.notifications.enabled ? "Lembrete ativado." : "Lembrete desativado.");
+      });
+
+      el.usualWorkoutTime.addEventListener("change", async event => {
+        state.notifications.usualWorkoutTime = event.target.value;
+        state.profile.usualWorkoutTime = event.target.value;
+        await saveState();
+      });
+
+      el.reminderTime.addEventListener("change", async event => {
+        state.notifications.reminderTime = event.target.value;
+        state.profile.reminderTime = event.target.value;
+        await saveState();
+        scheduleReminderCheck();
+      });
+
+      el.testNotificationBtn.addEventListener("click", showReminderNotification);
+
+      document.querySelectorAll("[data-feedback]").forEach(button => {
+        button.addEventListener("click", openFeedback);
+      });
+
+      el.titleList.addEventListener("click", event => {
+        const button = event.target.closest("[data-title-action]");
+        if (!button) return;
+        button.dataset.titleAction === "equip" ? equipTitle(button.dataset.titleId) : removeTitle();
+      });
+
+      document.querySelectorAll("[data-close-modal]").forEach(button => {
+        button.addEventListener("click", closeMissionModal);
+      });
+
+      el.missionModal.addEventListener("click", event => {
+        if (event.target === el.missionModal) closeMissionModal();
+      });
+
+      Object.entries(customChoiceControls).forEach(([key, control]) => {
+        control.button.addEventListener("click", () => {
+          const expanded = control.button.getAttribute("aria-expanded") === "true";
+          expanded ? closeChoiceMenus() : openChoiceMenu(key);
+        });
+
+        control.button.addEventListener("keydown", event => {
+          if (["Enter", " ", "ArrowDown"].includes(event.key)) {
+            event.preventDefault();
+            openChoiceMenu(key, true);
+          }
+          if (event.key === "Escape") closeChoiceMenus();
+        });
+
+        control.menu.addEventListener("click", event => {
+          const option = event.target.closest(".choice-option");
+          if (!option) return;
+          selectChoice(key, option.dataset.value);
+        });
+
+        control.menu.addEventListener("keydown", event => {
+          const options = [...control.menu.querySelectorAll(".choice-option")];
+          const index = options.indexOf(document.activeElement);
+          if (event.key === "Escape") {
+            closeChoiceMenus();
+            control.button.focus();
+          }
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            options[Math.min(index + 1, options.length - 1)]?.focus();
+          }
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            options[Math.max(index - 1, 0)]?.focus();
+          }
+          if (["Enter", " "].includes(event.key)) {
+            event.preventDefault();
+            const option = document.activeElement.closest(".choice-option");
+            if (option) selectChoice(key, option.dataset.value);
+          }
+        });
+      });
+
+      document.addEventListener("click", event => {
+        if (!event.target.closest("#customMissionForm .mission-choice-field")) {
+          closeChoiceMenus();
+        }
+      });
+
+      el.customMissionForm.addEventListener("submit", async event => {
+        event.preventDefault();
+        const difficulty = el.customMissionDifficulty.value;
+        const customMission = {
+          id: `custom-${Date.now()}`,
+          name: el.customMissionName.value.trim(),
+          category: el.customMissionCategory.value,
+          difficulty,
+          exp: { "fácil": 15, "média": 30, "difícil": 45, "boss": 70 }[difficulty],
+          attribute: el.customMissionAttribute.value,
+          fixed: false
+        };
+        if (!customMission.name) return;
+        state.customMissions.push(customMission);
+        await saveState();
+        closeMissionModal();
+        renderMissions();
+        toast("Missão personalizada criada.");
+      });
+
+      document.querySelectorAll(".nav-link").forEach(link => {
+        link.addEventListener("click", event => {
+          event.preventDefault();
+          history.replaceState(null, "", `#${link.dataset.screen}`);
+          switchScreen(link.dataset.screen);
+        });
+      });
+
+      window.addEventListener("beforeinstallprompt", event => {
+        event.preventDefault();
+        deferredInstallPrompt = event;
+        el.installBtn.style.display = "inline-flex";
+      });
+
+      el.installBtn.addEventListener("click", async () => {
+        if (!deferredInstallPrompt) {
+          toast("Instalação aparece quando o app é aberto por HTTPS ou localhost.");
+          return;
+        }
+        deferredInstallPrompt.prompt();
+        await deferredInstallPrompt.userChoice;
+        deferredInstallPrompt = null;
+      });
+    }
+
+    async function registerServiceWorker() {
+      if (!("serviceWorker" in navigator)) return;
+      if (!["http:", "https:"].includes(location.protocol)) return;
+      try {
+        await navigator.serviceWorker.register("./sw.js");
+      } catch {
+        console.warn("Service worker não registrado.");
+      }
+    }
+
+    async function init() {
+      try {
+        db = await openDb();
+        state = mergeState(await readStateFromDb(db));
+      } catch {
+        state = mergeState(null);
+      }
+      checkAchievements();
+      ensureSeason();
+      initCustomChoiceControls();
+      bindEvents();
+      render();
+      switchScreen(screenFromHash());
+      if (!state.onboarded) showOnboarding();
+      if (state.cycleReadyReview) showCycleModal();
+      await saveState();
+      scheduleReminderCheck();
+      registerServiceWorker();
+    }
+
+    init();
+  </script>
+</body>
+</html>
