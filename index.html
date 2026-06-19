@@ -420,7 +420,7 @@
     .stats-grid,
     .quick-grid {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
       gap: 9px;
     }
 
@@ -580,7 +580,17 @@
       border-radius: inherit;
       background: linear-gradient(90deg, var(--cyan), var(--green), var(--gold));
       box-shadow: 0 0 18px rgba(87, 231, 255, 0.42);
-      transition: width 0.28s ease;
+      transition: width 0.45s ease;
+    }
+
+    .progress > i.xp-pulse {
+      animation: xpPulse 0.75s ease;
+    }
+
+    @keyframes xpPulse {
+      0% { filter: brightness(1); }
+      45% { filter: brightness(1.55); box-shadow: 0 0 28px rgba(87, 231, 255, 0.58); }
+      100% { filter: brightness(1); }
     }
 
     .narrator {
@@ -950,7 +960,7 @@
 
     .choice-button::after {
       flex: 0 0 auto;
-      content: "▾";
+      content: "⌄";
       color: var(--cyan);
       pointer-events: none;
     }
@@ -961,22 +971,11 @@
     }
 
     .choice-menu {
-      position: absolute;
-      right: 0;
-      left: 0;
-      z-index: 70;
       display: none;
-      gap: 6px;
-      margin-top: 6px;
-      padding: 7px;
-      border: 1px solid rgba(87, 231, 255, 0.28);
-      border-radius: var(--radius);
-      background: rgba(10, 14, 22, 0.98);
-      box-shadow: 0 18px 42px rgba(0, 0, 0, 0.48);
     }
 
     .choice-menu.open {
-      display: grid;
+      display: none;
     }
 
     .choice-option {
@@ -999,6 +998,85 @@
       border-color: rgba(87, 231, 255, 0.48);
       background: rgba(87, 231, 255, 0.12);
       outline: none;
+    }
+
+    .selection-sheet {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: none;
+      place-items: end center;
+      padding: 12px 12px calc(12px + var(--safe-bottom));
+      background: rgba(2, 4, 8, 0.66);
+      backdrop-filter: blur(8px);
+    }
+
+    .selection-sheet.show {
+      display: grid;
+    }
+
+    .selection-panel {
+      display: grid;
+      gap: 10px;
+      width: min(520px, 100%);
+      max-height: min(76vh, 620px);
+      overflow: auto;
+      padding: 14px;
+      border: 1px solid rgba(87, 231, 255, 0.32);
+      border-radius: 16px 16px 12px 12px;
+      background: rgba(10, 14, 22, 0.98);
+      box-shadow: 0 -18px 70px rgba(0, 0, 0, 0.62);
+      animation: sheetUp 0.18s ease;
+    }
+
+    .selection-panel h2 {
+      font-size: 0.98rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .selection-options {
+      display: grid;
+      gap: 8px;
+    }
+
+    .selection-option {
+      display: grid;
+      grid-template-columns: 24px 1fr;
+      align-items: center;
+      gap: 10px;
+      min-height: 52px;
+      padding: 11px;
+      border: 1px solid rgba(255, 255, 255, 0.09);
+      border-radius: var(--radius);
+      background: rgba(255, 255, 255, 0.045);
+      color: var(--text);
+      font-weight: 850;
+      text-align: left;
+    }
+
+    .selection-option::before {
+      display: grid;
+      width: 20px;
+      height: 20px;
+      place-items: center;
+      border: 1px solid rgba(87, 231, 255, 0.36);
+      border-radius: 50%;
+      content: "";
+    }
+
+    .selection-option.active {
+      border-color: rgba(87, 231, 255, 0.52);
+      background: rgba(87, 231, 255, 0.12);
+    }
+
+    .selection-option.active::before {
+      background: radial-gradient(circle, var(--cyan) 0 42%, transparent 46%);
+    }
+
+    @keyframes sheetUp {
+      from { opacity: 0; transform: translateY(18px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     .profile-actions {
@@ -1025,10 +1103,15 @@
     .title-card {
       display: grid;
       gap: 9px;
-      padding: 11px;
+      padding: 13px;
       border: 1px solid rgba(255, 255, 255, 0.085);
       border-radius: var(--radius);
-      background: rgba(255, 255, 255, 0.045);
+      background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(87, 231, 255, 0.035));
+    }
+
+    .title-card:not(.locked) {
+      border-color: rgba(255, 209, 102, 0.28);
+      background: linear-gradient(145deg, rgba(255, 209, 102, 0.1), rgba(87, 231, 255, 0.045));
     }
 
     .title-card.locked {
@@ -1051,6 +1134,44 @@
       color: var(--muted);
       font-size: 0.76rem;
       line-height: 1.35;
+    }
+
+    .rank-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+      min-height: 30px;
+      padding: 4px 10px;
+      border: 1px solid var(--rank-line, rgba(87, 231, 255, 0.34));
+      border-radius: 999px;
+      background: var(--rank-bg, rgba(87, 231, 255, 0.1));
+      color: var(--rank-color, var(--cyan));
+      font-size: 0.78rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .tag .rank-badge {
+      min-height: 0;
+      padding: 0;
+      border: 0;
+      background: transparent;
+    }
+
+    .reward-chip {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      padding: 4px 9px;
+      border: 1px solid rgba(255, 209, 102, 0.32);
+      border-radius: 999px;
+      background: rgba(255, 209, 102, 0.1);
+      color: #ffe1a0;
+      font-size: 0.68rem;
+      font-weight: 950;
+      text-transform: uppercase;
     }
 
     .system-grid,
@@ -1540,6 +1661,46 @@
       animation: toast 2.4s ease forwards;
     }
 
+    .action-feedback {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      z-index: 130;
+      display: none;
+      min-width: min(320px, calc(100vw - 32px));
+      padding: 16px;
+      border: 1px solid rgba(87, 231, 255, 0.36);
+      border-radius: 14px;
+      background: rgba(8, 12, 20, 0.96);
+      box-shadow: 0 22px 80px rgba(0, 0, 0, 0.58);
+      text-align: center;
+    }
+
+    .action-feedback.show {
+      display: grid;
+      gap: 6px;
+      animation: actionPop 1.15s ease forwards;
+    }
+
+    .action-feedback strong {
+      color: var(--cyan);
+      font-size: 1.12rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .action-feedback span {
+      color: var(--text);
+      font-size: 1.55rem;
+      font-weight: 950;
+    }
+
+    @keyframes actionPop {
+      0% { opacity: 0; transform: translate(-50%, -44%) scale(0.96); }
+      14%, 78% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+      100% { opacity: 0; transform: translate(-50%, -56%) scale(0.98); }
+    }
+
     @keyframes toast {
       0% {
         opacity: 0;
@@ -1589,6 +1750,35 @@
 
     }
 
+    @media (max-width: 420px) {
+      .app {
+        padding-inline: 10px;
+      }
+
+      .class-rank,
+      .objective-actions,
+      .modal-actions,
+      .journey-reward {
+        grid-template-columns: 1fr;
+      }
+
+      .section-title {
+        align-items: flex-start;
+      }
+
+      .bottom-nav {
+        right: 6px;
+        left: 6px;
+        width: calc(100% - 12px);
+        gap: 4px;
+        padding: 6px;
+      }
+
+      .nav-link {
+        font-size: 0.58rem;
+      }
+    }
+
     @media (min-width: 1080px) {
       .screen.active {
         grid-template-columns: 0.92fr 1.08fr;
@@ -1601,6 +1791,16 @@
        HTML
   ========================== -->
   <div class="toast" id="toast" aria-live="polite"></div>
+  <div class="action-feedback" id="actionFeedback" aria-live="polite"></div>
+  <div class="selection-sheet" id="selectionSheet" role="dialog" aria-modal="true" aria-labelledby="selectionTitle">
+    <div class="selection-panel">
+      <div class="section-title">
+        <h2 id="selectionTitle">Selecionar</h2>
+        <button class="small-btn" id="selectionCancelBtn" type="button">Cancelar</button>
+      </div>
+      <div class="selection-options" id="selectionOptions"></div>
+    </div>
+  </div>
 
   <main class="app">
     <header class="topbar">
@@ -2090,11 +2290,11 @@
   </main>
 
   <nav class="bottom-nav" aria-label="Navegação principal">
-    <a class="nav-link active" href="#status" data-screen="status"><b>◆</b>Home</a>
-    <a class="nav-link" href="#missions" data-screen="missions"><b>✦</b>Missões</a>
-    <a class="nav-link" href="#training" data-screen="training"><b>▣</b>Evolução</a>
-    <a class="nav-link" href="#achievements" data-screen="achievements"><b>★</b>Conquistas</a>
-    <a class="nav-link" href="#backup" data-screen="backup"><b>⚙</b>Sistema</a>
+    <a class="nav-link active" href="#status" data-screen="status"><b>⟰</b>Home</a>
+    <a class="nav-link" href="#missions" data-screen="missions"><b>▤</b>Missões</a>
+    <a class="nav-link" href="#training" data-screen="training"><b>↟</b>Evolução</a>
+    <a class="nav-link" href="#achievements" data-screen="achievements"><b>♛</b>Conquistas</a>
+    <a class="nav-link" href="#backup" data-screen="backup"><b>◉</b>Sistema</a>
   </nav>
 
   <div class="modal" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
@@ -2512,7 +2712,7 @@
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.3";
+    const APP_VERSION = "1.0.4";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -2813,9 +3013,15 @@ Obrigado pelo projeto!`;
     let reminderTimer = null;
     let onboardingStep = 0;
     let pendingOnboardingState = null;
+    let activeSelection = null;
 
     const el = {
       toast: document.querySelector("#toast"),
+      actionFeedback: document.querySelector("#actionFeedback"),
+      selectionSheet: document.querySelector("#selectionSheet"),
+      selectionTitle: document.querySelector("#selectionTitle"),
+      selectionOptions: document.querySelector("#selectionOptions"),
+      selectionCancelBtn: document.querySelector("#selectionCancelBtn"),
       installBtn: document.querySelector("#installBtn"),
       characterName: document.querySelector("#characterName"),
       renameBtn: document.querySelector("#renameBtn"),
@@ -3340,6 +3546,25 @@ Obrigado pelo projeto!`;
       if (level >= 10) return "Prata";
       if (level >= 5) return "Bronze";
       return "Ferro";
+    }
+
+    function rankMeta(rank = getRank()) {
+      const map = {
+        Ferro: { icon: "◆", color: "#aab4bf", bg: "rgba(170, 180, 191, 0.12)", line: "rgba(170, 180, 191, 0.36)" },
+        Bronze: { icon: "⚔", color: "#d99a5f", bg: "rgba(217, 154, 95, 0.13)", line: "rgba(217, 154, 95, 0.38)" },
+        Prata: { icon: "◇", color: "#dce8f5", bg: "rgba(220, 232, 245, 0.12)", line: "rgba(220, 232, 245, 0.34)" },
+        Ouro: { icon: "✦", color: "#ffd166", bg: "rgba(255, 209, 102, 0.13)", line: "rgba(255, 209, 102, 0.4)" },
+        Platina: { icon: "✧", color: "#90f7ff", bg: "rgba(144, 247, 255, 0.12)", line: "rgba(144, 247, 255, 0.38)" },
+        Diamante: { icon: "◆", color: "#72e9ff", bg: "rgba(114, 233, 255, 0.14)", line: "rgba(114, 233, 255, 0.42)" },
+        Mestre: { icon: "▲", color: "#a990ff", bg: "rgba(169, 144, 255, 0.14)", line: "rgba(169, 144, 255, 0.42)" },
+        Lenda: { icon: "✹", color: "#f8fdff", bg: "rgba(248, 253, 255, 0.16)", line: "rgba(248, 253, 255, 0.46)" }
+      };
+      return map[rank] || map.Ferro;
+    }
+
+    function rankBadgeHtml(rank = getRank()) {
+      const meta = rankMeta(rank);
+      return `<span class="rank-badge" style="--rank-color:${meta.color}; --rank-bg:${meta.bg}; --rank-line:${meta.line};"><b>${meta.icon}</b>${rank}</span>`;
     }
 
     function getBasePlan() {
@@ -3903,6 +4128,7 @@ Objetivo: ${goal}`;
       checkAchievements();
       await saveState();
       render();
+      showActionFeedback("Missão concluída", `+${mission.exp} XP`);
       if (state.cycleReadyReview) showCycleModal();
     }
 
@@ -3940,6 +4166,7 @@ Objetivo: ${goal}`;
       checkAchievements();
       await saveState();
       render();
+      showActionFeedback("Treino concluído", "+35 XP");
       if (state.cycleReadyReview) showCycleModal();
     }
 
@@ -3960,6 +4187,7 @@ Objetivo: ${goal}`;
       checkAchievements();
       await saveState();
       render();
+      showActionFeedback("Boss derrotado", "+90 XP");
     }
 
     async function advanceCycle() {
@@ -4057,6 +4285,19 @@ Objetivo: ${goal}`;
       el.toast.classList.remove("show");
       void el.toast.offsetWidth;
       el.toast.classList.add("show");
+    }
+
+    function showActionFeedback(title, detail) {
+      el.actionFeedback.innerHTML = `<strong>${title}</strong><span>${detail}</span>`;
+      el.actionFeedback.classList.remove("show");
+      void el.actionFeedback.offsetWidth;
+      el.actionFeedback.classList.add("show");
+      [el.expBar, el.dailyProgressBar, el.missionsDailyProgressBar, el.goalProgressBar, el.cycleBar].forEach(bar => {
+        if (!bar) return;
+        bar.classList.remove("xp-pulse");
+        void bar.offsetWidth;
+        bar.classList.add("xp-pulse");
+      });
     }
 
     function randomItem(items) {
@@ -4169,8 +4410,8 @@ Objetivo: ${goal}`;
       el.systemJourney.textContent = state.systemAssessment.journey;
       el.systemBoss.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
       el.systemTitle.textContent = equippedTitleName();
-      el.rankTag.textContent = rank;
-      el.rankValue.textContent = rank;
+      el.rankTag.innerHTML = rankBadgeHtml(rank);
+      el.rankValue.innerHTML = rankBadgeHtml(rank);
       el.equippedTitleValue.textContent = equippedTitleName();
       el.renameTokenText.textContent = `Tokens disponíveis: ${availableRenameTokens()}`;
       el.nextRenameTokenText.textContent = `Próximo token em ${workoutsUntilNextRenameToken()} treino(s)`;
@@ -4385,7 +4626,8 @@ Objetivo: ${goal}`;
           <div class="title-card ${unlocked ? "" : "locked"}">
             <div class="title-card-head">
               <div>
-                <strong>${title.name}</strong>
+                <span class="reward-chip">[${title.name}]</span>
+                <strong>${unlocked ? "Título desbloqueado" : "Título bloqueado"}</strong>
                 <span>${title.group} | ${title.desc}</span>
               </div>
               <span class="tag ${unlocked ? "cyan-tag" : ""}">${equipped ? "Equipado" : unlocked ? "Livre" : "Bloqueado"}</span>
@@ -4517,13 +4759,7 @@ Objetivo: ${goal}`;
 
     function openChoiceMenu(key, focusFirst = false) {
       const control = customChoiceControls[key];
-      closeChoiceMenus();
-      control.button.setAttribute("aria-expanded", "true");
-      control.menu.classList.add("open");
-      if (focusFirst) {
-        const active = control.menu.querySelector(".choice-option.active") || control.menu.querySelector(".choice-option");
-        active?.focus();
-      }
+      showSelectionSheet("custom", key, control, focusFirst);
     }
 
     function selectChoice(key, value) {
@@ -4531,6 +4767,7 @@ Objetivo: ${goal}`;
       control.input.value = value;
       syncChoiceButton(key);
       closeChoiceMenus();
+      closeSelectionSheet();
       control.button.focus();
     }
 
@@ -4607,13 +4844,7 @@ Objetivo: ${goal}`;
     function openDiagnosticChoiceMenu(key, focusFirst = false) {
       const control = diagnosticChoiceControls[key];
       if (!control) return;
-      closeDiagnosticChoiceMenus();
-      control.button.setAttribute("aria-expanded", "true");
-      control.menu.classList.add("open");
-      if (focusFirst) {
-        const active = control.menu.querySelector(".choice-option.active") || control.menu.querySelector(".choice-option");
-        active?.focus();
-      }
+      showSelectionSheet("diagnostic", key, control, focusFirst);
     }
 
     function selectDiagnosticChoice(key, value) {
@@ -4622,8 +4853,44 @@ Objetivo: ${goal}`;
       control.input.value = value;
       syncDiagnosticChoiceButton(key);
       closeDiagnosticChoiceMenus();
+      closeSelectionSheet();
       control.button.focus();
       control.onSelect?.(value);
+    }
+
+    function choiceTitleFor(control) {
+      const labelId = control.button?.getAttribute("aria-labelledby")?.split(" ")[0];
+      const label = labelId ? document.querySelector(`#${labelId}`) : null;
+      return label?.textContent?.trim() || "Selecionar";
+    }
+
+    function showSelectionSheet(group, key, control, focusFirst = false) {
+      if (!control) return;
+      activeSelection = { group, key };
+      closeChoiceMenus();
+      closeDiagnosticChoiceMenus();
+      control.button.setAttribute("aria-expanded", "true");
+      el.selectionTitle.textContent = choiceTitleFor(control);
+      el.selectionOptions.innerHTML = control.options.map(option => {
+        const active = option.value === control.input.value;
+        return `
+          <button class="selection-option ${active ? "active" : ""}" type="button" data-selection-value="${option.value}" aria-pressed="${String(active)}">
+            <span>${option.label}</span>
+          </button>
+        `;
+      }).join("");
+      el.selectionSheet.classList.add("show");
+      if (focusFirst) {
+        const active = el.selectionOptions.querySelector(".selection-option.active") || el.selectionOptions.querySelector(".selection-option");
+        active?.focus();
+      }
+    }
+
+    function closeSelectionSheet() {
+      el.selectionSheet.classList.remove("show");
+      Object.values(customChoiceControls).forEach(control => control.button.setAttribute("aria-expanded", "false"));
+      Object.values(diagnosticChoiceControls).forEach(control => control.button?.setAttribute("aria-expanded", "false"));
+      activeSelection = null;
     }
 
     async function updateWorkoutLimit(value) {
@@ -5161,6 +5428,20 @@ Objetivo: ${goal}`;
       el.startMainMissionBtn.addEventListener("click", () => {
         const mission = allMissions().find(item => item.id === el.startMainMissionBtn.dataset.mainMission);
         switchScreen(mission?.category === "Academia" ? "training" : "missions");
+      });
+      el.selectionCancelBtn.addEventListener("click", closeSelectionSheet);
+      el.selectionSheet.addEventListener("click", event => {
+        if (event.target === el.selectionSheet) closeSelectionSheet();
+      });
+      el.selectionOptions.addEventListener("click", event => {
+        const option = event.target.closest("[data-selection-value]");
+        if (!option || !activeSelection) return;
+        activeSelection.group === "custom"
+          ? selectChoice(activeSelection.key, option.dataset.selectionValue)
+          : selectDiagnosticChoice(activeSelection.key, option.dataset.selectionValue);
+      });
+      el.selectionSheet.addEventListener("keydown", event => {
+        if (event.key === "Escape") closeSelectionSheet();
       });
 
       el.onboardingForm.addEventListener("submit", event => {
