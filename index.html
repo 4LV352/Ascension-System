@@ -13,6 +13,9 @@
   <meta name="apple-mobile-web-app-title" content="Ascension">
   <link rel="manifest" href="./manifest.json">
   <link rel="icon" href="./icons/icon.svg" type="image/svg+xml">
+  <link rel="icon" href="./icons/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="./icons/icon-192.png">
+  <link rel="apple-touch-startup-image" href="./icons/splash.png">
   <title>Ascension System</title>
 
   <!-- =========================
@@ -190,6 +193,18 @@
       box-shadow: 0 0 26px rgba(87, 231, 255, 0.24), inset 0 0 18px rgba(87, 231, 255, 0.08);
     }
 
+    .sigil img {
+      display: block;
+      width: 86%;
+      height: 86%;
+      object-fit: contain;
+    }
+
+    .sigil.compact {
+      width: 64px;
+      height: 64px;
+    }
+
     h1 {
       font-size: clamp(1.05rem, 5vw, 2.1rem);
       font-weight: 900;
@@ -220,7 +235,7 @@
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      min-height: 42px;
+      min-height: 48px;
       border-radius: var(--radius);
       font-size: 0.82rem;
       font-weight: 900;
@@ -228,7 +243,7 @@
     }
 
     .icon-btn {
-      width: 42px;
+      width: 48px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.055);
       color: var(--text);
@@ -236,8 +251,8 @@
     }
 
     .small-btn {
-      min-height: 36px;
-      padding: 0 10px;
+      min-height: 44px;
+      padding: 0 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.055);
       color: var(--muted);
@@ -473,6 +488,14 @@
       font-size: 1.92rem;
       font-weight: 950;
       box-shadow: 0 0 42px rgba(87, 231, 255, 0.24), inset 0 0 24px rgba(87, 231, 255, 0.1);
+    }
+
+    .level-orb.compact {
+      width: 64px;
+      height: 64px;
+      border-radius: var(--radius);
+      font-size: 1.35rem;
+      line-height: 1;
     }
 
     .progress-meta {
@@ -830,10 +853,22 @@
       margin-bottom: 12px;
     }
 
-    #customMissionForm .mission-choice-field {
+    #customMissionForm .mission-choice-field,
+    .diagnostic-choice-field {
       position: relative;
       z-index: 1;
       min-width: 0;
+    }
+
+    .diagnostic-choice-field {
+      display: grid;
+      gap: 8px;
+    }
+
+    .diagnostic-choice-field .choice-menu {
+      position: relative;
+      z-index: 75;
+      margin-top: 0;
     }
 
     .choice-button {
@@ -1096,153 +1131,37 @@
 
     .reflection-stage {
       display: grid;
-      grid-template-columns: repeat(3, 1fr);
       gap: 10px;
-      align-items: end;
     }
 
-    .avatar-panel {
+    .avatar-panel,
+    .reflection-placeholder {
       display: grid;
       gap: 8px;
       min-width: 0;
-      padding: 10px;
+      padding: 12px;
       border: 1px solid rgba(87, 231, 255, 0.16);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.04);
-      text-align: center;
+      text-align: left;
     }
 
-    .stick-avatar {
-      --body-w: 34px;
-      --shoulder-w: 74px;
-      --waist-w: 44px;
-      --glow: rgba(87, 231, 255, 0.18);
-      position: relative;
-      width: 100%;
-      height: 166px;
-      filter: drop-shadow(0 0 16px var(--glow));
+    .reflection-placeholder {
+      min-height: 92px;
+      align-content: center;
+      border-color: rgba(255, 209, 102, 0.24);
+      background: linear-gradient(145deg, rgba(255, 209, 102, 0.08), rgba(87, 231, 255, 0.055));
     }
 
-    .stick-avatar .head,
-    .stick-avatar .torso,
-    .stick-avatar .arm,
-    .stick-avatar .leg {
-      position: absolute;
-      left: 50%;
-      background: linear-gradient(145deg, var(--avatar-color, #57e7ff), rgba(255, 255, 255, 0.22));
-      box-shadow: inset -7px -8px 14px rgba(0, 0, 0, 0.28);
+    .reflection-placeholder strong {
+      color: var(--text);
+      font-size: 0.9rem;
     }
 
-    .stick-avatar .head {
-      top: 6px;
-      width: 42px;
-      height: 42px;
-      border-radius: 50%;
-      transform: translateX(-50%);
-    }
-
-    .stick-avatar .glasses {
-      position: absolute;
-      top: 23px;
-      left: 50%;
-      display: none;
-      width: 32px;
-      height: 9px;
-      border-top: 2px solid rgba(7, 9, 15, 0.8);
-      border-bottom: 2px solid rgba(7, 9, 15, 0.8);
-      transform: translateX(-50%);
-    }
-
-    .stick-avatar.has-glasses .glasses {
-      display: block;
-    }
-
-    .stick-avatar .beard {
-      position: absolute;
-      top: 34px;
-      left: 50%;
-      display: none;
-      width: 24px;
-      height: 11px;
-      border-radius: 0 0 14px 14px;
-      background: rgba(7, 9, 15, 0.62);
-      transform: translateX(-50%);
-    }
-
-    .stick-avatar.has-beard .beard {
-      display: block;
-    }
-
-    .stick-avatar .torso {
-      top: 54px;
-      width: var(--body-w);
-      height: 58px;
-      border-radius: 18px 18px 12px 12px;
-      transform: translateX(-50%) perspective(120px) rotateX(8deg);
-    }
-
-    .stick-avatar .shoulders {
-      position: absolute;
-      top: 56px;
-      left: 50%;
-      width: var(--shoulder-w);
-      height: 13px;
-      border-radius: 999px;
-      background: var(--avatar-color, #57e7ff);
-      transform: translateX(-50%);
-      opacity: 0.9;
-    }
-
-    .stick-avatar .waist {
-      position: absolute;
-      top: 105px;
-      left: 50%;
-      width: var(--waist-w);
-      height: 12px;
-      border-radius: 999px;
-      background: rgba(255, 255, 255, 0.22);
-      transform: translateX(-50%);
-    }
-
-    .stick-avatar .arm {
-      top: 66px;
-      width: 12px;
-      height: 54px;
-      border-radius: 999px;
-      transform-origin: top center;
-    }
-
-    .stick-avatar .arm.left {
-      transform: translateX(calc(-50% - 34px)) rotate(13deg);
-    }
-
-    .stick-avatar .arm.right {
-      transform: translateX(calc(-50% + 34px)) rotate(-13deg);
-    }
-
-    .stick-avatar .leg {
-      top: 112px;
-      width: 13px;
-      height: 48px;
-      border-radius: 999px;
-      transform-origin: top center;
-    }
-
-    .stick-avatar .leg.left {
-      transform: translateX(calc(-50% - 12px)) rotate(7deg);
-    }
-
-    .stick-avatar .leg.right {
-      transform: translateX(calc(-50% + 12px)) rotate(-7deg);
-    }
-
-    .stick-avatar.milestone {
-      animation: avatarPulse 2.4s ease-in-out infinite;
-    }
-
-    @keyframes avatarPulse {
-      0%, 100% { filter: drop-shadow(0 0 12px var(--glow)); }
-      50% { filter: drop-shadow(0 0 28px var(--glow)); }
+    .reflection-placeholder span {
+      color: var(--muted);
+      font-size: 0.78rem;
+      line-height: 1.35;
     }
 
     .timeline-strip {
@@ -1612,9 +1531,6 @@
         grid-template-columns: repeat(3, 1fr);
       }
 
-      .bottom-nav {
-        display: none;
-      }
     }
 
     @media (min-width: 1080px) {
@@ -1633,7 +1549,7 @@
   <main class="app">
     <header class="topbar">
       <div class="brand">
-        <div class="sigil" aria-hidden="true">A</div>
+        <div class="sigil" aria-hidden="true"><img src="./icons/mark-transparent.svg" alt=""></div>
         <div>
           <h1>Ascension System</h1>
           <p class="subtitle">Evolução da vida inteira</p>
@@ -1645,8 +1561,39 @@
       </div>
     </header>
 
-    <section class="screen active" id="screen-status" aria-label="Dashboard principal">
-      <article class="panel workout-card">
+    <section class="screen active" id="screen-status" aria-label="Home">
+      <article class="panel status-panel" id="homeSummaryCard">
+        <div class="section-title">
+          <h2>Home</h2>
+          <span class="tag cyan-tag" id="homeRank">Ferro</span>
+        </div>
+        <div class="level-block">
+          <div id="homeAvatar" aria-label="Reflexo atual"></div>
+          <div>
+            <p class="subtitle">Jogador</p>
+            <h3 id="homePlayerName">Caçador Iniciante</h3>
+            <p class="muted" id="homeClassLine">Classe: Humano Comum</p>
+          </div>
+        </div>
+        <div class="stats-grid" style="margin-top: 12px;">
+          <div class="stat-box">
+            <span>Rank</span>
+            <strong id="homeRankValue">Ferro</strong>
+          </div>
+          <div class="stat-box">
+            <span>Nível</span>
+            <strong id="homeLevelValue">1</strong>
+          </div>
+          <div class="stat-box wide">
+            <span>XP</span>
+            <strong id="homeXpText">0/100</strong>
+            <div class="progress" aria-label="XP na Home"><i id="homeXpBar"></i></div>
+          </div>
+        </div>
+        <p class="feedback-copy" id="homeSystemPhrase" style="margin-top: 12px;">O Sistema detectou progresso contínuo.</p>
+      </article>
+
+      <article class="panel workout-card" id="todayCard">
         <div class="section-title">
           <h2>Hoje</h2>
           <span class="tag cyan-tag" id="dailyProgressTag">0/4</span>
@@ -1672,7 +1619,7 @@
         </div>
       </article>
 
-      <article class="panel status-panel">
+      <article class="panel status-panel" id="statusPanel">
         <div class="section-title">
           <h2>ASCENSION SYSTEM</h2>
           <span class="tag cyan-tag" id="rankTag">Ferro</span>
@@ -1784,7 +1731,7 @@
         </div>
       </article>
 
-      <article class="panel workout-card">
+      <article class="panel workout-card" id="nextEvolutionCard">
         <div class="section-title">
           <h2>Próxima Evolução</h2>
           <span class="tag">Marco</span>
@@ -1795,7 +1742,7 @@
         </div>
       </article>
 
-      <article class="panel workout-card">
+      <article class="panel workout-card" id="goalCard">
         <div class="section-title">
           <h2>Objetivo Principal</h2>
           <button class="small-btn" id="editGoalBtn" type="button">Editar</button>
@@ -1822,7 +1769,7 @@
         </div>
       </article>
 
-      <article class="panel workout-card">
+      <article class="panel workout-card" id="calendarCard">
         <div class="section-title">
           <h2>Calendário de Consistência</h2>
           <span class="tag" id="calendarMonthLabel">Mês atual</span>
@@ -1830,7 +1777,7 @@
         <div class="calendar-grid" id="consistencyCalendar"></div>
       </article>
 
-      <article class="panel workout-card">
+      <article class="panel workout-card" id="reflectionCard">
         <div class="section-title">
           <h2>Reflexo da Evolução</h2>
           <button class="small-btn" id="updateReflectionBtn" type="button">Atualizar</button>
@@ -1877,7 +1824,7 @@
         <div class="timeline-strip" id="reflectionTimeline"></div>
       </article>
 
-      <aside class="panel narrator" aria-live="polite">
+      <aside class="panel narrator" id="narratorCard" aria-live="polite">
         <div class="section-title">
           <h2>Narrador</h2>
           <span class="tag">Sistema ativo</span>
@@ -1885,7 +1832,7 @@
         <p id="narratorText"><strong>[Sistema]</strong> Bem-vindo. Seu potencial está intacto, o que é uma forma elegante de dizer que ainda não foi usado.</p>
       </aside>
 
-      <article class="panel workout-card">
+      <article class="panel workout-card" id="workoutTodayCard">
         <div class="section-title">
           <h2>Treino de Hoje</h2>
           <span class="tag cyan-tag" id="todayWorkoutCode">A</span>
@@ -1903,7 +1850,7 @@
         </div>
       </article>
 
-      <article class="panel attributes">
+      <article class="panel attributes" id="attributesCard">
         <div class="section-title">
           <h2>Atributos</h2>
           <span class="tag" id="powerScore">Poder 60</span>
@@ -1912,8 +1859,8 @@
       </article>
     </section>
 
-    <section class="screen" id="screen-training" aria-label="Ciclo de treino">
-      <article class="panel workout-card">
+    <section class="screen" id="screen-training" aria-label="Evolução">
+      <article class="panel workout-card" id="trainingCycleCard">
         <div class="section-title">
           <h2>Ciclo de Treino</h2>
           <span class="tag cyan-tag" id="trainingCycleTag">0/90</span>
@@ -1932,12 +1879,13 @@
             <strong>90 treinos reais concluídos</strong>
           </div>
         </div>
+        <p class="feedback-copy" id="cycleAdaptation" style="margin-top: 10px; margin-bottom: 0;">Plano adaptado ao perfil salvo.</p>
       </article>
       <div class="plan-list" id="trainingPlan"></div>
     </section>
 
-    <section class="screen" id="screen-missions" aria-label="Sistema de missões">
-      <article class="panel missions">
+    <section class="screen" id="screen-missions" aria-label="Missões">
+      <article class="panel missions" id="missionsCard">
         <div class="section-title">
           <h2>Missões</h2>
           <span class="tag" id="missionCount">8</span>
@@ -1946,7 +1894,7 @@
         <div class="mission-list" id="missionList" style="margin-top: 12px;"></div>
       </article>
 
-      <article class="panel boss-card">
+      <article class="panel boss-card" id="bossCard">
         <div class="section-title">
           <h2>Boss da Semana</h2>
           <span class="tag boss" id="bossStatus">Disponível</span>
@@ -1960,14 +1908,14 @@
     </section>
 
     <section class="screen" id="screen-achievements" aria-label="Conquistas">
-      <article class="panel achievements">
+      <article class="panel achievements" id="achievementsCard">
         <div class="section-title">
           <h2>Conquistas</h2>
           <span class="tag" id="achievementCount">0/8</span>
         </div>
         <div class="achievement-list" id="achievementList"></div>
       </article>
-      <article class="panel achievements">
+      <article class="panel achievements" id="titlesCard">
         <div class="section-title">
           <h2>Títulos</h2>
           <span class="tag cyan-tag" id="titleCount">0/0</span>
@@ -1975,42 +1923,42 @@
         <p class="feedback-copy">Títulos são independentes de rank. Desbloqueie, equipe um por vez, ou remova para ficar sem título.</p>
         <div class="title-list" id="titleList"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="statsCard">
         <div class="section-title">
           <h2>Estatísticas</h2>
           <span class="tag cyan-tag">Resumo</span>
         </div>
         <div class="stats-grid" id="statsGrid"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="logCard">
         <div class="section-title">
           <h2>Registro</h2>
           <span class="tag">Últimas ações</span>
         </div>
         <div class="log-list" id="logList"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="fameCard">
         <div class="section-title">
           <h2>Hall da Fama</h2>
           <span class="tag cyan-tag" id="fameCount">0/10</span>
         </div>
         <div class="fame-grid" id="fameList"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="seasonCard">
         <div class="section-title">
           <h2>Conquistas Secretas</h2>
           <span class="tag boss" id="secretCount">0/?</span>
         </div>
         <div class="achievement-list" id="secretList"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="weeklyReportCard">
         <div class="section-title">
           <h2>Temporada</h2>
           <span class="tag" id="seasonName">Temporada Atual</span>
         </div>
         <div class="stats-grid" id="seasonStats"></div>
       </article>
-      <article class="panel log-card">
+      <article class="panel log-card" id="secretCard">
         <div class="section-title">
           <h2>Relatório Semanal</h2>
           <button class="small-btn" id="weeklyReportBtn" type="button">Ver relatório</button>
@@ -2020,25 +1968,23 @@
     </section>
 
     <section class="screen" id="screen-backup" aria-label="Configurações e backup">
-      <article class="panel backup-card">
+      <article class="panel backup-card" id="settingsCard">
         <div class="section-title">
           <h2>Configurações</h2>
           <span class="tag cyan-tag">Local</span>
         </div>
-        <div style="margin-bottom: 12px;">
-          <label for="workoutLimit">Limite de treinos por dia</label>
-          <select id="workoutLimit">
-            <option value="1">1 treino por dia</option>
-            <option value="2">2 treinos por dia</option>
-          </select>
+        <div class="diagnostic-choice-field" style="margin-bottom: 12px;">
+          <label id="workoutLimitLabel" for="workoutLimitButton">Limite de treinos por dia</label>
+          <input id="workoutLimit" type="hidden" value="1">
+          <button class="choice-button" id="workoutLimitButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="workoutLimitMenu" aria-labelledby="workoutLimitLabel workoutLimitButton"></button>
+          <div class="choice-menu" id="workoutLimitMenu" role="listbox" aria-labelledby="workoutLimitLabel"></div>
         </div>
         <div class="settings-grid">
-          <div>
-            <label for="reminderEnabled">Lembrete de treino</label>
-            <select id="reminderEnabled">
-              <option value="false">Desativado</option>
-              <option value="true">Ativado</option>
-            </select>
+          <div class="diagnostic-choice-field">
+            <label id="reminderEnabledLabel" for="reminderEnabledButton">Lembrete de treino</label>
+            <input id="reminderEnabled" type="hidden" value="false">
+            <button class="choice-button" id="reminderEnabledButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="reminderEnabledMenu" aria-labelledby="reminderEnabledLabel reminderEnabledButton"></button>
+            <div class="choice-menu" id="reminderEnabledMenu" role="listbox" aria-labelledby="reminderEnabledLabel"></div>
           </div>
           <div class="class-rank">
             <div>
@@ -2060,7 +2006,7 @@
         </div>
         <input class="hidden-input" id="importFile" type="file" accept="application/json,.json">
       </article>
-      <article class="panel backup-card">
+      <article class="panel backup-card" id="aboutCard">
         <div class="section-title">
           <h2>Sobre o Projeto</h2>
           <span class="tag">V1</span>
@@ -2069,7 +2015,7 @@
         <p class="feedback-copy" style="margin-top: 10px;">Seu feedback ajuda o sistema a evoluir. Todo grande protagonista começa com testes.</p>
         <button class="primary-btn" type="button" data-feedback>Enviar Feedback</button>
       </article>
-      <article class="panel backup-card">
+      <article class="panel backup-card" id="futureCard">
         <div class="section-title">
           <h2>Próximas expansões</h2>
           <span class="tag">V2+</span>
@@ -2080,17 +2026,17 @@
   </main>
 
   <nav class="bottom-nav" aria-label="Navegação principal">
-    <a class="nav-link active" href="#status" data-screen="status"><b>◆</b>Hoje</a>
-    <a class="nav-link" href="#training" data-screen="training"><b>▣</b>Treino</a>
+    <a class="nav-link active" href="#status" data-screen="status"><b>◆</b>Home</a>
     <a class="nav-link" href="#missions" data-screen="missions"><b>✦</b>Missões</a>
-    <a class="nav-link" href="#achievements" data-screen="achievements"><b>★</b>Ranks</a>
-    <a class="nav-link" href="#backup" data-screen="backup"><b>≡</b>Config</a>
+    <a class="nav-link" href="#training" data-screen="training"><b>▣</b>Evolução</a>
+    <a class="nav-link" href="#achievements" data-screen="achievements"><b>★</b>Conquistas</a>
+    <a class="nav-link" href="#backup" data-screen="backup"><b>⚙</b>Sistema</a>
   </nav>
 
   <div class="modal" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
     <div class="modal-card onboarding-card">
       <section class="onboarding-screen system-splash active" data-onboarding-screen="splash">
-        <div class="sigil" style="margin: 0 auto; width: 68px; height: 68px; font-size: 34px;">A</div>
+        <div class="sigil" style="margin: 0 auto; width: 68px; height: 68px;"><img src="./icons/mark-transparent.svg" alt=""></div>
         <h2>Ascension System</h2>
         <p>Toda ascensão começa com uma decisão.</p>
         <button class="primary-btn" id="startJourneyBtn" type="button">Iniciar Jornada</button>
@@ -2162,12 +2108,12 @@
                 <input id="onboardingAge" type="number" min="8" max="120" inputmode="numeric" placeholder="anos">
               </div>
               <div>
-                <label for="onboardingSex">Sexo</label>
-                <select id="onboardingSex">
-                  <option value="masculino">Masculino</option>
-                  <option value="feminino">Feminino</option>
-                  <option value="outro">Outro</option>
-                </select>
+                <div class="diagnostic-choice-field">
+                  <label id="onboardingSexLabel" for="onboardingSexButton">Sexo</label>
+                  <input id="onboardingSex" type="hidden" value="masculino">
+                  <button class="choice-button" id="onboardingSexButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingSexMenu" aria-labelledby="onboardingSexLabel onboardingSexButton"></button>
+                  <div class="choice-menu" id="onboardingSexMenu" role="listbox" aria-labelledby="onboardingSexLabel"></div>
+                </div>
               </div>
             </div>
             <div class="class-rank">
@@ -2186,18 +2132,20 @@
             </div>
             <div class="class-rank">
               <div>
-                <label for="onboardingGlasses">Usa óculos?</label>
-                <select id="onboardingGlasses">
-                  <option value="não">Não</option>
-                  <option value="sim">Sim</option>
-                </select>
+                <div class="diagnostic-choice-field">
+                  <label id="onboardingGlassesLabel" for="onboardingGlassesButton">Usa óculos?</label>
+                  <input id="onboardingGlasses" type="hidden" value="não">
+                  <button class="choice-button" id="onboardingGlassesButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingGlassesMenu" aria-labelledby="onboardingGlassesLabel onboardingGlassesButton"></button>
+                  <div class="choice-menu" id="onboardingGlassesMenu" role="listbox" aria-labelledby="onboardingGlassesLabel"></div>
+                </div>
               </div>
               <div>
-                <label for="onboardingBeard">Possui barba?</label>
-                <select id="onboardingBeard">
-                  <option value="não">Não</option>
-                  <option value="sim">Sim</option>
-                </select>
+                <div class="diagnostic-choice-field">
+                  <label id="onboardingBeardLabel" for="onboardingBeardButton">Possui barba?</label>
+                  <input id="onboardingBeard" type="hidden" value="não">
+                  <button class="choice-button" id="onboardingBeardButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingBeardMenu" aria-labelledby="onboardingBeardLabel onboardingBeardButton"></button>
+                  <div class="choice-menu" id="onboardingBeardMenu" role="listbox" aria-labelledby="onboardingBeardLabel"></div>
+                </div>
               </div>
             </div>
             <div>
@@ -2207,63 +2155,46 @@
           </div>
 
           <div class="onboarding-step" data-onboarding-step="1">
-            <div class="class-rank">
-              <div>
-                <label for="onboardingWorks">Você trabalha?</label>
-                <select id="onboardingWorks">
-                  <option value="sim">Sim</option>
-                  <option value="não">Não</option>
-                </select>
-              </div>
-              <div>
-                <label for="onboardingStudies">Você estuda?</label>
-                <select id="onboardingStudies">
-                  <option value="sim">Sim</option>
-                  <option value="não">Não</option>
-                </select>
-              </div>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingWorksLabel" for="onboardingWorksButton">Como é sua rotina atualmente?</label>
+              <input id="onboardingWorks" type="hidden" value="Trabalho em tempo integral">
+              <button class="choice-button" id="onboardingWorksButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingWorksMenu" aria-labelledby="onboardingWorksLabel onboardingWorksButton"></button>
+              <div class="choice-menu" id="onboardingWorksMenu" role="listbox" aria-labelledby="onboardingWorksLabel"></div>
             </div>
-            <div>
-              <label for="onboardingTrains">Você treina atualmente?</label>
-              <select id="onboardingTrains">
-                <option value="sim">Sim</option>
-                <option value="não">Não</option>
-              </select>
+            <input id="onboardingStudies" type="hidden" value="sim">
+            <div class="diagnostic-choice-field">
+              <label id="onboardingTrainsLabel" for="onboardingTrainsButton">Qual é sua experiência com atividade física?</label>
+              <input id="onboardingTrains" type="hidden" value="Estou começando">
+              <input id="onboardingExperience" type="hidden" value="Iniciante">
+              <button class="choice-button" id="onboardingTrainsButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingTrainsMenu" aria-labelledby="onboardingTrainsLabel onboardingTrainsButton"></button>
+              <div class="choice-menu" id="onboardingTrainsMenu" role="listbox" aria-labelledby="onboardingTrainsLabel"></div>
             </div>
-            <div>
-              <label for="onboardingTrainingDays">Quantas vezes por semana?</label>
-              <select id="onboardingTrainingDays">
-                <option value="0">Ainda não treino</option>
-                <option value="1">1 vez</option>
-                <option value="2">2 vezes</option>
-                <option value="3">3 vezes</option>
-                <option value="4">4 vezes</option>
-                <option value="5">5 vezes</option>
-                <option value="6">6 vezes</option>
-              </select>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingTrainingDaysLabel" for="onboardingTrainingDaysButton">Quantos dias pretende treinar?</label>
+              <input id="onboardingTrainingDays" type="hidden" value="3">
+              <button class="choice-button" id="onboardingTrainingDaysButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingTrainingDaysMenu" aria-labelledby="onboardingTrainingDaysLabel onboardingTrainingDaysButton"></button>
+              <div class="choice-menu" id="onboardingTrainingDaysMenu" role="listbox" aria-labelledby="onboardingTrainingDaysLabel"></div>
             </div>
-            <div>
-              <label for="onboardingExperience">Nível atual</label>
-              <select id="onboardingExperience">
-                <option>Iniciante</option>
-                <option>Intermediário</option>
-                <option>Avançado</option>
-              </select>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingTrainingPlaceLabel" for="onboardingTrainingPlaceButton">Onde você treina?</label>
+              <input id="onboardingTrainingPlace" type="hidden" value="Academia">
+              <button class="choice-button" id="onboardingTrainingPlaceButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingTrainingPlaceMenu" aria-labelledby="onboardingTrainingPlaceLabel onboardingTrainingPlaceButton"></button>
+              <div class="choice-menu" id="onboardingTrainingPlaceMenu" role="listbox" aria-labelledby="onboardingTrainingPlaceLabel"></div>
             </div>
           </div>
 
           <div class="onboarding-step" data-onboarding-step="2">
-            <div>
-              <label for="onboardingGoal">Objetivo principal</label>
-              <select id="onboardingGoal">
-                <option>Evolução completa</option>
-                <option>Evolução física</option>
-                <option>Saúde</option>
-                <option>Disciplina</option>
-                <option>Finanças</option>
-                <option>Conhecimento</option>
-                <option>Relacionamentos</option>
-              </select>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingGoalLabel" for="onboardingGoalButton">O que você mais deseja mudar nos próximos meses?</label>
+              <input id="onboardingGoal" type="hidden" value="Hipertrofia">
+              <button class="choice-button" id="onboardingGoalButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingGoalMenu" aria-labelledby="onboardingGoalLabel onboardingGoalButton"></button>
+              <div class="choice-menu" id="onboardingGoalMenu" role="listbox" aria-labelledby="onboardingGoalLabel"></div>
+            </div>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingLimitationLabel" for="onboardingLimitationButton">Possui alguma limitação?</label>
+              <input id="onboardingLimitation" type="hidden" value="Nenhuma">
+              <button class="choice-button" id="onboardingLimitationButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingLimitationMenu" aria-labelledby="onboardingLimitationLabel onboardingLimitationButton"></button>
+              <div class="choice-menu" id="onboardingLimitationMenu" role="listbox" aria-labelledby="onboardingLimitationLabel"></div>
             </div>
             <div class="class-rank">
               <div>
@@ -2275,27 +2206,20 @@
                 <input id="onboardingReminderTime" type="time">
               </div>
             </div>
-            <div>
-              <label for="onboardingReminderEnabled">Deseja receber lembretes?</label>
-              <select id="onboardingReminderEnabled">
-                <option value="true">Sim</option>
-                <option value="false">Não</option>
-              </select>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingReminderEnabledLabel" for="onboardingReminderEnabledButton">Deseja receber lembretes?</label>
+              <input id="onboardingReminderEnabled" type="hidden" value="false">
+              <button class="choice-button" id="onboardingReminderEnabledButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingReminderEnabledMenu" aria-labelledby="onboardingReminderEnabledLabel onboardingReminderEnabledButton"></button>
+              <div class="choice-menu" id="onboardingReminderEnabledMenu" role="listbox" aria-labelledby="onboardingReminderEnabledLabel"></div>
             </div>
           </div>
 
           <div class="onboarding-step" data-onboarding-step="3">
-            <div>
-              <label for="onboardingObstacle">Maior obstáculo hoje</label>
-              <select id="onboardingObstacle">
-                <option>Preguiça</option>
-                <option>Falta de tempo</option>
-                <option>Falta de dinheiro</option>
-                <option>Sono ruim</option>
-                <option>Falta de organização</option>
-                <option>Ansiedade</option>
-                <option>Falta de consistência</option>
-              </select>
+            <div class="diagnostic-choice-field">
+              <label id="onboardingObstacleLabel" for="onboardingObstacleButton">Qual boss mais atrapalha sua evolução hoje?</label>
+              <input id="onboardingObstacle" type="hidden" value="Preguiça">
+              <button class="choice-button" id="onboardingObstacleButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="onboardingObstacleMenu" aria-labelledby="onboardingObstacleLabel onboardingObstacleButton"></button>
+              <div class="choice-menu" id="onboardingObstacleMenu" role="listbox" aria-labelledby="onboardingObstacleLabel"></div>
             </div>
             <div class="system-line wide">
               <span>Última confirmação</span>
@@ -2398,17 +2322,11 @@
           <input id="goalInputName" maxlength="60" placeholder="Ex: Perder 10kg">
         </div>
         <div class="class-rank">
-          <div>
-            <label for="goalInputType">Tipo</label>
-            <select id="goalInputType">
-              <option>Evolução física</option>
-              <option>Saúde</option>
-              <option>Disciplina</option>
-              <option>Finanças</option>
-              <option>Conhecimento</option>
-              <option>Relacionamentos</option>
-              <option>Organização</option>
-            </select>
+          <div class="diagnostic-choice-field">
+            <label id="goalInputTypeLabel" for="goalInputTypeButton">Tipo</label>
+            <input id="goalInputType" type="hidden" value="Evolução física">
+            <button class="choice-button" id="goalInputTypeButton" type="button" aria-haspopup="listbox" aria-expanded="false" aria-controls="goalInputTypeMenu" aria-labelledby="goalInputTypeLabel goalInputTypeButton"></button>
+            <div class="choice-menu" id="goalInputTypeMenu" role="listbox" aria-labelledby="goalInputTypeLabel"></div>
           </div>
           <div>
             <label for="goalInputUnit">Unidade</label>
@@ -2530,7 +2448,7 @@
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.0";
+    const APP_VERSION = "1.0.2";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -2663,9 +2581,9 @@ Obrigado pelo projeto!`;
         model: "ABC",
         note: "Fundação técnica, constância e execução limpa.",
         days: [
-          { code: "A", title: "Peito + Bíceps + Antebraço", exercises: ["Supino reto 3x8-12", "Supino inclinado 3x8-12", "Crucifixo 3x10-12", "Rosca direta 3x10", "Rosca punho 3x12"] },
-          { code: "B", title: "Costas + Tríceps + Ombro", exercises: ["Puxada alta 3x8-12", "Remada baixa 3x8-12", "Remada unilateral 3x10", "Tríceps corda 3x10-12", "Elevação lateral 3x12"] },
-          { code: "C", title: "Pernas", exercises: ["Agachamento 3x8-12", "Leg press 3x10", "Cadeira extensora 3x12", "Mesa flexora 3x12", "Panturrilha 4x12"] }
+          { code: "A", title: "Peito + Bíceps + Antebraço", exercises: ["Supino reto 3x8-12", "Supino inclinado 3x8-12", "Crucifixo 3x10-12", "Crossover 3x12", "Flexão controlada 2x máximo", "Rosca direta 3x10", "Rosca alternada 3x10", "Rosca martelo 3x10", "Rosca punho 3x12", "Abdômen prancha 3x30s"] },
+          { code: "B", title: "Costas + Tríceps + Ombro", exercises: ["Puxada alta 3x8-12", "Remada baixa 3x8-12", "Remada unilateral 3x10", "Pullover na polia 3x12", "Face pull 3x12", "Desenvolvimento máquina 3x10", "Elevação lateral 3x12", "Tríceps corda 3x10-12", "Tríceps francês 3x10", "Cardio leve 10 min"] },
+          { code: "C", title: "Pernas", exercises: ["Agachamento livre ou guiado 3x8-12", "Leg press 3x10", "Cadeira extensora 3x12", "Mesa flexora 3x12", "Stiff leve 3x10", "Afundo 2x10 cada perna", "Cadeira abdutora 3x12", "Panturrilha em pé 4x12", "Abdômen infra 3x12", "Cardio moderado 10 min"] }
         ]
       },
       2: {
@@ -2673,10 +2591,10 @@ Obrigado pelo projeto!`;
         model: "ABCD",
         note: "Mais foco por grupo muscular e progressão semanal.",
         days: [
-          { code: "A", title: "Peito", exercises: ["Supino reto 4x6-10", "Supino inclinado 3x8-10", "Crossover 3x12", "Flexão 3x máximo"] },
-          { code: "B", title: "Costas", exercises: ["Barra ou puxada 4x6-10", "Remada curvada 3x8-10", "Remada baixa 3x10", "Pulldown 3x12"] },
-          { code: "C", title: "Pernas", exercises: ["Agachamento 4x6-10", "Leg press 4x10", "Stiff 3x8-10", "Mesa flexora 3x12", "Panturrilha 4x12"] },
-          { code: "D", title: "Ombro + Braços", exercises: ["Desenvolvimento 4x6-10", "Elevação lateral 4x12", "Rosca direta 3x10", "Tríceps corda 3x10", "Rosca martelo 3x10"] }
+          { code: "A", title: "Peito", exercises: ["Supino reto 4x6-10", "Supino inclinado 3x8-10", "Supino halter 3x8-10", "Crucifixo inclinado 3x10-12", "Crossover 3x12", "Peck deck 3x12", "Flexão 3x máximo", "Abdômen prancha 3x40s"] },
+          { code: "B", title: "Costas", exercises: ["Barra ou puxada 4x6-10", "Remada curvada 3x8-10", "Remada baixa 3x10", "Remada cavalinho 3x10", "Pulldown 3x12", "Puxada neutra 3x10", "Lombar 3x12", "Cardio leve 8 min"] },
+          { code: "C", title: "Pernas", exercises: ["Agachamento 4x6-10", "Leg press 4x10", "Stiff 3x8-10", "Cadeira extensora 3x12", "Mesa flexora 3x12", "Afundo 3x10", "Panturrilha em pé 4x12", "Panturrilha sentado 3x15", "Abdômen infra 3x12"] },
+          { code: "D", title: "Ombro + Braços", exercises: ["Desenvolvimento 4x6-10", "Elevação lateral 4x12", "Elevação frontal 3x10", "Face pull 3x12", "Rosca direta 3x10", "Rosca martelo 3x10", "Tríceps corda 3x10", "Tríceps testa 3x10", "Bombeamento final 2x15"] }
         ]
       },
       3: {
@@ -2684,10 +2602,10 @@ Obrigado pelo projeto!`;
         model: "ABCD com técnicas",
         note: "Progressão de carga, mais volume e descanso observado.",
         days: [
-          { code: "A", title: "Peito técnico", exercises: ["Supino reto 5x5-8 com progressão", "Inclinado halter 4x8-10", "Crossover 3x12-15", "Descanso 90s nos compostos"] },
-          { code: "B", title: "Costas volume", exercises: ["Puxada 4x8-10", "Remada curvada 4x8", "Remada baixa 3x10-12", "Pulldown 3x12-15", "Controlar a excêntrica"] },
-          { code: "C", title: "Pernas boss", exercises: ["Agachamento 5x5-8", "Leg press 4x10-12", "Stiff 4x8-10", "Extensora drop leve 2x", "Descanso 2min nos pesados"] },
-          { code: "D", title: "Ombro + Braços volume", exercises: ["Desenvolvimento 4x6-8", "Elevação lateral 5x12", "Rosca direta 4x8-10", "Tríceps testa 4x8-10", "Finalizar com bombeamento"] }
+          { code: "A", title: "Peito técnico", exercises: ["Supino reto 5x5-8 com progressão", "Inclinado halter 4x8-10", "Supino máquina 3x8-10", "Crossover 3x12-15", "Crucifixo drop leve 2x", "Flexão lenta 2x máximo", "Descanso 90s nos compostos"] },
+          { code: "B", title: "Costas volume", exercises: ["Puxada 4x8-10", "Remada curvada 4x8", "Remada baixa 3x10-12", "Remada unilateral 3x10", "Pulldown 3x12-15", "Face pull 3x15", "Controlar a excêntrica"] },
+          { code: "C", title: "Pernas boss", exercises: ["Agachamento 5x5-8", "Leg press 4x10-12", "Stiff 4x8-10", "Cadeira extensora drop leve 2x", "Mesa flexora 4x10", "Panturrilha 5x12", "Abdômen 3x15", "Descanso 2min nos pesados"] },
+          { code: "D", title: "Ombro + Braços volume", exercises: ["Desenvolvimento 4x6-8", "Elevação lateral 5x12", "Elevação posterior 3x12", "Rosca direta 4x8-10", "Rosca martelo 3x10", "Tríceps testa 4x8-10", "Tríceps corda 3x12", "Finalizar com bombeamento"] }
         ]
       }
     };
@@ -2727,14 +2645,16 @@ Obrigado pelo projeto!`;
         glasses: "não",
         beard: "não",
         avatarColor: "#57e7ff",
-        works: "sim",
+        works: "Trabalho em tempo integral",
         studies: "sim",
-        trainsCurrently: "sim",
+        trainsCurrently: "Estou começando",
         obstacle: "Preguiça",
         weight: "",
         height: "",
-        goal: "Evolução completa",
+        goal: "Hipertrofia",
         trainingDays: 3,
+        trainingPlace: "Academia",
+        limitation: "Nenhuma",
         experience: "Iniciante",
         usualWorkoutTime: "",
         reminderEnabled: false,
@@ -2840,6 +2760,15 @@ Obrigado pelo projeto!`;
       rankTag: document.querySelector("#rankTag"),
       rankValue: document.querySelector("#rankValue"),
       equippedTitleValue: document.querySelector("#equippedTitleValue"),
+      homeAvatar: document.querySelector("#homeAvatar"),
+      homePlayerName: document.querySelector("#homePlayerName"),
+      homeClassLine: document.querySelector("#homeClassLine"),
+      homeRank: document.querySelector("#homeRank"),
+      homeRankValue: document.querySelector("#homeRankValue"),
+      homeLevelValue: document.querySelector("#homeLevelValue"),
+      homeXpText: document.querySelector("#homeXpText"),
+      homeXpBar: document.querySelector("#homeXpBar"),
+      homeSystemPhrase: document.querySelector("#homeSystemPhrase"),
       systemPlayerName: document.querySelector("#systemPlayerName"),
       systemClass: document.querySelector("#systemClass"),
       profileClassValue: document.querySelector("#profileClassValue"),
@@ -2906,6 +2835,7 @@ Obrigado pelo projeto!`;
       trainingCycleTag: document.querySelector("#trainingCycleTag"),
       cycleNumber: document.querySelector("#cycleNumber"),
       cycleModel: document.querySelector("#cycleModel"),
+      cycleAdaptation: document.querySelector("#cycleAdaptation"),
       trainingPlan: document.querySelector("#trainingPlan"),
       missionCount: document.querySelector("#missionCount"),
       filters: document.querySelector("#filters"),
@@ -2929,7 +2859,11 @@ Obrigado pelo projeto!`;
       weeklyReportBtn: document.querySelector("#weeklyReportBtn"),
       weeklyReportOutput: document.querySelector("#weeklyReportOutput"),
       workoutLimit: document.querySelector("#workoutLimit"),
+      workoutLimitButton: document.querySelector("#workoutLimitButton"),
+      workoutLimitMenu: document.querySelector("#workoutLimitMenu"),
       reminderEnabled: document.querySelector("#reminderEnabled"),
+      reminderEnabledButton: document.querySelector("#reminderEnabledButton"),
+      reminderEnabledMenu: document.querySelector("#reminderEnabledMenu"),
       usualWorkoutTime: document.querySelector("#usualWorkoutTime"),
       reminderTime: document.querySelector("#reminderTime"),
       testNotificationBtn: document.querySelector("#testNotificationBtn"),
@@ -2959,22 +2893,46 @@ Obrigado pelo projeto!`;
       onboardingCharacterName: document.querySelector("#onboardingCharacterName"),
       onboardingAge: document.querySelector("#onboardingAge"),
       onboardingSex: document.querySelector("#onboardingSex"),
+      onboardingSexButton: document.querySelector("#onboardingSexButton"),
+      onboardingSexMenu: document.querySelector("#onboardingSexMenu"),
       onboardingTargetWeight: document.querySelector("#onboardingTargetWeight"),
       onboardingGlasses: document.querySelector("#onboardingGlasses"),
+      onboardingGlassesButton: document.querySelector("#onboardingGlassesButton"),
+      onboardingGlassesMenu: document.querySelector("#onboardingGlassesMenu"),
       onboardingBeard: document.querySelector("#onboardingBeard"),
+      onboardingBeardButton: document.querySelector("#onboardingBeardButton"),
+      onboardingBeardMenu: document.querySelector("#onboardingBeardMenu"),
       onboardingAvatarColor: document.querySelector("#onboardingAvatarColor"),
       onboardingWorks: document.querySelector("#onboardingWorks"),
+      onboardingWorksButton: document.querySelector("#onboardingWorksButton"),
+      onboardingWorksMenu: document.querySelector("#onboardingWorksMenu"),
       onboardingStudies: document.querySelector("#onboardingStudies"),
       onboardingTrains: document.querySelector("#onboardingTrains"),
+      onboardingTrainsButton: document.querySelector("#onboardingTrainsButton"),
+      onboardingTrainsMenu: document.querySelector("#onboardingTrainsMenu"),
       onboardingObstacle: document.querySelector("#onboardingObstacle"),
+      onboardingObstacleButton: document.querySelector("#onboardingObstacleButton"),
+      onboardingObstacleMenu: document.querySelector("#onboardingObstacleMenu"),
       onboardingWeight: document.querySelector("#onboardingWeight"),
       onboardingHeight: document.querySelector("#onboardingHeight"),
       onboardingGoal: document.querySelector("#onboardingGoal"),
+      onboardingGoalButton: document.querySelector("#onboardingGoalButton"),
+      onboardingGoalMenu: document.querySelector("#onboardingGoalMenu"),
       onboardingTrainingDays: document.querySelector("#onboardingTrainingDays"),
+      onboardingTrainingDaysButton: document.querySelector("#onboardingTrainingDaysButton"),
+      onboardingTrainingDaysMenu: document.querySelector("#onboardingTrainingDaysMenu"),
+      onboardingTrainingPlace: document.querySelector("#onboardingTrainingPlace"),
+      onboardingTrainingPlaceButton: document.querySelector("#onboardingTrainingPlaceButton"),
+      onboardingTrainingPlaceMenu: document.querySelector("#onboardingTrainingPlaceMenu"),
+      onboardingLimitation: document.querySelector("#onboardingLimitation"),
+      onboardingLimitationButton: document.querySelector("#onboardingLimitationButton"),
+      onboardingLimitationMenu: document.querySelector("#onboardingLimitationMenu"),
       onboardingExperience: document.querySelector("#onboardingExperience"),
       onboardingWorkoutTime: document.querySelector("#onboardingWorkoutTime"),
       onboardingReminderTime: document.querySelector("#onboardingReminderTime"),
       onboardingReminderEnabled: document.querySelector("#onboardingReminderEnabled"),
+      onboardingReminderEnabledButton: document.querySelector("#onboardingReminderEnabledButton"),
+      onboardingReminderEnabledMenu: document.querySelector("#onboardingReminderEnabledMenu"),
       missionModal: document.querySelector("#missionModal"),
       customMissionForm: document.querySelector("#customMissionForm"),
       customMissionName: document.querySelector("#customMissionName"),
@@ -2995,6 +2953,8 @@ Obrigado pelo projeto!`;
       goalForm: document.querySelector("#goalForm"),
       goalInputName: document.querySelector("#goalInputName"),
       goalInputType: document.querySelector("#goalInputType"),
+      goalInputTypeButton: document.querySelector("#goalInputTypeButton"),
+      goalInputTypeMenu: document.querySelector("#goalInputTypeMenu"),
       goalInputUnit: document.querySelector("#goalInputUnit"),
       goalInputStart: document.querySelector("#goalInputStart"),
       goalInputTarget: document.querySelector("#goalInputTarget"),
@@ -3047,6 +3007,124 @@ Obrigado pelo projeto!`;
         button: el.customMissionAttributeButton,
         menu: el.customMissionAttributeMenu,
         options: attributes.map(attribute => ({ value: attribute, label: attribute }))
+      }
+    };
+
+    const diagnosticChoiceControls = {
+      sex: {
+        input: el.onboardingSex,
+        button: el.onboardingSexButton,
+        menu: el.onboardingSexMenu,
+        options: [
+          { value: "masculino", label: "Masculino" },
+          { value: "feminino", label: "Feminino" },
+          { value: "outro", label: "Outro" }
+        ]
+      },
+      glasses: {
+        input: el.onboardingGlasses,
+        button: el.onboardingGlassesButton,
+        menu: el.onboardingGlassesMenu,
+        options: [
+          { value: "não", label: "Não" },
+          { value: "sim", label: "Sim" }
+        ]
+      },
+      beard: {
+        input: el.onboardingBeard,
+        button: el.onboardingBeardButton,
+        menu: el.onboardingBeardMenu,
+        options: [
+          { value: "não", label: "Não" },
+          { value: "sim", label: "Sim" }
+        ]
+      },
+      routine: {
+        input: el.onboardingWorks,
+        button: el.onboardingWorksButton,
+        menu: el.onboardingWorksMenu,
+        options: [
+          { value: "Trabalho em tempo integral", label: "Trabalho em tempo integral" },
+          { value: "Trabalho e estudo", label: "Trabalho e estudo" },
+          { value: "Apenas estudo", label: "Apenas estudo" },
+          { value: "Rotina flexível", label: "Rotina flexível" }
+        ]
+      },
+      activity: {
+        input: el.onboardingTrains,
+        button: el.onboardingTrainsButton,
+        menu: el.onboardingTrainsMenu,
+        options: [
+          { value: "Nunca treinei", label: "Nunca treinei" },
+          { value: "Estou começando", label: "Estou começando" },
+          { value: "Já treinei antes", label: "Já treinei antes" },
+          { value: "Treino regularmente", label: "Treino regularmente" }
+        ]
+      },
+      trainingDays: {
+        input: el.onboardingTrainingDays,
+        button: el.onboardingTrainingDaysButton,
+        menu: el.onboardingTrainingDaysMenu,
+        options: ["2", "3", "4", "5", "6"].map(value => ({ value, label: `${value} dias` }))
+      },
+      trainingPlace: {
+        input: el.onboardingTrainingPlace,
+        button: el.onboardingTrainingPlaceButton,
+        menu: el.onboardingTrainingPlaceMenu,
+        options: ["Academia", "Casa", "Condomínio", "Calistenia"].map(value => ({ value, label: value }))
+      },
+      goal: {
+        input: el.onboardingGoal,
+        button: el.onboardingGoalButton,
+        menu: el.onboardingGoalMenu,
+        options: ["Emagrecimento", "Hipertrofia", "Saúde", "Condicionamento", "Força"].map(value => ({ value, label: value }))
+      },
+      limitation: {
+        input: el.onboardingLimitation,
+        button: el.onboardingLimitationButton,
+        menu: el.onboardingLimitationMenu,
+        options: ["Joelho", "Ombro", "Coluna", "Nenhuma"].map(value => ({ value, label: value }))
+      },
+      obstacle: {
+        input: el.onboardingObstacle,
+        button: el.onboardingObstacleButton,
+        menu: el.onboardingObstacleMenu,
+        options: ["Preguiça", "Falta de tempo", "Falta de dinheiro", "Sono ruim", "Falta de organização", "Ansiedade", "Falta de consistência"].map(value => ({ value, label: value }))
+      },
+      onboardingReminder: {
+        input: el.onboardingReminderEnabled,
+        button: el.onboardingReminderEnabledButton,
+        menu: el.onboardingReminderEnabledMenu,
+        options: [
+          { value: "false", label: "Não, agora não" },
+          { value: "true", label: "Sim, ativar lembrete" }
+        ]
+      },
+      workoutLimit: {
+        input: el.workoutLimit,
+        button: el.workoutLimitButton,
+        menu: el.workoutLimitMenu,
+        options: [
+          { value: "1", label: "1 treino por dia" },
+          { value: "2", label: "2 treinos por dia" }
+        ],
+        onSelect: updateWorkoutLimit
+      },
+      reminderSettings: {
+        input: el.reminderEnabled,
+        button: el.reminderEnabledButton,
+        menu: el.reminderEnabledMenu,
+        options: [
+          { value: "false", label: "Desativado" },
+          { value: "true", label: "Ativado" }
+        ],
+        onSelect: updateReminderSetting
+      },
+      goalType: {
+        input: el.goalInputType,
+        button: el.goalInputTypeButton,
+        menu: el.goalInputTypeMenu,
+        options: ["Evolução física", "Saúde", "Disciplina", "Finanças", "Conhecimento", "Relacionamentos", "Organização"].map(value => ({ value, label: value }))
       }
     };
 
@@ -3199,10 +3277,77 @@ Obrigado pelo projeto!`;
       return "Ferro";
     }
 
-    function getPlan() {
+    function getBasePlan() {
       if (state.trainingCycle <= 1) return workoutPlans[1];
       if (state.trainingCycle === 2) return workoutPlans[2];
       return workoutPlans[3];
+    }
+
+    function getPlan() {
+      return personalizeWorkoutPlan(getBasePlan());
+    }
+
+    function personalizeWorkoutPlan(plan) {
+      const profile = state.profile || {};
+      const place = profile.trainingPlace || "Academia";
+      const goal = profile.goal || "Hipertrofia";
+      const limitation = profile.limitation || "Nenhuma";
+      const days = Number(profile.trainingDays || 3);
+      return {
+        ...plan,
+        note: `${plan.note} Adaptado para ${place}, ${days} dias/semana, foco em ${goal.toLowerCase()}${limitation !== "Nenhuma" ? ` e atenção a ${limitation.toLowerCase()}` : ""}.`,
+        days: plan.days.map(day => ({
+          ...day,
+          exercises: day.exercises.map(exercise => personalizeExercise(exercise, place, goal, limitation, day.title))
+        }))
+      };
+    }
+
+    function personalizeExercise(exercise, place, goal, limitation, dayTitle) {
+      let output = exercise;
+      const awayFromGym = place !== "Academia";
+      if (awayFromGym) {
+        const replacements = [
+          [/Supino reto.*|Supino máquina.*/i, place === "Calistenia" ? "Flexão tradicional 4x8-15" : "Flexão ou supino com halteres 4x8-12"],
+          [/Supino inclinado.*/i, "Flexão inclinada 3x10-15"],
+          [/Supino halter.*/i, "Flexão com pausa 3x8-12"],
+          [/Crucifixo.*|Crossover.*|Peck deck.*/i, "Crucifixo com elástico ou isometria 3x12"],
+          [/Puxada.*|Barra ou puxada.*/i, place === "Calistenia" ? "Barra fixa ou australiana 4x máximo" : "Puxada com elástico 4x10-12"],
+          [/Remada baixa.*|Remada máquina.*|Remada curvada.*|Remada cavalinho.*/i, "Remada com elástico ou mochila 3x10-12"],
+          [/Pulldown.*/i, "Pulldown com elástico 3x12"],
+          [/Desenvolvimento.*/i, "Desenvolvimento com halteres/elástico 3x10"],
+          [/Elevação lateral.*/i, "Elevação lateral com halteres/elástico 3x12"],
+          [/Tríceps corda.*|Tríceps polia.*/i, "Tríceps banco ou elástico 3x10-12"],
+          [/Tríceps francês.*|Tríceps testa.*/i, "Tríceps acima da cabeça com halter/elástico 3x10"],
+          [/Rosca direta.*/i, "Rosca com halteres/elástico 3x10"],
+          [/Rosca alternada.*/i, "Rosca alternada com halteres 3x10"],
+          [/Rosca martelo.*/i, "Rosca martelo com halteres/elástico 3x10"],
+          [/Agachamento.*|Hack.*/i, "Agachamento livre controlado 4x10"],
+          [/Leg press.*/i, "Agachamento búlgaro ou avanço 3x10 cada perna"],
+          [/Cadeira extensora.*/i, "Extensão de joelho com elástico 3x12"],
+          [/Mesa flexora.*/i, "Flexão nórdica assistida ou ponte 3x10"],
+          [/Cadeira abdutora.*/i, "Abdução com elástico 3x12"],
+          [/Cadeira adutora.*/i, "Adução isométrica 3x30s"],
+          [/Panturrilha.*/i, "Panturrilha em pé 4x15"]
+        ];
+        const replacement = replacements.find(([pattern]) => pattern.test(output));
+        if (replacement) output = output.replace(replacement[0], replacement[1]);
+      }
+
+      if (limitation === "Joelho" && /Agachamento|Leg press|Afundo|avanço|Pernas|búlgaro/i.test(output)) {
+        output = output.replace(/4x10|3x10|3x8-12|4x6-10/i, "3x10 leve");
+        output += " | amplitude sem dor";
+      }
+      if (limitation === "Ombro" && /Supino|Desenvolvimento|Elevação|Flexão/i.test(output)) {
+        output += " | ombro estável";
+      }
+      if (limitation === "Coluna" && /Agachamento|Stiff|Remada curvada|Lombar/i.test(output)) {
+        output += " | tronco neutro";
+      }
+      if (goal === "Emagrecimento" && /Cardio/i.test(output)) output = output.replace(/leve|moderado/i, "moderado");
+      if (goal === "Força" && /Supino|Agachamento|Remada|Puxada|Desenvolvimento/i.test(output)) output += " | foco em carga segura";
+      if (goal === "Saúde" && /Cardio/i.test(output)) output += " | ritmo confortável";
+      return output;
     }
 
     function getTodayWorkout() {
@@ -3310,19 +3455,26 @@ Obrigado pelo projeto!`;
     function buildSystemAssessment(profile) {
       const goal = profile.goal;
       const obstacle = profile.obstacle;
+      const routine = profile.works;
+      const experience = profile.trainsCurrently;
+      const trainingDays = Number(profile.trainingDays || 0);
       let initialClass = "Recomeçante";
-      if (goal === "Evolução física") initialClass = profile.trainingDays >= 4 ? "Guerreiro" : "Aventureiro";
-      if (goal === "Conhecimento") initialClass = "Erudito";
-      if (goal === "Finanças") initialClass = "Mercador";
-      if (goal === "Disciplina") initialClass = "Executor";
-      if (goal === "Evolução completa") initialClass = "Sobrevivente";
+      if (["Hipertrofia", "Força"].includes(goal)) initialClass = trainingDays >= 4 ? "Guerreiro" : "Aventureiro";
+      if (["Emagrecimento", "Condicionamento"].includes(goal)) initialClass = experience === "Treino regularmente" ? "Executor" : "Sobrevivente";
+      if (goal === "Saúde") initialClass = routine === "Rotina flexível" ? "Aventureiro" : "Sobrevivente";
+      if (experience === "Nunca treinei") initialClass = "Recomeçante";
+      if (routine === "Trabalho e estudo" && trainingDays >= 4) initialClass = "Executor";
 
       const journeyMap = {
+        "Emagrecimento": "Ascensão Física",
+        "Hipertrofia": "Ascensão Física",
+        "Condicionamento": "Ascensão da Disciplina",
+        "Força": "Ascensão Física",
         "Evolução física": "Ascensão Física",
         "Finanças": "Ascensão Financeira",
         "Conhecimento": "Ascensão Mental",
         "Disciplina": "Ascensão da Disciplina",
-        "Saúde": "Ascensão Física",
+        "Saúde": "Ascensão Completa",
         "Relacionamentos": "Ascensão Mental",
         "Evolução completa": "Ascensão Completa"
       };
@@ -3336,6 +3488,10 @@ Obrigado pelo projeto!`;
         "Falta de consistência": "Disciplina"
       };
       const strongMap = {
+        "Emagrecimento": "Disciplina",
+        "Hipertrofia": "Força",
+        "Condicionamento": "Vitalidade",
+        "Força": "Força",
         "Evolução física": "Força",
         "Saúde": "Vitalidade",
         "Disciplina": "Disciplina",
@@ -3345,12 +3501,20 @@ Obrigado pelo projeto!`;
         "Evolução completa": "Disciplina"
       };
 
+      const potentialScore = trainingDays + (experience === "Treino regularmente" ? 2 : experience === "Já treinei antes" ? 1 : 0) + (routine === "Trabalho e estudo" ? 1 : 0);
+      const potential = potentialScore >= 6 ? "Acima da Média" : potentialScore >= 4 ? "Promissor" : "Em Despertar";
+      const challenge = obstacle === "Preguiça" || obstacle === "Falta de consistência" ? "Consistência" : obstacle || "Consistência";
+      const mainStrength = routine === "Trabalho e estudo" ? "Resistência" : trainingDays >= 5 ? "Determinação" : strongMap[goal] || "Disciplina";
+
       return {
         initialClass,
         journey: journeyMap[goal] || "Ascensão Completa",
         initialBoss: obstacle || "Falta de consistência",
         strongestAttribute: strongMap[goal] || "Disciplina",
-        weakestAttribute: weakMap[obstacle] || "Vitalidade"
+        weakestAttribute: weakMap[obstacle] || "Vitalidade",
+        potential,
+        challenge,
+        mainStrength
       };
     }
 
@@ -3461,17 +3625,14 @@ Obrigado pelo projeto!`;
     }
 
     function avatarHtml(snapshot, mode = "current") {
-      const metrics = avatarMetrics(snapshot, mode);
-      const milestone = state.totalWorkouts >= 10 ? "milestone" : "";
-      const glasses = snapshot?.glasses ? "has-glasses" : "";
-      const beard = snapshot?.beard ? "has-beard" : "";
-      const color = snapshot?.color || state.profile.avatarColor || "#57e7ff";
+      const label = mode === "target" ? "Seu Potencial" : "Reflexo da Evolução";
+      const detail = snapshot?.weight ? `Dados salvos: ${snapshot.weight} kg` : "Dados de evolução preservados.";
       return `
-        <div class="stick-avatar ${milestone} ${glasses} ${beard}" style="--avatar-color:${color}; --body-w:${Math.max(24, metrics.body)}px; --shoulder-w:${Math.max(56, metrics.shoulders)}px; --waist-w:${Math.max(28, metrics.waist)}px; --glow:rgba(87,231,255,${metrics.glow});">
-          <div class="head"></div><div class="glasses"></div><div class="beard"></div>
-          <div class="shoulders"></div><div class="torso"></div><div class="waist"></div>
-          <div class="arm left"></div><div class="arm right"></div>
-          <div class="leg left"></div><div class="leg right"></div>
+        <div class="reflection-placeholder" data-reflection-mode="${mode}">
+          <strong>${label}</strong>
+          <span>Em desenvolvimento.</span>
+          <span>O Sistema ainda está aprendendo a representar sua evolução.</span>
+          <span>${detail}</span>
         </div>
       `;
     }
@@ -3798,6 +3959,7 @@ Objetivo: ${goal}`;
     }
 
     function render() {
+      renderHomeSummary();
       renderToday();
       renderStatus();
       renderMilestone();
@@ -3816,6 +3978,39 @@ Objetivo: ${goal}`;
       renderSecretAchievements();
       renderSeason();
       renderLog();
+    }
+
+    function organizeScreens() {
+      const move = (id, screenId) => {
+        const node = document.querySelector(`#${id}`);
+        const target = document.querySelector(`#screen-${screenId}`);
+        if (node && target && node.parentElement !== target) target.appendChild(node);
+      };
+
+      ["todayCard", "missionsCard", "bossCard", "logCard"].forEach(id => move(id, "missions"));
+      ["reflectionCard", "workoutTodayCard", "trainingCycleCard", "calendarCard", "attributesCard"].forEach(id => move(id, "training"));
+      ["achievementsCard", "titlesCard", "fameCard", "secretCard", "statsCard", "seasonCard", "weeklyReportCard"].forEach(id => move(id, "achievements"));
+      ["statusPanel", "settingsCard", "aboutCard", "futureCard"].forEach(id => move(id, "backup"));
+      move("narratorCard", "status");
+    }
+
+    function renderHomeSummary() {
+      const next = expToNext(state.level);
+      const expPercent = Math.min(100, Math.round((state.exp / next) * 100));
+      ensureReflection();
+      el.homeAvatar.innerHTML = `
+        <div class="sigil compact" aria-hidden="true">
+          <img src="./icons/mark-transparent.svg" alt="">
+        </div>
+      `;
+      el.homePlayerName.textContent = state.characterName;
+      el.homeClassLine.textContent = `Classe: ${state.systemAssessment.initialClass}`;
+      el.homeRank.textContent = getRank();
+      el.homeRankValue.textContent = getRank();
+      el.homeLevelValue.textContent = state.level;
+      el.homeXpText.textContent = `${state.exp}/${next}`;
+      el.homeXpBar.style.width = `${expPercent}%`;
+      el.homeSystemPhrase.textContent = systemNarrative();
     }
 
     function renderToday() {
@@ -3881,8 +4076,11 @@ Objetivo: ${goal}`;
       el.trainingCycleTag.textContent = `${state.cycleProgress}/${CYCLE_SIZE}`;
       el.cycleNumber.textContent = state.trainingCycle;
       el.cycleModel.textContent = plan.model;
+      el.cycleAdaptation.textContent = plan.note;
       el.workoutLimit.value = String(state.workoutLimitPerDay);
       el.reminderEnabled.value = String(Boolean(state.notifications.enabled));
+      syncDiagnosticChoiceButton("workoutLimit");
+      syncDiagnosticChoiceButton("reminderSettings");
       el.usualWorkoutTime.value = state.notifications.usualWorkoutTime || state.profile.usualWorkoutTime || "";
       el.reminderTime.value = state.notifications.reminderTime || state.profile.reminderTime || "";
     }
@@ -4228,6 +4426,104 @@ Objetivo: ${goal}`;
       closeChoiceMenus();
     }
 
+    function normalizeDiagnosticValue(key, value) {
+      const maps = {
+        routine: { sim: "Trabalho em tempo integral", "não": "Rotina flexível", nao: "Rotina flexível" },
+        activity: { sim: "Estou começando", "não": "Nunca treinei", nao: "Nunca treinei" },
+        goal: {
+          "Evolução completa": "Hipertrofia",
+          "Evolução física": "Hipertrofia",
+          Disciplina: "Condicionamento",
+          Finanças: "Saúde",
+          Conhecimento: "Saúde",
+          Relacionamentos: "Saúde"
+        }
+      };
+      return maps[key]?.[value] || value;
+    }
+
+    function syncExperienceFromActivity() {
+      const map = {
+        "Nunca treinei": "Iniciante",
+        "Estou começando": "Iniciante",
+        "Já treinei antes": "Intermediário",
+        "Treino regularmente": "Avançado"
+      };
+      el.onboardingExperience.value = map[el.onboardingTrains.value] || "Iniciante";
+    }
+
+    function initDiagnosticChoiceControls() {
+      Object.entries(diagnosticChoiceControls).forEach(([key, control]) => {
+        if (!control.input || !control.button || !control.menu) return;
+        control.input.value = normalizeDiagnosticValue(key, control.input.value);
+        control.menu.innerHTML = control.options.map(option => `
+          <button class="choice-option" type="button" role="option" data-diagnostic-choice="${key}" data-value="${option.value}" aria-selected="${option.value === control.input.value}">
+            ${option.label}
+          </button>
+        `).join("");
+        syncDiagnosticChoiceButton(key);
+      });
+      syncExperienceFromActivity();
+    }
+
+    function syncDiagnosticChoiceButton(key) {
+      const control = diagnosticChoiceControls[key];
+      if (!control?.input || !control.button || !control.menu) return;
+      const normalized = normalizeDiagnosticValue(key, control.input.value);
+      const selected = control.options.find(option => option.value === normalized) || control.options[0];
+      control.input.value = selected.value;
+      control.button.textContent = selected.label;
+      control.menu.querySelectorAll(".choice-option").forEach(option => {
+        const active = option.dataset.value === selected.value;
+        option.classList.toggle("active", active);
+        option.setAttribute("aria-selected", String(active));
+      });
+      if (key === "activity") syncExperienceFromActivity();
+    }
+
+    function closeDiagnosticChoiceMenus() {
+      Object.values(diagnosticChoiceControls).forEach(control => {
+        control.button?.setAttribute("aria-expanded", "false");
+        control.menu?.classList.remove("open");
+      });
+    }
+
+    function openDiagnosticChoiceMenu(key, focusFirst = false) {
+      const control = diagnosticChoiceControls[key];
+      if (!control) return;
+      closeDiagnosticChoiceMenus();
+      control.button.setAttribute("aria-expanded", "true");
+      control.menu.classList.add("open");
+      if (focusFirst) {
+        const active = control.menu.querySelector(".choice-option.active") || control.menu.querySelector(".choice-option");
+        active?.focus();
+      }
+    }
+
+    function selectDiagnosticChoice(key, value) {
+      const control = diagnosticChoiceControls[key];
+      if (!control) return;
+      control.input.value = value;
+      syncDiagnosticChoiceButton(key);
+      closeDiagnosticChoiceMenus();
+      control.button.focus();
+      control.onSelect?.(value);
+    }
+
+    async function updateWorkoutLimit(value) {
+      state.workoutLimitPerDay = Number(value);
+      await saveState();
+      toast(`Anti-farm ajustado para ${state.workoutLimitPerDay} treino(s) por dia.`);
+    }
+
+    async function updateReminderSetting(value) {
+      state.notifications.enabled = value === "true";
+      if (state.notifications.enabled) await requestNotificationPermission();
+      await saveState();
+      scheduleReminderCheck();
+      toast(state.notifications.enabled ? "Lembrete ativado." : "Lembrete desativado.");
+    }
+
     function showMissionModal() {
       resetCustomChoices();
       el.missionModal.classList.add("show");
@@ -4253,6 +4549,18 @@ Objetivo: ${goal}`;
       pendingOnboardingState = null;
       el.onboardingName.value = state.characterName === "Caçador Iniciante" ? "" : state.realName || state.characterName;
       el.onboardingCharacterName.value = state.characterName === "Caçador Iniciante" ? "" : state.characterName;
+      el.onboardingSex.value = state.profile.sex || defaultState.profile.sex;
+      el.onboardingGlasses.value = state.profile.glasses || defaultState.profile.glasses;
+      el.onboardingBeard.value = state.profile.beard || defaultState.profile.beard;
+      el.onboardingWorks.value = state.profile.works || defaultState.profile.works;
+      el.onboardingTrains.value = state.profile.trainsCurrently || defaultState.profile.trainsCurrently;
+      el.onboardingTrainingDays.value = String(state.profile.trainingDays || defaultState.profile.trainingDays);
+      el.onboardingTrainingPlace.value = state.profile.trainingPlace || defaultState.profile.trainingPlace;
+      el.onboardingGoal.value = state.profile.goal || defaultState.profile.goal;
+      el.onboardingLimitation.value = state.profile.limitation || defaultState.profile.limitation;
+      el.onboardingObstacle.value = state.profile.obstacle || defaultState.profile.obstacle;
+      el.onboardingReminderEnabled.value = String(Boolean(state.profile.reminderEnabled));
+      Object.keys(diagnosticChoiceControls).forEach(syncDiagnosticChoiceButton);
       el.systemExplain.classList.remove("show");
       el.onboardingModal.classList.add("show");
       showOnboardingScreen("splash");
@@ -4304,13 +4612,15 @@ Objetivo: ${goal}`;
         beard: el.onboardingBeard.value,
         avatarColor: el.onboardingAvatarColor.value,
         works: el.onboardingWorks.value,
-        studies: el.onboardingStudies.value,
+        studies: el.onboardingWorks.value === "Trabalho e estudo" || el.onboardingWorks.value === "Apenas estudo" ? "sim" : el.onboardingStudies.value,
         trainsCurrently: el.onboardingTrains.value,
         obstacle: el.onboardingObstacle.value,
         weight: el.onboardingWeight.value,
         height: el.onboardingHeight.value,
         goal: el.onboardingGoal.value,
         trainingDays: Number(el.onboardingTrainingDays.value),
+        trainingPlace: el.onboardingTrainingPlace.value,
+        limitation: el.onboardingLimitation.value,
         experience: el.onboardingExperience.value,
         usualWorkoutTime: el.onboardingWorkoutTime.value,
         reminderEnabled: el.onboardingReminderEnabled.value === "true",
@@ -4352,11 +4662,14 @@ Objetivo: ${goal}`;
       const result = pendingOnboardingState.systemAssessment;
       const rows = [
         ["Jogador", pendingOnboardingState.characterName],
-        ["Classe", result.initialClass],
-        ["Jornada", result.journey],
+        ["Potencial Detectado", result.potential || "Promissor"],
+        ["Maior Desafio", result.challenge || "Consistência"],
+        ["Maior Força", result.mainStrength || result.strongestAttribute || "Determinação"],
+        ["Classe Inicial", result.initialClass],
+        ["Jornada Recomendada", result.journey],
         ["Boss Inicial", result.initialBoss],
-        ["Atributo Mais Forte", result.strongestAttribute],
-        ["Atributo Mais Fraco", result.weakestAttribute],
+        ["Atributo Forte", result.strongestAttribute || "Disciplina"],
+        ["Atributo Fraco", result.weakestAttribute || "Vitalidade"],
         ["Rank Inicial", "Ferro III"]
       ];
       el.analysisResult.innerHTML = rows.map(([label, value]) => `
@@ -4370,7 +4683,7 @@ Objetivo: ${goal}`;
     function startSystemAnalysis() {
       if (!validateOnboardingStep()) return;
       pendingOnboardingState = collectOnboardingState();
-      const messages = ["Calculando atributos...", "Analisando potencial...", "Detectando desafios...", "Gerando jornada..."];
+      const messages = ["Calculando atributos reais...", "Analisando potencial detectado...", "Mapeando boss inicial...", "Gerando jornada recomendada..."];
       let index = 0;
       showOnboardingScreen("analysis");
       el.analysisMessage.textContent = messages[index];
@@ -4425,6 +4738,7 @@ Objetivo: ${goal}`;
       const goal = state.primaryGoal;
       el.goalInputName.value = goal.name || "";
       el.goalInputType.value = goal.type || "Evolução física";
+      syncDiagnosticChoiceButton("goalType");
       el.goalInputUnit.value = goal.unit || "";
       el.goalInputStart.value = goal.start;
       el.goalInputTarget.value = goal.target;
@@ -4945,9 +5259,56 @@ Objetivo: ${goal}`;
         });
       });
 
+      Object.entries(diagnosticChoiceControls).forEach(([key, control]) => {
+        if (!control.button || !control.menu) return;
+        control.button.addEventListener("click", () => {
+          const expanded = control.button.getAttribute("aria-expanded") === "true";
+          expanded ? closeDiagnosticChoiceMenus() : openDiagnosticChoiceMenu(key);
+        });
+
+        control.button.addEventListener("keydown", event => {
+          if (["Enter", " ", "ArrowDown"].includes(event.key)) {
+            event.preventDefault();
+            openDiagnosticChoiceMenu(key, true);
+          }
+          if (event.key === "Escape") closeDiagnosticChoiceMenus();
+        });
+
+        control.menu.addEventListener("click", event => {
+          const option = event.target.closest(".choice-option");
+          if (!option) return;
+          selectDiagnosticChoice(key, option.dataset.value);
+        });
+
+        control.menu.addEventListener("keydown", event => {
+          const options = [...control.menu.querySelectorAll(".choice-option")];
+          const index = options.indexOf(document.activeElement);
+          if (event.key === "Escape") {
+            closeDiagnosticChoiceMenus();
+            control.button.focus();
+          }
+          if (event.key === "ArrowDown") {
+            event.preventDefault();
+            options[Math.min(index + 1, options.length - 1)]?.focus();
+          }
+          if (event.key === "ArrowUp") {
+            event.preventDefault();
+            options[Math.max(index - 1, 0)]?.focus();
+          }
+          if (["Enter", " "].includes(event.key)) {
+            event.preventDefault();
+            const option = document.activeElement.closest(".choice-option");
+            if (option) selectDiagnosticChoice(key, option.dataset.value);
+          }
+        });
+      });
+
       document.addEventListener("click", event => {
         if (!event.target.closest("#customMissionForm .mission-choice-field")) {
           closeChoiceMenus();
+        }
+        if (!event.target.closest(".diagnostic-choice-field")) {
+          closeDiagnosticChoiceMenus();
         }
       });
 
@@ -5016,7 +5377,9 @@ Objetivo: ${goal}`;
       checkAchievements();
       ensureSeason();
       initCustomChoiceControls();
+      initDiagnosticChoiceControls();
       bindEvents();
+      organizeScreens();
       render();
       switchScreen(screenFromHash());
       if (!state.onboarded) showOnboarding();

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1920" role="img" aria-label="Ascension System splash screen">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="40%" r="72%">
+      <stop offset="0" stop-color="#10294d"/>
+      <stop offset="0.48" stop-color="#071225"/>
+      <stop offset="1" stop-color="#030712"/>
+    </radialGradient>
+    <linearGradient id="body" x1="540" x2="540" y1="694" y2="1058">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.45" stop-color="#7eeaff"/>
+      <stop offset="1" stop-color="#2f7dff"/>
+    </linearGradient>
+    <linearGradient id="line" x1="310" x2="770" y1="610" y2="1110">
+      <stop offset="0" stop-color="#ffffff"/>
+      <stop offset="0.5" stop-color="#57e7ff"/>
+      <stop offset="1" stop-color="#2f7dff"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
+      <feGaussianBlur stdDeviation="8" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="1080" height="1920" fill="url(#bg)"/>
+  <g opacity=".12" stroke="#57e7ff" stroke-width="1">
+    <path d="M0 600h1080M0 800h1080M0 1000h1080M0 1200h1080"/>
+    <path d="M240 0v1920M540 0v1920M840 0v1920"/>
+  </g>
+  <g transform="translate(0 80)" filter="url(#glow)">
+    <path d="M540 520 780 936H300Z" fill="none" stroke="url(#line)" stroke-width="16" stroke-linejoin="round" stroke-opacity=".82"/>
+    <path d="M540 1100 300 684h480Z" fill="none" stroke="url(#line)" stroke-width="16" stroke-linejoin="round" stroke-opacity=".58"/>
+    <path d="M540 594v88M540 964v88M318 690l82 48M680 914l82 48" fill="none" stroke="#eaf8ff" stroke-width="8" stroke-linecap="round" stroke-opacity=".56"/>
+    <path d="M540 594c48 0 86 40 86 90s-38 90-86 90-86-40-86-90 38-90 86-90Z" fill="url(#body)"/>
+    <path d="M466 806c15-30 43-47 74-47s59 17 74 47l45 87c11 20-5 42-28 42H449c-23 0-39-22-28-42Z" fill="url(#body)" opacity=".94"/>
+    <path d="M467 807 398 740M613 807l69-67M501 926l-50 98M579 926l50 98" fill="none" stroke="url(#body)" stroke-width="34" stroke-linecap="round"/>
+    <path d="M540 560v-70M484 584l-38-54M596 584l38-54" fill="none" stroke="#f8fdff" stroke-width="13" stroke-linecap="round" stroke-opacity=".72"/>
+  </g>
+  <g fill="#eaf8ff" opacity=".72">
+    <circle cx="310" cy="520" r="6"/>
+    <circle cx="772" cy="552" r="7"/>
+    <circle cx="230" cy="930" r="4"/>
+    <circle cx="850" cy="930" r="4"/>
+    <circle cx="350" cy="1200" r="6"/>
+    <circle cx="730" cy="1188" r="6"/>
+  </g>
+  <text x="540" y="1326" text-anchor="middle" fill="#f0f7ff" font-family="Inter, Arial, sans-serif" font-size="64" font-weight="900" letter-spacing="4">ASCENSION SYSTEM</text>
+  <text x="540" y="1398" text-anchor="middle" fill="#91a0af" font-family="Inter, Arial, sans-serif" font-size="28" font-weight="700">Toda ascensão começa com uma decisão.</text>
+</svg>

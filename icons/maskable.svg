@@ -1,6 +1,44 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
-  <rect width="512" height="512" fill="#07090f"/>
-  <circle cx="256" cy="256" r="224" fill="#101827" stroke="#57e7ff" stroke-width="16"/>
-  <path d="M256 84 416 176v160L256 428 96 336V176L256 84Z" fill="#0b111b" stroke="#65f29c" stroke-width="10"/>
-  <path d="M256 132 350 372h-58l-14-42h-45l-14 42h-57l94-240Zm-10 148h20l-10-32-10 32Z" fill="#57e7ff"/>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ascension System maskable logo">
+  <defs>
+    <radialGradient id="bg" cx="50%" cy="42%" r="76%">
+      <stop offset="0" stop-color="#123056"/>
+      <stop offset="0.52" stop-color="#071225"/>
+      <stop offset="1" stop-color="#030712"/>
+    </radialGradient>
+    <linearGradient id="body" x1="256" x2="256" y1="144" y2="376">
+      <stop offset="0" stop-color="#f8fdff"/>
+      <stop offset="0.5" stop-color="#72e9ff"/>
+      <stop offset="1" stop-color="#2f7dff"/>
+    </linearGradient>
+    <linearGradient id="line" x1="108" x2="404" y1="96" y2="416">
+      <stop offset="0" stop-color="#f8fdff"/>
+      <stop offset="0.5" stop-color="#57e7ff"/>
+      <stop offset="1" stop-color="#2f7dff"/>
+    </linearGradient>
+    <filter id="glow" x="-45%" y="-45%" width="190%" height="190%">
+      <feGaussianBlur stdDeviation="5" result="blur"/>
+      <feMerge>
+        <feMergeNode in="blur"/>
+        <feMergeNode in="SourceGraphic"/>
+      </feMerge>
+    </filter>
+  </defs>
+  <rect width="512" height="512" fill="url(#bg)"/>
+  <circle cx="256" cy="256" r="204" fill="none" stroke="#57e7ff" stroke-opacity=".12" stroke-width="2"/>
+  <g filter="url(#glow)">
+    <path d="M256 98 392 334H120Z" fill="none" stroke="url(#line)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".82"/>
+    <path d="M256 414 120 178h272Z" fill="none" stroke="url(#line)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".58"/>
+    <path d="M256 136c30 0 54 25 54 57s-24 57-54 57-54-25-54-57 24-57 54-57Z" fill="url(#body)"/>
+    <path d="M210 270c9-18 26-28 46-28s37 10 46 28l28 54c7 13-3 27-17 27H199c-14 0-24-14-17-27Z" fill="url(#body)" opacity=".94"/>
+    <path d="M211 272 169 232M301 272l42-40M232 348l-30 60M280 348l30 60" fill="none" stroke="url(#body)" stroke-width="21" stroke-linecap="round"/>
+    <path d="M256 120v-38M220 132l-21-30M292 132l21-30" fill="none" stroke="#f8fdff" stroke-width="8" stroke-linecap="round" stroke-opacity=".72"/>
+  </g>
+  <g fill="#eaf8ff" opacity=".78">
+    <circle cx="151" cy="130" r="4"/>
+    <circle cx="369" cy="134" r="4"/>
+    <circle cx="116" cy="266" r="3"/>
+    <circle cx="396" cy="266" r="3"/>
+    <circle cx="170" cy="386" r="4"/>
+    <circle cx="344" cy="386" r="4"/>
+  </g>
 </svg>

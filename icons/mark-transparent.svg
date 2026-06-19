@@ -1,17 +1,12 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ascension System logo">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ascension System transparent mark">
   <defs>
-    <radialGradient id="bg" cx="50%" cy="42%" r="72%">
-      <stop offset="0" stop-color="#112748"/>
-      <stop offset="0.48" stop-color="#071225"/>
-      <stop offset="1" stop-color="#030712"/>
-    </radialGradient>
     <linearGradient id="body" x1="256" x2="256" y1="142" y2="372">
-      <stop offset="0" stop-color="#f5fbff"/>
+      <stop offset="0" stop-color="#ffffff"/>
       <stop offset="0.46" stop-color="#7eeaff"/>
       <stop offset="1" stop-color="#226dff"/>
     </linearGradient>
     <linearGradient id="line" x1="96" x2="416" y1="96" y2="416">
-      <stop offset="0" stop-color="#f6fbff"/>
+      <stop offset="0" stop-color="#ffffff"/>
       <stop offset="0.5" stop-color="#5ce8ff"/>
       <stop offset="1" stop-color="#2f7dff"/>
     </linearGradient>
@@ -23,7 +18,6 @@
       </feMerge>
     </filter>
   </defs>
-  <rect width="512" height="512" rx="104" fill="url(#bg)"/>
   <circle cx="256" cy="258" r="174" fill="none" stroke="#57e7ff" stroke-opacity=".12" stroke-width="2"/>
   <g filter="url(#glow)" opacity=".92">
     <path d="M256 84 405 342H107Z" fill="none" stroke="url(#line)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".82"/>
@@ -43,13 +37,5 @@
     <circle cx="421" cy="270" r="3"/>
     <circle cx="151" cy="397" r="4"/>
     <circle cx="369" cy="390" r="4"/>
-  </g>
-  <g fill="#57e7ff" opacity=".65">
-    <circle cx="188" cy="92" r="2"/>
-    <circle cx="326" cy="92" r="2"/>
-    <circle cx="102" cy="204" r="2"/>
-    <circle cx="410" cy="204" r="2"/>
-    <circle cx="210" cy="438" r="2"/>
-    <circle cx="302" cy="438" r="2"/>
   </g>
 </svg>

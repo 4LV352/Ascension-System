@@ -1,13 +1,19 @@
-const CACHE_NAME = "ascension-system-v6";
+const CACHE_NAME = "ascension-system-v10";
 const APP_SHELL = [
   "./",
   "./index.html",
   "./manifest.json",
   "./manifest.webmanifest",
+  "./icons/favicon-32.png",
   "./icons/icon-192.png",
   "./icons/icon-512.png",
   "./icons/icon.svg",
-  "./icons/maskable.svg"
+  "./icons/maskable.svg",
+  "./icons/mark-transparent.svg",
+  "./icons/mark-transparent.png",
+  "./icons/mark-transparent-192.png",
+  "./icons/splash.svg",
+  "./icons/splash.png"
 ];
 
 self.addEventListener("install", event => {
