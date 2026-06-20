@@ -1,21 +1,25 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" role="img" aria-label="Ascension System maskable logo">
   <defs>
     <radialGradient id="bg" cx="50%" cy="42%" r="76%">
-      <stop offset="0" stop-color="#123056"/>
-      <stop offset="0.52" stop-color="#071225"/>
-      <stop offset="1" stop-color="#030712"/>
+      <stop offset="0" stop-color="#172554"/>
+      <stop offset="0.5" stop-color="#0B0B0B"/>
+      <stop offset="1" stop-color="#050505"/>
     </radialGradient>
-    <linearGradient id="body" x1="256" x2="256" y1="144" y2="376">
-      <stop offset="0" stop-color="#f8fdff"/>
-      <stop offset="0.5" stop-color="#72e9ff"/>
-      <stop offset="1" stop-color="#2f7dff"/>
+    <linearGradient id="hex" x1="118" x2="394" y1="112" y2="400">
+      <stop offset="0" stop-color="#F5F5F5"/>
+      <stop offset="0.45" stop-color="#8B5CF6"/>
+      <stop offset="1" stop-color="#3B82F6"/>
     </linearGradient>
-    <linearGradient id="line" x1="108" x2="404" y1="96" y2="416">
-      <stop offset="0" stop-color="#f8fdff"/>
-      <stop offset="0.5" stop-color="#57e7ff"/>
-      <stop offset="1" stop-color="#2f7dff"/>
+    <linearGradient id="figure" x1="256" x2="256" y1="142" y2="380">
+      <stop offset="0" stop-color="#F5F5F5"/>
+      <stop offset="0.44" stop-color="#93C5FD"/>
+      <stop offset="1" stop-color="#3B82F6"/>
     </linearGradient>
-    <filter id="glow" x="-45%" y="-45%" width="190%" height="190%">
+    <linearGradient id="gold" x1="190" x2="322" y1="116" y2="396">
+      <stop offset="0" stop-color="#FDE68A"/>
+      <stop offset="1" stop-color="#FBBF24"/>
+    </linearGradient>
+    <filter id="glow" x="-50%" y="-50%" width="200%" height="200%">
       <feGaussianBlur stdDeviation="5" result="blur"/>
       <feMerge>
         <feMergeNode in="blur"/>
@@ -24,21 +28,28 @@
     </filter>
   </defs>
   <rect width="512" height="512" fill="url(#bg)"/>
-  <circle cx="256" cy="256" r="204" fill="none" stroke="#57e7ff" stroke-opacity=".12" stroke-width="2"/>
-  <g filter="url(#glow)">
-    <path d="M256 98 392 334H120Z" fill="none" stroke="url(#line)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".82"/>
-    <path d="M256 414 120 178h272Z" fill="none" stroke="url(#line)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".58"/>
-    <path d="M256 136c30 0 54 25 54 57s-24 57-54 57-54-25-54-57 24-57 54-57Z" fill="url(#body)"/>
-    <path d="M210 270c9-18 26-28 46-28s37 10 46 28l28 54c7 13-3 27-17 27H199c-14 0-24-14-17-27Z" fill="url(#body)" opacity=".94"/>
-    <path d="M211 272 169 232M301 272l42-40M232 348l-30 60M280 348l30 60" fill="none" stroke="url(#body)" stroke-width="21" stroke-linecap="round"/>
-    <path d="M256 120v-38M220 132l-21-30M292 132l21-30" fill="none" stroke="#f8fdff" stroke-width="8" stroke-linecap="round" stroke-opacity=".72"/>
+  <circle cx="256" cy="256" r="204" fill="none" stroke="#3B82F6" stroke-opacity=".12" stroke-width="2"/>
+  <g filter="url(#glow)" opacity=".94">
+    <path d="M256 106 386 332H126Z" fill="none" stroke="url(#hex)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".9"/>
+    <path d="M256 406 126 180h260Z" fill="none" stroke="url(#hex)" stroke-width="10" stroke-linejoin="round" stroke-opacity=".68"/>
   </g>
-  <g fill="#eaf8ff" opacity=".78">
-    <circle cx="151" cy="130" r="4"/>
-    <circle cx="369" cy="134" r="4"/>
-    <circle cx="116" cy="266" r="3"/>
-    <circle cx="396" cy="266" r="3"/>
-    <circle cx="170" cy="386" r="4"/>
-    <circle cx="344" cy="386" r="4"/>
+  <g filter="url(#glow)">
+    <path d="M256 142c25 0 45 21 45 48s-20 48-45 48-45-21-45-48 20-48 45-48Z" fill="url(#figure)"/>
+    <path d="M229 250c7-9 16-14 27-14s20 5 27 14c14 19 18 48 15 86-1 11-10 19-21 19h-42c-11 0-20-8-21-19-3-38 1-67 15-86Z" fill="url(#figure)" opacity=".96"/>
+    <path d="M229 272 181 230M283 272l48-42M241 354l-24 64M271 354l24 64" fill="none" stroke="url(#figure)" stroke-width="20" stroke-linecap="round"/>
+    <path d="M256 132V92M226 144l-20-30M286 144l20-30" fill="none" stroke="#F5F5F5" stroke-width="7" stroke-linecap="round" stroke-opacity=".62"/>
+  </g>
+  <g fill="url(#gold)" opacity=".9">
+    <path d="M256 86 264 104 256 122 248 104Z"/>
+    <path d="M132 256 140 272 132 288 124 272Z"/>
+    <path d="M380 256 388 272 380 288 372 272Z"/>
+  </g>
+  <g fill="#3B82F6" opacity=".78">
+    <circle cx="158" cy="142" r="4"/>
+    <circle cx="354" cy="148" r="4"/>
+    <circle cx="132" cy="318" r="3"/>
+    <circle cx="380" cy="318" r="3"/>
+    <circle cx="188" cy="394" r="4"/>
+    <circle cx="324" cy="394" r="4"/>
   </g>
 </svg>

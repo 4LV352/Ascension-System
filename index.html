@@ -6,7 +6,7 @@
   ========================== -->
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#07090f">
+  <meta name="theme-color" content="#0B0B0B">
   <meta name="description" content="Ascension System: desenvolvimento pessoal gamificado com RPG, treino, hábitos, finanças e missões.">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
@@ -24,19 +24,20 @@
   <style>
     :root {
       color-scheme: dark;
-      --bg: #07090f;
-      --bg-2: #0d111a;
+      --bg: #0B0B0B;
+      --bg-2: #111318;
       --panel: rgba(17, 22, 33, 0.88);
       --panel-strong: rgba(23, 30, 44, 0.96);
-      --line: rgba(104, 232, 255, 0.18);
-      --line-strong: rgba(104, 232, 255, 0.44);
-      --text: #f0f7ff;
+      --line: rgba(59, 130, 246, 0.18);
+      --line-strong: rgba(59, 130, 246, 0.44);
+      --text: #F5F5F5;
       --muted: #91a0af;
-      --cyan: #57e7ff;
-      --green: #65f29c;
-      --gold: #ffd166;
-      --red: #ff6077;
-      --violet: #a990ff;
+      --cyan: #3B82F6;
+      --blue: #3B82F6;
+      --green: #22C55E;
+      --gold: #FBBF24;
+      --red: #EF4444;
+      --violet: #8B5CF6;
       --ink: rgba(0, 0, 0, 0.32);
       --shadow: 0 18px 54px rgba(0, 0, 0, 0.42);
       --radius: 8px;
@@ -56,8 +57,8 @@
       min-height: 100vh;
       margin: 0;
       background:
-        radial-gradient(circle at 18% 0%, rgba(87, 231, 255, 0.16), transparent 23rem),
-        radial-gradient(circle at 86% 18%, rgba(169, 144, 255, 0.14), transparent 22rem),
+        radial-gradient(circle at 18% 0%, rgba(59, 130, 246, 0.16), transparent 23rem),
+        radial-gradient(circle at 86% 18%, rgba(139, 92, 246, 0.14), transparent 22rem),
         linear-gradient(145deg, #05060a 0%, #0b1018 48%, #05070c 100%);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -72,8 +73,8 @@
       pointer-events: none;
       content: "";
       background-image:
-        linear-gradient(rgba(87, 231, 255, 0.045) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(87, 231, 255, 0.045) 1px, transparent 1px);
+        linear-gradient(rgba(59, 130, 246, 0.045) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(59, 130, 246, 0.045) 1px, transparent 1px);
       background-size: 38px 38px;
       mask-image: linear-gradient(to bottom, rgba(0, 0, 0, 0.9), transparent 88%);
     }
@@ -110,7 +111,7 @@
       width: 100%;
       height: 44px;
       min-height: 44px;
-      border: 1px solid rgba(87, 231, 255, 0.22);
+      border: 1px solid rgba(59, 130, 246, 0.22);
       border-radius: var(--radius);
       outline: none;
       background: rgba(0, 0, 0, 0.28);
@@ -141,7 +142,7 @@
     select:focus,
     textarea:focus {
       border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(87, 231, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
     }
 
     h1,
@@ -186,11 +187,11 @@
       place-items: center;
       border: 1px solid var(--line-strong);
       border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(87, 231, 255, 0.16), rgba(101, 242, 156, 0.08));
+      background: linear-gradient(145deg, rgba(59, 130, 246, 0.16), rgba(139, 92, 246, 0.12));
       color: var(--cyan);
       font-size: 20px;
       font-weight: 950;
-      box-shadow: 0 0 26px rgba(87, 231, 255, 0.24), inset 0 0 18px rgba(87, 231, 255, 0.08);
+      box-shadow: 0 0 26px rgba(139, 92, 246, 0.22), inset 0 0 18px rgba(59, 130, 246, 0.08);
     }
 
     .sigil img {
@@ -261,10 +262,10 @@
     .primary-btn {
       width: 100%;
       padding: 0 14px;
-      border: 1px solid rgba(87, 231, 255, 0.5);
-      background: linear-gradient(135deg, rgba(87, 231, 255, 0.2), rgba(101, 242, 156, 0.12));
+      border: 1px solid rgba(59, 130, 246, 0.5);
+      background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(34, 197, 94, 0.12));
       color: var(--text);
-      box-shadow: inset 0 0 18px rgba(87, 231, 255, 0.08);
+      box-shadow: inset 0 0 18px rgba(59, 130, 246, 0.08);
     }
 
     .ghost-btn {
@@ -278,8 +279,8 @@
     .danger-btn {
       width: 100%;
       padding: 0 14px;
-      border: 1px solid rgba(255, 96, 119, 0.36);
-      background: rgba(255, 96, 119, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.36);
+      background: rgba(239, 68, 68, 0.1);
       color: #ffc6cf;
     }
 
@@ -322,10 +323,10 @@
       justify-content: center;
       min-height: 26px;
       padding: 0 9px;
-      border: 1px solid rgba(255, 209, 102, 0.38);
+      border: 1px solid rgba(251, 191, 36, 0.38);
       border-radius: 999px;
-      background: rgba(255, 209, 102, 0.1);
-      color: #ffe1a0;
+      background: rgba(251, 191, 36, 0.1);
+      color: var(--gold);
       font-size: 0.7rem;
       font-weight: 900;
       white-space: nowrap;
@@ -333,9 +334,27 @@
     }
 
     .cyan-tag {
-      border-color: rgba(87, 231, 255, 0.38);
-      background: rgba(87, 231, 255, 0.1);
+      border-color: rgba(59, 130, 246, 0.38);
+      background: rgba(59, 130, 246, 0.1);
       color: var(--cyan);
+    }
+
+    .violet-tag {
+      border-color: rgba(139, 92, 246, 0.42);
+      background: rgba(139, 92, 246, 0.12);
+      color: #c4b5fd;
+    }
+
+    .green-tag {
+      border-color: rgba(34, 197, 94, 0.4);
+      background: rgba(34, 197, 94, 0.12);
+      color: #86efac;
+    }
+
+    .red-tag {
+      border-color: rgba(239, 68, 68, 0.42);
+      background: rgba(239, 68, 68, 0.12);
+      color: #fca5a5;
     }
 
     .tooltip {
@@ -343,7 +362,7 @@
       width: 18px;
       height: 18px;
       place-items: center;
-      border: 1px solid rgba(87, 231, 255, 0.28);
+      border: 1px solid rgba(59, 130, 246, 0.28);
       border-radius: 50%;
       color: var(--cyan);
       font-size: 0.7rem;
@@ -383,7 +402,7 @@
       width: 250px;
       height: 250px;
       content: "";
-      background: conic-gradient(from 180deg, transparent, rgba(87, 231, 255, 0.25), rgba(101, 242, 156, 0.16), transparent);
+      background: conic-gradient(from 180deg, transparent, rgba(59, 130, 246, 0.24), rgba(139, 92, 246, 0.18), transparent);
       filter: blur(5px);
       opacity: 0.78;
       animation: rotateAura 18s linear infinite;
@@ -479,15 +498,15 @@
       width: 78px;
       height: 78px;
       place-items: center;
-      border: 1px solid rgba(87, 231, 255, 0.56);
+      border: 1px solid rgba(59, 130, 246, 0.56);
       border-radius: 50%;
       background:
-        radial-gradient(circle, rgba(87, 231, 255, 0.18), rgba(87, 231, 255, 0.04) 58%, transparent 60%),
-        linear-gradient(160deg, rgba(87, 231, 255, 0.18), rgba(169, 144, 255, 0.1));
+        radial-gradient(circle, rgba(59, 130, 246, 0.18), rgba(59, 130, 246, 0.04) 58%, transparent 60%),
+        linear-gradient(160deg, rgba(59, 130, 246, 0.18), rgba(139, 92, 246, 0.1));
       color: var(--cyan);
       font-size: 1.92rem;
       font-weight: 950;
-      box-shadow: 0 0 42px rgba(87, 231, 255, 0.24), inset 0 0 24px rgba(87, 231, 255, 0.1);
+      box-shadow: 0 0 42px rgba(59, 130, 246, 0.24), inset 0 0 24px rgba(59, 130, 246, 0.1);
     }
 
     .level-orb.compact {
@@ -529,9 +548,19 @@
       display: grid;
       gap: 10px;
       padding: 12px;
-      border: 1px solid rgba(87, 231, 255, 0.14);
+      border: 1px solid rgba(59, 130, 246, 0.16);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.04);
+    }
+
+    .journey-block:nth-of-type(3) {
+      border-color: rgba(139, 92, 246, 0.28);
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.045));
+    }
+
+    .journey-block:nth-of-type(4) {
+      border-color: rgba(251, 191, 36, 0.24);
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.08), rgba(59, 130, 246, 0.035));
     }
 
     .journey-block h3 {
@@ -546,6 +575,12 @@
       font-size: 0.72rem;
       font-weight: 950;
       text-transform: uppercase;
+    }
+
+    .journey-identity {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
     }
 
     .journey-reward {
@@ -568,7 +603,7 @@
       height: 12px;
       margin-top: 8px;
       overflow: hidden;
-      border: 1px solid rgba(87, 231, 255, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.18);
       border-radius: 999px;
       background: rgba(0, 0, 0, 0.34);
     }
@@ -578,8 +613,8 @@
       width: 0%;
       height: 100%;
       border-radius: inherit;
-      background: linear-gradient(90deg, var(--cyan), var(--green), var(--gold));
-      box-shadow: 0 0 18px rgba(87, 231, 255, 0.42);
+      background: linear-gradient(90deg, var(--cyan), var(--violet));
+      box-shadow: 0 0 18px rgba(59, 130, 246, 0.42);
       transition: width 0.45s ease;
     }
 
@@ -589,13 +624,13 @@
 
     @keyframes xpPulse {
       0% { filter: brightness(1); }
-      45% { filter: brightness(1.55); box-shadow: 0 0 28px rgba(87, 231, 255, 0.58); }
+      45% { filter: brightness(1.55); box-shadow: 0 0 28px rgba(59, 130, 246, 0.58); }
       100% { filter: brightness(1); }
     }
 
     .narrator {
       padding: 13px;
-      border-color: rgba(169, 144, 255, 0.28);
+      border-color: rgba(139, 92, 246, 0.3);
       background: linear-gradient(145deg, rgba(32, 26, 47, 0.84), rgba(10, 12, 18, 0.88));
     }
 
@@ -766,8 +801,8 @@
     }
 
     .filter-btn.active {
-      border-color: rgba(87, 231, 255, 0.52);
-      background: rgba(87, 231, 255, 0.12);
+      border-color: rgba(59, 130, 246, 0.52);
+      background: rgba(59, 130, 246, 0.12);
       color: var(--cyan);
     }
 
@@ -801,23 +836,23 @@
     }
 
     .easy {
-      background: rgba(101, 242, 156, 0.14);
-      color: #a7ffc9;
+      background: rgba(34, 197, 94, 0.14);
+      color: #86efac;
     }
 
     .medium {
-      background: rgba(255, 209, 102, 0.14);
-      color: #ffe3a0;
+      background: rgba(59, 130, 246, 0.14);
+      color: #bfdbfe;
     }
 
     .hard {
-      background: rgba(255, 96, 119, 0.14);
-      color: #ffbdc7;
+      background: rgba(239, 68, 68, 0.14);
+      color: #fca5a5;
     }
 
     .boss {
-      background: rgba(169, 144, 255, 0.16);
-      color: #d7cbff;
+      background: rgba(239, 68, 68, 0.16);
+      color: #fecaca;
     }
 
     .mission-meta {
@@ -841,9 +876,9 @@
       display: grid;
       gap: 10px;
       padding: 14px;
-      border: 1px solid rgba(169, 144, 255, 0.25);
+      border: 1px solid rgba(239, 68, 68, 0.3);
       border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(169, 144, 255, 0.12), rgba(255, 96, 119, 0.08));
+      background: linear-gradient(145deg, rgba(239, 68, 68, 0.12), rgba(139, 92, 246, 0.08));
     }
 
     .boss-display h3 {
@@ -871,7 +906,7 @@
     }
 
     .achievement.unlocked .achievement-icon {
-      background: rgba(255, 209, 102, 0.16);
+      background: rgba(251, 191, 36, 0.16);
       color: var(--gold);
     }
 
@@ -895,6 +930,36 @@
       padding: 10px;
       color: var(--muted);
       font-size: 0.77rem;
+    }
+
+    #chroniclesCard {
+      border-color: rgba(139, 92, 246, 0.3);
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.12), rgba(59, 130, 246, 0.04));
+    }
+
+    #chroniclesCard .log-item {
+      border-color: rgba(139, 92, 246, 0.2);
+      background: rgba(139, 92, 246, 0.07);
+    }
+
+    #chroniclesCard .log-item strong {
+      color: #c4b5fd;
+    }
+
+    #secretCard,
+    #weeklyReportCard {
+      border-color: rgba(139, 92, 246, 0.22);
+    }
+
+    #secretCard .share-output,
+    .weekly-report-output {
+      border-color: rgba(139, 92, 246, 0.28);
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), rgba(251, 191, 36, 0.055));
+    }
+
+    #weeklyReportCard .stat-box {
+      border-color: rgba(251, 191, 36, 0.16);
+      background: rgba(251, 191, 36, 0.055);
     }
 
     .log-item strong {
@@ -947,7 +1012,7 @@
       width: 100%;
       min-height: 56px;
       padding: 12px 14px;
-      border: 1px solid rgba(87, 231, 255, 0.22);
+      border: 1px solid rgba(59, 130, 246, 0.22);
       border-radius: var(--radius);
       background: rgba(0, 0, 0, 0.28);
       color: var(--text);
@@ -967,7 +1032,37 @@
 
     .choice-button[aria-expanded="true"] {
       border-color: var(--cyan);
-      box-shadow: 0 0 0 3px rgba(87, 231, 255, 0.12);
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+    }
+
+    .mood-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+
+    .mood-choice {
+      justify-content: center;
+      text-align: center;
+    }
+
+    .mood-choice::after {
+      content: "";
+    }
+
+    .mood-choice.active {
+      border-color: rgba(139, 92, 246, 0.55);
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.16), rgba(59, 130, 246, 0.1));
+      color: var(--text);
+      box-shadow: inset 0 0 0 1px rgba(139, 92, 246, 0.18);
+    }
+
+    #dailyReportModal .modal-card {
+      border-color: rgba(139, 92, 246, 0.38);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(139, 92, 246, 0.14), transparent 18rem),
+        rgba(10, 14, 22, 0.98);
     }
 
     .choice-menu {
@@ -995,8 +1090,8 @@
 
     .choice-option.active,
     .choice-option:focus {
-      border-color: rgba(87, 231, 255, 0.48);
-      background: rgba(87, 231, 255, 0.12);
+      border-color: rgba(59, 130, 246, 0.48);
+      background: rgba(59, 130, 246, 0.12);
       outline: none;
     }
 
@@ -1022,7 +1117,7 @@
       max-height: min(76vh, 620px);
       overflow: auto;
       padding: 14px;
-      border: 1px solid rgba(87, 231, 255, 0.32);
+      border: 1px solid rgba(59, 130, 246, 0.32);
       border-radius: 16px 16px 12px 12px;
       background: rgba(10, 14, 22, 0.98);
       box-shadow: 0 -18px 70px rgba(0, 0, 0, 0.62);
@@ -1060,14 +1155,14 @@
       width: 20px;
       height: 20px;
       place-items: center;
-      border: 1px solid rgba(87, 231, 255, 0.36);
+      border: 1px solid rgba(59, 130, 246, 0.36);
       border-radius: 50%;
       content: "";
     }
 
     .selection-option.active {
-      border-color: rgba(87, 231, 255, 0.52);
-      background: rgba(87, 231, 255, 0.12);
+      border-color: rgba(59, 130, 246, 0.52);
+      background: rgba(59, 130, 246, 0.12);
     }
 
     .selection-option.active::before {
@@ -1104,14 +1199,15 @@
       display: grid;
       gap: 9px;
       padding: 13px;
-      border: 1px solid rgba(255, 255, 255, 0.085);
+      border: 1px solid rgba(251, 191, 36, 0.16);
       border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(87, 231, 255, 0.035));
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.055), rgba(255, 255, 255, 0.035));
     }
 
     .title-card:not(.locked) {
-      border-color: rgba(255, 209, 102, 0.28);
-      background: linear-gradient(145deg, rgba(255, 209, 102, 0.1), rgba(87, 231, 255, 0.045));
+      border-color: rgba(251, 191, 36, 0.34);
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.13), rgba(139, 92, 246, 0.045));
+      box-shadow: inset 0 0 0 1px rgba(251, 191, 36, 0.06);
     }
 
     .title-card.locked {
@@ -1119,21 +1215,50 @@
     }
 
     .title-card-head {
-      display: flex;
+      display: grid;
+      grid-template-columns: 42px 1fr auto;
       align-items: flex-start;
-      justify-content: space-between;
       gap: 10px;
+    }
+
+    .title-icon {
+      display: grid;
+      width: 38px;
+      height: 38px;
+      place-items: center;
+      border: 1px solid rgba(251, 191, 36, 0.32);
+      border-radius: var(--radius);
+      background: rgba(251, 191, 36, 0.12);
+      color: var(--gold);
+      font-size: 1rem;
+      font-weight: 950;
     }
 
     .title-card strong {
       display: block;
-      font-size: 0.9rem;
+      font-size: 0.86rem;
+      letter-spacing: 0;
+      text-transform: uppercase;
     }
 
     .title-card span {
       color: var(--muted);
       font-size: 0.76rem;
       line-height: 1.35;
+    }
+
+    .title-category {
+      display: inline-flex;
+      width: fit-content;
+      margin-top: 6px;
+      padding: 3px 7px;
+      border: 1px solid rgba(251, 191, 36, 0.22);
+      border-radius: 999px;
+      color: var(--gold);
+      font-size: 0.66rem;
+      font-style: normal;
+      font-weight: 950;
+      text-transform: uppercase;
     }
 
     .rank-badge {
@@ -1143,9 +1268,9 @@
       gap: 6px;
       min-height: 30px;
       padding: 4px 10px;
-      border: 1px solid var(--rank-line, rgba(87, 231, 255, 0.34));
+      border: 1px solid var(--rank-line, rgba(59, 130, 246, 0.34));
       border-radius: 999px;
-      background: var(--rank-bg, rgba(87, 231, 255, 0.1));
+      background: var(--rank-bg, rgba(59, 130, 246, 0.1));
       color: var(--rank-color, var(--cyan));
       font-size: 0.78rem;
       font-weight: 950;
@@ -1153,11 +1278,27 @@
       white-space: nowrap;
     }
 
+    .rank-progress {
+      display: grid;
+      gap: 5px;
+      margin-top: 8px;
+    }
+
+    .rank-progress .progress {
+      height: 8px;
+      margin: 0;
+    }
+
+    .rank-progress small {
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 850;
+      line-height: 1.25;
+    }
+
     .tag .rank-badge {
-      min-height: 0;
-      padding: 0;
-      border: 0;
-      background: transparent;
+      min-height: 24px;
+      padding: 2px 8px;
     }
 
     .reward-chip {
@@ -1165,10 +1306,10 @@
       align-items: center;
       min-height: 28px;
       padding: 4px 9px;
-      border: 1px solid rgba(255, 209, 102, 0.32);
+      border: 1px solid rgba(251, 191, 36, 0.32);
       border-radius: 999px;
-      background: rgba(255, 209, 102, 0.1);
-      color: #ffe1a0;
+      background: rgba(251, 191, 36, 0.1);
+      color: var(--gold);
       font-size: 0.68rem;
       font-weight: 950;
       text-transform: uppercase;
@@ -1194,6 +1335,24 @@
       background: rgba(255, 255, 255, 0.045);
     }
 
+    .system-line.gold-line {
+      border-color: rgba(251, 191, 36, 0.24);
+      background: rgba(251, 191, 36, 0.07);
+    }
+
+    .system-line.gold-line strong {
+      color: var(--gold);
+    }
+
+    .system-line.red-line {
+      border-color: rgba(239, 68, 68, 0.24);
+      background: rgba(239, 68, 68, 0.07);
+    }
+
+    .system-line.red-line strong {
+      color: #fca5a5;
+    }
+
     .system-line span {
       display: block;
       color: var(--muted);
@@ -1214,9 +1373,9 @@
       display: grid;
       gap: 10px;
       padding: 14px;
-      border: 1px solid rgba(255, 209, 102, 0.28);
+      border: 1px solid rgba(251, 191, 36, 0.28);
       border-radius: var(--radius);
-      background: linear-gradient(145deg, rgba(255, 209, 102, 0.1), rgba(87, 231, 255, 0.07));
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.1), rgba(59, 130, 246, 0.07));
     }
 
     .objective-actions {
@@ -1242,21 +1401,21 @@
     }
 
     .day-cell.mission {
-      border-color: rgba(87, 231, 255, 0.28);
-      background: rgba(87, 231, 255, 0.1);
+      border-color: rgba(59, 130, 246, 0.28);
+      background: rgba(59, 130, 246, 0.1);
       color: var(--cyan);
     }
 
     .day-cell.workout {
-      border-color: rgba(101, 242, 156, 0.32);
-      background: rgba(101, 242, 156, 0.12);
+      border-color: rgba(34, 197, 94, 0.32);
+      background: rgba(34, 197, 94, 0.12);
       color: var(--green);
     }
 
     .day-cell.boss-day {
-      border-color: rgba(169, 144, 255, 0.36);
-      background: rgba(169, 144, 255, 0.14);
-      color: #d7cbff;
+      border-color: rgba(239, 68, 68, 0.36);
+      background: rgba(239, 68, 68, 0.14);
+      color: #fca5a5;
     }
 
     .share-output {
@@ -1280,8 +1439,8 @@
 
     .fame-item.unlocked {
       opacity: 1;
-      border-color: rgba(255, 209, 102, 0.3);
-      background: rgba(255, 209, 102, 0.08);
+      border-color: rgba(251, 191, 36, 0.3);
+      background: rgba(251, 191, 36, 0.08);
     }
 
     .fame-item b {
@@ -1317,7 +1476,7 @@
       gap: 8px;
       min-width: 0;
       padding: 12px;
-      border: 1px solid rgba(87, 231, 255, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.16);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.04);
       text-align: left;
@@ -1326,8 +1485,8 @@
     .reflection-placeholder {
       min-height: 92px;
       align-content: center;
-      border-color: rgba(255, 209, 102, 0.24);
-      background: linear-gradient(145deg, rgba(255, 209, 102, 0.08), rgba(87, 231, 255, 0.055));
+      border-color: rgba(251, 191, 36, 0.24);
+      background: linear-gradient(145deg, rgba(251, 191, 36, 0.08), rgba(59, 130, 246, 0.055));
     }
 
     .reflection-placeholder strong {
@@ -1383,7 +1542,7 @@
       width: min(560px, calc(100% - 20px));
       margin: 0 auto;
       padding: 7px;
-      border: 1px solid rgba(87, 231, 255, 0.18);
+      border: 1px solid rgba(59, 130, 246, 0.18);
       border-radius: 16px;
       background: rgba(7, 9, 15, 0.86);
       box-shadow: 0 12px 38px rgba(0, 0, 0, 0.42);
@@ -1411,7 +1570,7 @@
     }
 
     .nav-link.active {
-      background: rgba(87, 231, 255, 0.12);
+      background: rgba(59, 130, 246, 0.12);
       color: var(--cyan);
     }
 
@@ -1446,11 +1605,17 @@
       min-height: min(760px, calc(100vh - 32px));
       align-content: center;
       overflow-x: hidden;
+      padding: 22px;
+      border-color: rgba(139, 92, 246, 0.34);
+      background:
+        radial-gradient(circle at 50% 10%, rgba(139, 92, 246, 0.16), transparent 18rem),
+        radial-gradient(circle at 50% 40%, rgba(59, 130, 246, 0.1), transparent 20rem),
+        rgba(10, 14, 22, 0.98);
     }
 
     .onboarding-screen {
       display: none;
-      gap: 14px;
+      gap: 24px;
       animation: rise 0.24s ease;
     }
 
@@ -1459,8 +1624,88 @@
     }
 
     .system-splash {
+      min-height: min(680px, calc(100vh - 76px));
+      place-items: center;
       text-align: center;
-      gap: 20px;
+    }
+
+    .ascension-entry {
+      display: grid;
+      justify-items: center;
+      gap: 30px;
+      width: 100%;
+    }
+
+    .entry-orbit {
+      position: relative;
+      display: grid;
+      width: min(280px, 72vw);
+      aspect-ratio: 1;
+      place-items: center;
+    }
+
+    .entry-orbit::before,
+    .entry-orbit::after {
+      position: absolute;
+      inset: 8%;
+      content: "";
+      border: 1px solid rgba(139, 92, 246, 0.38);
+      clip-path: polygon(50% 0, 94% 25%, 94% 75%, 50% 100%, 6% 75%, 6% 25%);
+      filter: drop-shadow(0 0 18px rgba(139, 92, 246, 0.34));
+      animation: slowSpin 18s linear infinite;
+    }
+
+    .entry-orbit::after {
+      inset: 20%;
+      border-color: rgba(59, 130, 246, 0.32);
+      animation-direction: reverse;
+      animation-duration: 24s;
+    }
+
+    .entry-orbit img {
+      position: relative;
+      z-index: 2;
+      width: 72%;
+      height: 72%;
+      object-fit: contain;
+      filter: drop-shadow(0 0 24px rgba(59, 130, 246, 0.38)) drop-shadow(0 0 34px rgba(139, 92, 246, 0.22));
+      animation: floatMark 3.8s ease-in-out infinite;
+    }
+
+    .entry-orbit span {
+      position: absolute;
+      width: 5px;
+      height: 5px;
+      border-radius: 50%;
+      background: var(--cyan);
+      box-shadow: 0 0 16px rgba(59, 130, 246, 0.7);
+      opacity: 0.72;
+      animation: particleDrift 4s ease-in-out infinite alternate;
+    }
+
+    .entry-orbit span:nth-child(1) { top: 14%; left: 24%; }
+    .entry-orbit span:nth-child(2) { top: 30%; right: 10%; width: 4px; height: 4px; animation-delay: .5s; }
+    .entry-orbit span:nth-child(3) { bottom: 18%; left: 18%; background: var(--violet); animation-delay: .9s; }
+    .entry-orbit span:nth-child(4) { bottom: 20%; right: 22%; background: var(--gold); animation-delay: 1.3s; }
+    .entry-orbit span:nth-child(5) { top: 8%; right: 34%; width: 3px; height: 3px; animation-delay: 1.7s; }
+
+    @keyframes slowSpin {
+      to { transform: rotate(360deg); }
+    }
+
+    @keyframes floatMark {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-8px); }
+    }
+
+    @keyframes particleDrift {
+      from { transform: translate3d(0, 0, 0); opacity: 0.42; }
+      to { transform: translate3d(8px, -10px, 0); opacity: 0.92; }
+    }
+
+    .entry-copy {
+      display: grid;
+      gap: 12px;
     }
 
     .system-splash h2 {
@@ -1469,13 +1714,195 @@
       font-weight: 950;
       line-height: 0.95;
       text-transform: uppercase;
-      text-shadow: 0 0 28px rgba(87, 231, 255, 0.32);
+      text-shadow: 0 0 28px rgba(59, 130, 246, 0.32);
     }
 
     .system-splash p {
       color: #dce8f5;
       font-size: 1rem;
       line-height: 1.45;
+    }
+
+    .entry-action {
+      min-height: 58px;
+      width: 100%;
+      max-width: 360px;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+    }
+
+    .system-energy {
+      position: relative;
+      width: min(360px, 100%);
+      height: 10px;
+      overflow: hidden;
+      border: 1px solid rgba(139, 92, 246, 0.32);
+      border-radius: 999px;
+      background: rgba(0, 0, 0, 0.36);
+    }
+
+    .system-energy i {
+      position: absolute;
+      inset: 0;
+      width: 44%;
+      border-radius: inherit;
+      background: linear-gradient(90deg, transparent, var(--cyan), var(--violet), transparent);
+      box-shadow: 0 0 20px rgba(139, 92, 246, 0.5);
+      animation: energySweep 1.65s ease-in-out infinite;
+    }
+
+    @keyframes energySweep {
+      from { transform: translateX(-105%); }
+      to { transform: translateX(245%); }
+    }
+
+    .onboarding-heading {
+      display: grid;
+      gap: 14px;
+      text-align: left;
+    }
+
+    .onboarding-heading h2 {
+      color: var(--text);
+      font-size: clamp(1.45rem, 8vw, 2.35rem);
+      font-weight: 950;
+      line-height: 1.04;
+      text-transform: uppercase;
+    }
+
+    .onboarding-heading p {
+      color: var(--muted);
+      font-size: 0.92rem;
+      line-height: 1.5;
+    }
+
+    .system-feature-grid {
+      display: grid;
+      gap: 14px;
+    }
+
+    .system-feature {
+      display: grid;
+      grid-template-columns: 44px 1fr;
+      gap: 10px 12px;
+      align-items: center;
+      min-height: 86px;
+      padding: 15px;
+      border: 1px solid rgba(59, 130, 246, 0.16);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(59, 130, 246, 0.08), rgba(255, 255, 255, 0.035));
+    }
+
+    .system-feature b {
+      display: grid;
+      grid-row: span 2;
+      width: 44px;
+      height: 44px;
+      place-items: center;
+      border: 1px solid rgba(139, 92, 246, 0.28);
+      border-radius: var(--radius);
+      background: rgba(139, 92, 246, 0.1);
+      color: #c4b5fd;
+      font-size: 1.35rem;
+      line-height: 1;
+    }
+
+    .system-feature strong {
+      color: var(--text);
+      font-size: 0.9rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .system-feature span {
+      color: var(--muted);
+      font-size: 0.82rem;
+      line-height: 1.35;
+    }
+
+    .analysis-prep {
+      text-align: center;
+      justify-items: center;
+    }
+
+    .analysis-scan-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 14px;
+    }
+
+    .scan-item {
+      display: grid;
+      gap: 10px;
+      min-height: 104px;
+      place-items: center;
+      padding: 14px;
+      border: 1px solid rgba(139, 92, 246, 0.24);
+      border-radius: var(--radius);
+      background: linear-gradient(145deg, rgba(139, 92, 246, 0.1), rgba(59, 130, 246, 0.04));
+      text-align: center;
+    }
+
+    .scan-item b {
+      display: grid;
+      width: 42px;
+      height: 42px;
+      place-items: center;
+      border-radius: 50%;
+      background: rgba(59, 130, 246, 0.12);
+      color: var(--cyan);
+      font-size: 1.24rem;
+    }
+
+    .scan-item span {
+      color: var(--text);
+      font-size: 0.78rem;
+      font-weight: 950;
+      text-transform: uppercase;
+      line-height: 1.25;
+    }
+
+    .boss-scan {
+      border-color: rgba(239, 68, 68, 0.24);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .boss-scan b {
+      color: #fca5a5;
+      background: rgba(239, 68, 68, 0.12);
+    }
+
+    .gold-scan {
+      border-color: rgba(251, 191, 36, 0.24);
+      background: rgba(251, 191, 36, 0.08);
+    }
+
+    .gold-scan b {
+      color: var(--gold);
+      background: rgba(251, 191, 36, 0.12);
+    }
+
+    .scan-time {
+      display: grid;
+      gap: 6px;
+      padding: 14px;
+      border: 1px solid rgba(59, 130, 246, 0.18);
+      border-radius: var(--radius);
+      background: rgba(59, 130, 246, 0.07);
+      text-align: center;
+    }
+
+    .scan-time span {
+      color: var(--muted);
+      font-size: 0.72rem;
+      font-weight: 950;
+      text-transform: uppercase;
+    }
+
+    .scan-time strong {
+      color: var(--cyan);
+      font-size: 1rem;
+      text-transform: uppercase;
     }
 
     .system-intro-list {
@@ -1485,7 +1912,7 @@
 
     .system-intro-list p {
       padding: 11px;
-      border: 1px solid rgba(87, 231, 255, 0.16);
+      border: 1px solid rgba(59, 130, 246, 0.16);
       border-radius: var(--radius);
       background: rgba(255, 255, 255, 0.04);
       color: #dce8f5;
@@ -1496,9 +1923,9 @@
     .system-explain {
       display: none;
       padding: 12px;
-      border: 1px solid rgba(255, 209, 102, 0.22);
+      border: 1px solid rgba(251, 191, 36, 0.22);
       border-radius: var(--radius);
-      background: rgba(255, 209, 102, 0.08);
+      background: rgba(251, 191, 36, 0.08);
       color: var(--muted);
       font-size: 0.86rem;
       line-height: 1.45;
@@ -1524,13 +1951,13 @@
     .onboarding-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 9px;
-      margin-top: 4px;
+      gap: 12px;
+      margin-top: 14px;
     }
 
     .onboarding-step {
       display: none;
-      gap: 10px;
+      gap: 18px;
     }
 
     .onboarding-step.active {
@@ -1554,7 +1981,7 @@
     .analysis-bar {
       height: 12px;
       overflow: hidden;
-      border: 1px solid rgba(87, 231, 255, 0.22);
+      border: 1px solid rgba(59, 130, 246, 0.22);
       border-radius: 999px;
       background: rgba(0, 0, 0, 0.34);
     }
@@ -1581,9 +2008,9 @@
       display: grid;
       gap: 10px;
       padding: 12px;
-      border: 1px solid rgba(87, 231, 255, 0.32);
+      border: 1px solid rgba(59, 130, 246, 0.32);
       border-radius: var(--radius);
-      background: rgba(87, 231, 255, 0.06);
+      background: rgba(59, 130, 246, 0.06);
       animation: revealResult 0.55s ease;
     }
 
@@ -1600,7 +2027,7 @@
 
     .form-grid {
       display: grid;
-      gap: 10px;
+      gap: 18px;
     }
 
     .choice-grid {
@@ -1647,7 +2074,7 @@
       max-width: 520px;
       margin: 0 auto;
       padding: 12px 13px;
-      border: 1px solid rgba(87, 231, 255, 0.38);
+      border: 1px solid rgba(59, 130, 246, 0.38);
       border-radius: var(--radius);
       background: rgba(9, 13, 21, 0.96);
       color: var(--text);
@@ -1669,7 +2096,7 @@
       display: none;
       min-width: min(320px, calc(100vw - 32px));
       padding: 16px;
-      border: 1px solid rgba(87, 231, 255, 0.36);
+      border: 1px solid rgba(59, 130, 246, 0.36);
       border-radius: 14px;
       background: rgba(8, 12, 20, 0.96);
       box-shadow: 0 22px 80px rgba(0, 0, 0, 0.58);
@@ -1758,8 +2185,17 @@
       .class-rank,
       .objective-actions,
       .modal-actions,
-      .journey-reward {
+      .journey-reward,
+      .analysis-scan-grid {
         grid-template-columns: 1fr;
+      }
+
+      .onboarding-card {
+        padding: 18px;
+      }
+
+      .entry-orbit {
+        width: min(238px, 76vw);
       }
 
       .section-title {
@@ -1821,23 +2257,36 @@
       <article class="panel status-panel" id="homeSummaryCard">
         <div class="journey-home">
           <div class="journey-hero">
-            <p class="subtitle" id="journeyDayText">Dia 1 da sua Jornada</p>
-            <h2 id="todayGreeting">Bom dia, Caçador.</h2>
-            <p class="journey-message" id="homeSystemPhrase">Você está mais próximo da sua melhor versão do que estava ontem.</p>
+            <p class="subtitle" id="journeyDayText">Jogador</p>
+            <h2 id="todayGreeting">Caçador Iniciante</h2>
+            <p class="journey-message" id="homeSystemPhrase">Sua vida é o personagem. Cada decisão move a jornada.</p>
           </div>
 
-          <div class="journey-block">
-            <span class="journey-block-label">Missão principal de hoje</span>
-            <h3 id="mainMissionText">Ir para academia</h3>
-            <button class="primary-btn" id="startMainMissionBtn" type="button">Começar missão</button>
+          <div class="journey-identity">
+            <div class="system-line">
+              <span>Classe</span>
+              <strong id="homeClassText">Executor</strong>
+            </div>
+            <div class="system-line">
+              <span>Rank</span>
+              <strong id="homeRankText">Ferro I</strong>
+            </div>
+            <div class="system-line gold-line">
+              <span>Título equipado</span>
+              <strong id="homeTitleText">Sem título</strong>
+            </div>
+            <div class="system-line red-line">
+              <span>Boss atual</span>
+              <strong id="homeBossText">Falta de disciplina</strong>
+            </div>
           </div>
 
           <div class="journey-block">
             <div class="progress-meta">
-              <span>Progresso de hoje</span>
-              <span id="dailyProgressText">0 / 3 missões concluídas</span>
+              <span>XP</span>
+              <span id="dailyProgressText">0 / 100</span>
             </div>
-            <div class="progress" aria-label="Progresso diário"><i id="dailyProgressBar"></i></div>
+            <div class="progress" aria-label="Progresso de XP"><i id="dailyProgressBar"></i></div>
           </div>
 
           <div class="journey-block">
@@ -1853,6 +2302,12 @@
                 <strong id="nextRewardText">Novo título</strong>
               </div>
             </div>
+          </div>
+
+          <div class="journey-block">
+            <span class="journey-block-label">Objetivo principal</span>
+            <h3 id="mainMissionText">Defina uma direção para sua ascensão</h3>
+            <button class="primary-btn" id="startMainMissionBtn" type="button">Abrir objetivo</button>
           </div>
         </div>
       </article>
@@ -1935,6 +2390,10 @@
             <div class="mini-stat">
               <span>Rank <span class="tooltip" title="Ranks sobem por nível. Títulos são independentes e podem ser equipados.">?</span></span>
               <strong id="rankValue">Ferro</strong>
+              <div class="rank-progress">
+                <div class="progress" aria-label="Progresso do rank"><i id="rankProgressBar"></i></div>
+                <small id="rankProgressText">Próximo rank em 4 níveis</small>
+              </div>
             </div>
             <div class="mini-stat wide">
               <span>Título equipado <span class="tooltip" title="Títulos são conquistas equipáveis. Eles não substituem seu rank.">?</span></span>
@@ -2201,17 +2660,24 @@
         </div>
         <div class="log-list" id="logList"></div>
       </article>
+      <article class="panel log-card" id="chroniclesCard">
+        <div class="section-title">
+          <h2>Crônicas da Ascensão</h2>
+          <span class="tag violet-tag" id="chronicleCount">0</span>
+        </div>
+        <div class="log-list" id="chronicleList"></div>
+      </article>
       <article class="panel log-card" id="fameCard">
         <div class="section-title">
           <h2>Hall da Fama</h2>
-          <span class="tag cyan-tag" id="fameCount">0/10</span>
+          <span class="tag" id="fameCount">0/10</span>
         </div>
         <div class="fame-grid" id="fameList"></div>
       </article>
       <article class="panel log-card" id="seasonCard">
         <div class="section-title">
           <h2>Conquistas Secretas</h2>
-          <span class="tag boss" id="secretCount">0/?</span>
+          <span class="tag red-tag" id="secretCount">0/?</span>
         </div>
         <div class="achievement-list" id="secretList"></div>
       </article>
@@ -2227,7 +2693,7 @@
           <h2>Relatório Semanal</h2>
           <button class="small-btn" id="weeklyReportBtn" type="button">Ver relatório</button>
         </div>
-        <div class="share-output system-line wide" id="weeklyReportOutput">O relatório será gerado localmente quando você solicitar.</div>
+        <div class="share-output system-line wide weekly-report-output" id="weeklyReportOutput">O relatório será gerado localmente quando você solicitar.</div>
       </article>
     </section>
 
@@ -2285,6 +2751,11 @@
           <span class="tag">V2+</span>
         </div>
         <p class="muted">A camada de dados já fica isolada para adicionar login, backup em nuvem e sincronização com Firebase ou Supabase em versões futuras.</p>
+        <div class="system-line wide" style="margin-top: 10px;">
+          <span>Classe base futura</span>
+          <strong id="baseSpecializationText">Executor</strong>
+        </div>
+        <div class="mission-meta" id="futureSpecializationList" style="margin-top: 10px;"></div>
       </article>
     </section>
   </main>
@@ -2300,57 +2771,66 @@
   <div class="modal" id="onboardingModal" role="dialog" aria-modal="true" aria-labelledby="onboardingTitle">
     <div class="modal-card onboarding-card">
       <section class="onboarding-screen system-splash active" data-onboarding-screen="splash">
-        <div class="sigil" style="margin: 0 auto; width: 68px; height: 68px;"><img src="./icons/mark-transparent.svg" alt=""></div>
-        <h2>Ascension System</h2>
-        <p>Toda ascensão começa com uma decisão.</p>
-        <button class="primary-btn" id="startJourneyBtn" type="button">Iniciar Jornada</button>
+        <div class="ascension-entry">
+          <div class="entry-orbit" aria-hidden="true">
+            <span></span><span></span><span></span><span></span><span></span>
+            <img src="./icons/mark-transparent.svg" alt="">
+          </div>
+          <div class="entry-copy">
+            <h2>Ascension System</h2>
+            <p>Toda ascensão começa com uma decisão.</p>
+          </div>
+          <button class="primary-btn entry-action" id="startJourneyBtn" type="button">Iniciar Jornada</button>
+          <div class="system-energy" aria-label="Energia do sistema"><i></i></div>
+        </div>
       </section>
 
       <section class="onboarding-screen" data-onboarding-screen="intro">
-        <div class="section-title">
-          <h2>Entrada no Sistema</h2>
-          <span class="tag cyan-tag">Novo jogador</span>
+        <div class="onboarding-heading">
+          <span class="tag cyan-tag">Entrada no Sistema</span>
+          <h2>O Sistema detectou um novo jogador.</h2>
         </div>
-        <div class="system-intro-list">
-          <p>Você está prestes a iniciar seu Sistema de Ascensão.</p>
-          <p>Antes de liberar seu painel, o Sistema precisa entender quem você é hoje.</p>
-          <p>Algumas perguntas serão feitas para criar seu personagem, sua jornada, seus objetivos e seus primeiros desafios.</p>
-          <p>Suas respostas ficam salvas apenas neste dispositivo.</p>
-        </div>
-        <div class="system-grid">
-          <div class="system-line"><span>Missões</span><strong>Geram XP</strong></div>
-          <div class="system-line"><span>Treinos</span><strong>Contam ciclos</strong></div>
-          <div class="system-line"><span>Objetivos</span><strong>Viram jornadas</strong></div>
-          <div class="system-line"><span>Títulos</span><strong>Desbloqueiam com evolução</strong></div>
-          <div class="system-line wide"><span>Offline</span><strong>Tudo funciona neste dispositivo</strong></div>
+        <div class="system-feature-grid">
+          <div class="system-feature"><b>⚔</b><strong>Missões</strong><span>Geram XP e impulsionam sua evolução.</span></div>
+          <div class="system-feature"><b>↟</b><strong>Treinos</strong><span>Contam ciclos e fortalecem corpo e mente.</span></div>
+          <div class="system-feature"><b>◇</b><strong>Objetivos</strong><span>Viram jornadas e direcionam seu crescimento.</span></div>
+          <div class="system-feature"><b>✦</b><strong>Títulos</strong><span>Representam suas conquistas.</span></div>
+          <div class="system-feature"><b>☁</b><strong>Offline</strong><span>Tudo funciona neste dispositivo.</span></div>
         </div>
         <div class="system-explain" id="systemExplain">
-          O Ascension System transforma sua vida real em uma evolução de RPG: missões geram XP, hábitos fortalecem atributos, títulos marcam conquistas, objetivos viram arcos de jornada e o progresso real desbloqueia novas camadas do personagem.
+          O Ascension System transforma ações reais em progresso de personagem: missões, atributos, ciclos, títulos e objetivos em uma jornada pessoal.
         </div>
-        <button class="primary-btn" id="continueIntroBtn" type="button">Começar Avaliação</button>
+        <button class="primary-btn entry-action" id="continueIntroBtn" type="button">Começar Avaliação</button>
         <button class="ghost-btn" id="skipIntroBtn" type="button">Ver depois</button>
         <button class="ghost-btn" id="explainSystemBtn" type="button">O que é o Ascension System?</button>
       </section>
 
       <section class="onboarding-screen" data-onboarding-screen="prep">
-        <div class="section-title">
+        <div class="onboarding-heading analysis-prep">
+          <span class="tag violet-tag">Preparação</span>
           <h2>Análise Inicial do Personagem</h2>
-          <span class="tag cyan-tag">Preparação</span>
+          <p>O Sistema utilizará suas respostas para definir sua primeira configuração.</p>
         </div>
-        <div class="result-frame">
-          <p class="muted">Responda com sinceridade. O Sistema usará suas respostas para montar sua classe inicial, jornada recomendada, boss inicial e atributos.</p>
-          <p class="muted">Tempo estimado: menos de 2 minutos.</p>
+        <div class="analysis-scan-grid">
+          <div class="scan-item"><b>◇</b><span>Classe Inicial</span></div>
+          <div class="scan-item"><b>↟</b><span>Jornada Recomendada</span></div>
+          <div class="scan-item boss-scan"><b>☠</b><span>Boss Inicial</span></div>
+          <div class="scan-item gold-scan"><b>✦</b><span>Atributos</span></div>
         </div>
-        <button class="primary-btn" id="beginAssessmentBtn" type="button">Iniciar Análise</button>
+        <div class="scan-time">
+          <span>Tempo estimado</span>
+          <strong>Menos de 2 minutos</strong>
+        </div>
+        <button class="primary-btn entry-action" id="beginAssessmentBtn" type="button">Iniciar Análise</button>
         <button class="ghost-btn" id="backToIntroBtn" type="button">Voltar</button>
       </section>
 
       <section class="onboarding-screen" data-onboarding-screen="form">
         <div class="section-title">
-          <h2 id="onboardingTitle">Avaliação Inicial do Sistema</h2>
+          <h2 id="onboardingTitle">Diagnóstico do Sistema</h2>
           <span class="tag cyan-tag" id="onboardingStepTag">25%</span>
         </div>
-        <p class="feedback-copy">Antes de iniciar sua jornada, o Sistema precisa analisar seu personagem.</p>
+        <p class="feedback-copy">Responda em etapas. Cada resposta calibra sua primeira jornada.</p>
         <div class="onboarding-progress">
           <span id="onboardingStepLabel">Etapa 1: Informações básicas</span>
           <div class="progress"><i id="onboardingProgressBar" style="width: 25%;"></i></div>
@@ -2414,7 +2894,7 @@
             </div>
             <div>
               <label for="onboardingAvatarColor">Cor principal do avatar</label>
-              <input id="onboardingAvatarColor" type="color" value="#57e7ff">
+              <input id="onboardingAvatarColor" type="color" value="#3B82F6">
             </div>
           </div>
 
@@ -2465,6 +2945,12 @@
                 <label for="onboardingWorkoutTime">Horário que costuma treinar</label>
                 <input id="onboardingWorkoutTime" type="time">
               </div>
+              <div>
+                <label for="onboardingSleepTime">Qual horário você normalmente dorme?</label>
+                <input id="onboardingSleepTime" type="time" value="23:00">
+              </div>
+            </div>
+            <div class="class-rank">
               <div>
                 <label for="onboardingReminderTime">Horário do lembrete</label>
                 <input id="onboardingReminderTime" type="time">
@@ -2707,12 +3193,45 @@
     </div>
   </div>
 
+  <div class="modal" id="dailyReportModal" role="dialog" aria-modal="true" aria-labelledby="dailyReportModalTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="dailyReportModalTitle">Encerramento da Jornada</h2>
+        <button class="small-btn" type="button" data-close-daily-report>Fechar</button>
+      </div>
+      <p class="feedback-copy">O Dia <span id="dailyReportDayText">1</span> está chegando ao fim.</p>
+      <p class="feedback-copy">Como foi sua jornada hoje? O Sistema registra sem punição. Evolução real precisa de leitura honesta.</p>
+      <div class="mood-grid" id="dailyMoodGrid" role="radiogroup" aria-label="Como foi sua jornada hoje?">
+        <button class="choice-button mood-choice active" type="button" data-mood="Excelente">Excelente</button>
+        <button class="choice-button mood-choice" type="button" data-mood="Boa">Boa</button>
+        <button class="choice-button mood-choice" type="button" data-mood="Normal">Normal</button>
+        <button class="choice-button mood-choice" type="button" data-mood="Difícil">Difícil</button>
+        <button class="choice-button mood-choice" type="button" data-mood="Brutal">Brutal</button>
+      </div>
+      <form class="form-grid" id="dailyReportForm">
+        <div>
+          <label for="dailyVictoryInput">Qual foi sua maior vitória hoje?</label>
+          <textarea id="dailyVictoryInput" placeholder="Opcional"></textarea>
+        </div>
+        <div>
+          <label for="dailyImproveInput">O que poderia ter sido melhor?</label>
+          <textarea id="dailyImproveInput" placeholder="Opcional"></textarea>
+        </div>
+        <div>
+          <label for="dailyFutureInput">Mensagem para seu eu do futuro</label>
+          <textarea id="dailyFutureInput" placeholder="Opcional"></textarea>
+        </div>
+        <button class="primary-btn" type="submit">Registrar relatório</button>
+      </form>
+    </div>
+  </div>
+
   <!-- =========================
        JAVASCRIPT
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.4";
+    const APP_VERSION = "1.0.8";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -2740,29 +3259,61 @@ Obrigado pelo projeto!`;
     const futureClasses = ["Guerreiro", "Erudito", "Mercador", "Aventureiro"];
     const REMINDER_MESSAGE = "Ascension System: você treinou hoje? Registre sua missão antes que o sistema finja que nada aconteceu.";
 
+    function titleSeries(prefix, group, icon, names, thresholds, valueFn, descFn) {
+      return names.map((name, index) => ({
+        id: `${prefix}${index + 1}`,
+        name,
+        group,
+        icon,
+        desc: descFn(thresholds[index], name),
+        check: s => valueFn(s) >= thresholds[index]
+      }));
+    }
+
     const titleDefinitions = [
-      { id: "str10", name: "Aprendiz do Ferro", group: "Força", desc: "Alcance 10 pontos de Força.", check: s => s.attributes["Força"] >= 10 },
-      { id: "str50", name: "Portador do Peso", group: "Força", desc: "Alcance 50 pontos de Força.", check: s => s.attributes["Força"] >= 50 },
-      { id: "str100", name: "Guerreiro do Ferro", group: "Força", desc: "Alcance 100 pontos de Força.", check: s => s.attributes["Força"] >= 100 },
-      { id: "str250", name: "Quebrador de Barras", group: "Força", desc: "Alcance 250 pontos de Força.", check: s => s.titleProgress.force >= 250 },
-      { id: "str500", name: "Monarca da Força", group: "Força", desc: "Alcance 500 pontos de Força.", check: s => s.titleProgress.force >= 500 },
-      { id: "int10", name: "Estudante", group: "Inteligência", desc: "Alcance 10 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 10 },
-      { id: "int50", name: "Pesquisador", group: "Inteligência", desc: "Alcance 50 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 50 },
-      { id: "int100", name: "Erudito", group: "Inteligência", desc: "Alcance 100 pontos de Inteligência.", check: s => s.attributes["Inteligência"] >= 100 },
-      { id: "int250", name: "Arquivista Arcano", group: "Inteligência", desc: "Acumule 250 pontos de Inteligência.", check: s => s.titleProgress.intelligence >= 250 },
-      { id: "int500", name: "Sábio Supremo", group: "Inteligência", desc: "Acumule 500 pontos de Inteligência.", check: s => s.titleProgress.intelligence >= 500 },
-      { id: "disc10", name: "Persistente", group: "Disciplina", desc: "Mantenha 10 dias consecutivos.", check: s => s.streak >= 10 },
-      { id: "disc30", name: "Inabalável", group: "Disciplina", desc: "Mantenha 30 dias consecutivos.", check: s => s.streak >= 30 },
-      { id: "disc100", name: "Discípulo da Rotina", group: "Disciplina", desc: "Mantenha 100 dias consecutivos.", check: s => s.streak >= 100 },
-      { id: "disc365", name: "Lenda da Disciplina", group: "Disciplina", desc: "Mantenha 365 dias consecutivos.", check: s => s.streak >= 365 },
-      { id: "firstWorkoutTitle", name: "Iniciado", group: "Especial", desc: "Conclua o primeiro treino.", check: s => s.totalWorkouts >= 1 },
-      { id: "shapeDisciple", name: "Discípulo do Shape", group: "Especial", desc: "Conclua 10 treinos.", check: s => s.totalWorkouts >= 10 },
-      { id: "musclePainSurvivor", name: "Sobrevivente da Dor Muscular", group: "Especial", desc: "Conclua 30 treinos.", check: s => s.totalWorkouts >= 30 },
-      { id: "ironVeteran", name: "Veterano do Ferro", group: "Especial", desc: "Conclua 90 treinos.", check: s => s.totalWorkouts >= 90 },
-      { id: "bossHunter", name: "Caçador de Chefes", group: "Especial", desc: "Derrote o primeiro boss.", check: s => s.bossesDefeated >= 1 },
-      { id: "conqueror", name: "Conquistador", group: "Especial", desc: "Derrote 10 bosses.", check: s => s.bossesDefeated >= 10 },
-      { id: "mealNecromancer", name: "Necromante das Marmitas", group: "Especial", desc: "Faça a primeira marmita.", check: s => (s.missionCompletions.mealprep || 0) >= 1 },
-      { id: "collegeSurvivorTitle", name: "Sobrevivente da Faculdade", group: "Especial", desc: "Conclua 30 missões de estudo.", check: s => studyMissionCount(s) >= 30 }
+      ...titleSeries("academy", "Academia", "⚔", [
+        "Primeiro Sangue", "Discípulo do Ferro", "Sobrevivente da Dor", "Executor de Treinos", "Corpo em Construção",
+        "Inabalável", "Veterano do Ferro", "Monstro da Rotina", "Forjado na Disciplina", "Titã da Consistência",
+        "Lenda da Academia", "Guardião do Ciclo", "Arauto da Progressão", "Muralha do Treino", "Ascendente do Ferro"
+      ], [1, 5, 10, 20, 30, 45, 60, 75, 90, 120, 180, 240, 300, 365, 500], s => s.totalWorkouts, n => `Conclua ${n} treino${n === 1 ? "" : "s"} reais.`),
+      ...titleSeries("study", "Estudos", "◇", [
+        "Calouro Persistente", "Caçador de Conhecimento", "Sobrevivente das Provas", "Arquivista Arcano", "Estudioso Noturno",
+        "Mestre dos Livros", "Leitor de Runas", "Discípulo da Biblioteca", "Estrategista Mental", "Guardião das Anotações",
+        "Sábio em Construção", "Executor Acadêmico", "Lâmina da Teoria", "Ascendente do Conhecimento"
+      ], [1, 3, 5, 10, 15, 20, 30, 40, 55, 70, 90, 120, 160, 220], s => studyMissionCount(s), n => `Conclua ${n} missões de estudo.`),
+      ...titleSeries("finance", "Finanças", "✦", [
+        "Primeiro Tesouro", "Guardião do Orçamento", "Mercador da Prosperidade", "Alquimista Financeiro",
+        "Magnata da Ascensão", "Executor do Caixa", "Sentinela dos Boletos", "Forjador de Reservas",
+        "Arquiteto da Riqueza", "Dominador do Débito", "Nobre da Prosperidade", "Ascendente Financeiro"
+      ], [1, 3, 5, 8, 12, 18, 25, 35, 50, 70, 100, 150], s => s.missionCompletions.finance || 0, n => `Organize as finanças ${n} vez${n === 1 ? "" : "es"}.`),
+      ...titleSeries("food", "Alimentação", "◆", [
+        "Aprendiz das Marmitas", "Mestre da Marmita", "Necromante das Marmitas", "Arquimago das Marmitas",
+        "Senhor das Marmitas", "Guardião da Cozinha", "Forjador de Refeições", "Executor Nutricional",
+        "Alquimista do Prato", "Estrategista da Dieta", "Soberano do Preparo", "Ascendente das Marmitas"
+      ], [1, 3, 5, 8, 12, 18, 25, 35, 50, 70, 100, 150], s => s.missionCompletions.mealprep || 0, n => `Prepare marmitas ${n} vez${n === 1 ? "" : "es"}.`),
+      ...titleSeries("report", "Relatórios", "✧", [
+        "Primeiro Registro", "Cronista da Ascensão", "Escriba da Jornada", "Arquivista da Ascensão",
+        "Mestre da Reflexão", "Guardião das Crônicas", "Narrador Interno", "Analista do Sistema",
+        "Memorialista", "Oráculo da Semana", "Historiador da Evolução", "Ascendente da Reflexão"
+      ], [1, 2, 3, 5, 8, 12, 16, 22, 30, 40, 55, 75], s => dailyReportCount(s) + Number(s.weeklyReportsGenerated || 0), n => `Registre ${n} relatório${n === 1 ? "" : "s"} da jornada.`),
+      ...titleSeries("streak", "Sequências", "▲", [
+        "Persistente", "Determinado", "Inquebrável", "Fanático", "Incansável", "Imortal",
+        "Constante", "Guardião da Rotina", "Executor Diário", "Relógio Humano", "Pacto da Disciplina", "Ascendente da Rotina"
+      ], [3, 7, 14, 21, 30, 45, 60, 90, 120, 180, 250, 365], s => s.streak, n => `Mantenha ${n} dias consecutivos.`),
+      ...titleSeries("bossTitle", "Bosses", "☠", [
+        "Caçador de Chefes", "Conquistador", "Executor de Bosses", "Quebrador de Ameaças", "Sentinela Semanal",
+        "Carrasco da Preguiça", "Dominador do Caos", "Caçador Implacável", "Lenda dos Bosses", "Ascendente de Combate"
+      ], [1, 2, 3, 5, 8, 12, 18, 25, 35, 50], s => s.bossesDefeated, n => `Derrote ${n} boss${n === 1 ? "" : "es"}.`),
+      ...titleSeries("missionTitle", "Jornada", "✹", [
+        "Despertar Inicial", "Executor de Missões", "Construtor de Vida", "Personagem em Evolução", "Rompedor de Ciclos",
+        "Arquiteto da Jornada", "Ascensionista", "Portador do Sistema", "Vida em Progressão", "Ascendente Completo"
+      ], [1, 10, 25, 50, 75, 100, 150, 220, 300, 500], s => s.completedMissions, n => `Conclua ${n} missões reais.`),
+      ...titleSeries("attributeForce", "Força", "◆", ["Aprendiz do Ferro", "Portador do Peso", "Guerreiro do Ferro", "Quebrador de Barras", "Monarca da Força"], [10, 50, 100, 250, 500], s => Math.max(s.attributes["Força"] || 0, s.titleProgress.force || 0), n => `Acumule ${n} pontos de Força.`),
+      ...titleSeries("attributeIntel", "Inteligência", "◇", ["Estudante", "Pesquisador", "Erudito", "Arquivista Arcano", "Sábio Supremo"], [10, 50, 100, 250, 500], s => Math.max(s.attributes["Inteligência"] || 0, s.titleProgress.intelligence || 0), n => `Acumule ${n} pontos de Inteligência.`),
+      ...titleSeries("secretTitle", "Secretos", "?", [
+        "Fantasma do Sistema", "Filho da Madrugada", "Teimoso", "Observador da Ascensão", "Eco do Futuro",
+        "Anomalia Detectada", "Sombra da Rotina", "Desperto em Silêncio"
+      ], [1, 2, 3, 4, 5, 6, 7, 8], s => Object.keys(s.secretAchievements || {}).length, n => `Revele ${n} conquista${n === 1 ? "" : "s"} secreta${n === 1 ? "" : "s"}.`)
     ];
 
     const systemMessages = [
@@ -2908,7 +3459,7 @@ Obrigado pelo projeto!`;
         targetWeight: "",
         glasses: "não",
         beard: "não",
-        avatarColor: "#57e7ff",
+        avatarColor: "#3B82F6",
         works: "Trabalho em tempo integral",
         studies: "sim",
         trainsCurrently: "Estou começando",
@@ -2921,6 +3472,7 @@ Obrigado pelo projeto!`;
         limitation: "Nenhuma",
         experience: "Iniciante",
         usualWorkoutTime: "",
+        sleepTime: "23:00",
         reminderEnabled: false,
         reminderTime: ""
       },
@@ -2953,6 +3505,8 @@ Obrigado pelo projeto!`;
         enabled: false,
         reminderTime: "",
         usualWorkoutTime: "",
+        dailyReportTime: "21:00",
+        lastDailyReportNoticeDate: "",
         lastReminderDate: "",
         permission: "default"
       },
@@ -2983,7 +3537,19 @@ Obrigado pelo projeto!`;
       workoutsByDate: {},
       seasons: {},
       currentSeason: "",
+      weeklyReports: {},
       weeklyReportsGenerated: 0,
+      reports: {
+        daily: [],
+        lastPromptDate: "",
+        lastCompletedDate: ""
+      },
+      chronicles: [],
+      specializations: {
+        baseClass: "Executor",
+        future: ["Guerreiro da Disciplina", "Sábio do Conhecimento", "Mercador da Prosperidade", "Titã do Corpo", "Arquiteto Mental"],
+        unlocked: []
+      },
       hallOfFame: {},
       secretAchievements: {},
       secretProgress: {
@@ -3014,6 +3580,7 @@ Obrigado pelo projeto!`;
     let onboardingStep = 0;
     let pendingOnboardingState = null;
     let activeSelection = null;
+    let selectedDailyMood = "Excelente";
 
     const el = {
       toast: document.querySelector("#toast"),
@@ -3029,9 +3596,15 @@ Obrigado pelo projeto!`;
       nextRenameTokenText: document.querySelector("#nextRenameTokenText"),
       rankTag: document.querySelector("#rankTag"),
       rankValue: document.querySelector("#rankValue"),
+      rankProgressBar: document.querySelector("#rankProgressBar"),
+      rankProgressText: document.querySelector("#rankProgressText"),
       equippedTitleValue: document.querySelector("#equippedTitleValue"),
       journeyDayText: document.querySelector("#journeyDayText"),
       homeSystemPhrase: document.querySelector("#homeSystemPhrase"),
+      homeClassText: document.querySelector("#homeClassText"),
+      homeRankText: document.querySelector("#homeRankText"),
+      homeTitleText: document.querySelector("#homeTitleText"),
+      homeBossText: document.querySelector("#homeBossText"),
       systemPlayerName: document.querySelector("#systemPlayerName"),
       systemClass: document.querySelector("#systemClass"),
       profileClassValue: document.querySelector("#profileClassValue"),
@@ -3121,6 +3694,8 @@ Obrigado pelo projeto!`;
       titleList: document.querySelector("#titleList"),
       statsGrid: document.querySelector("#statsGrid"),
       logList: document.querySelector("#logList"),
+      chronicleCount: document.querySelector("#chronicleCount"),
+      chronicleList: document.querySelector("#chronicleList"),
       fameCount: document.querySelector("#fameCount"),
       fameList: document.querySelector("#fameList"),
       secretCount: document.querySelector("#secretCount"),
@@ -3129,6 +3704,8 @@ Obrigado pelo projeto!`;
       seasonStats: document.querySelector("#seasonStats"),
       weeklyReportBtn: document.querySelector("#weeklyReportBtn"),
       weeklyReportOutput: document.querySelector("#weeklyReportOutput"),
+      baseSpecializationText: document.querySelector("#baseSpecializationText"),
+      futureSpecializationList: document.querySelector("#futureSpecializationList"),
       workoutLimit: document.querySelector("#workoutLimit"),
       workoutLimitButton: document.querySelector("#workoutLimitButton"),
       workoutLimitMenu: document.querySelector("#workoutLimitMenu"),
@@ -3200,6 +3777,7 @@ Obrigado pelo projeto!`;
       onboardingLimitationMenu: document.querySelector("#onboardingLimitationMenu"),
       onboardingExperience: document.querySelector("#onboardingExperience"),
       onboardingWorkoutTime: document.querySelector("#onboardingWorkoutTime"),
+      onboardingSleepTime: document.querySelector("#onboardingSleepTime"),
       onboardingReminderTime: document.querySelector("#onboardingReminderTime"),
       onboardingReminderEnabled: document.querySelector("#onboardingReminderEnabled"),
       onboardingReminderEnabledButton: document.querySelector("#onboardingReminderEnabledButton"),
@@ -3244,7 +3822,14 @@ Obrigado pelo projeto!`;
       reflectionNotesInput: document.querySelector("#reflectionNotesInput"),
       cycleModal: document.querySelector("#cycleModal"),
       repeatCycleBtn: document.querySelector("#repeatCycleBtn"),
-      advanceCycleBtn: document.querySelector("#advanceCycleBtn")
+      advanceCycleBtn: document.querySelector("#advanceCycleBtn"),
+      dailyReportModal: document.querySelector("#dailyReportModal"),
+      dailyReportForm: document.querySelector("#dailyReportForm"),
+      dailyMoodGrid: document.querySelector("#dailyMoodGrid"),
+      dailyReportDayText: document.querySelector("#dailyReportDayText"),
+      dailyVictoryInput: document.querySelector("#dailyVictoryInput"),
+      dailyImproveInput: document.querySelector("#dailyImproveInput"),
+      dailyFutureInput: document.querySelector("#dailyFutureInput")
     };
 
     const customChoiceControls = {
@@ -3501,7 +4086,20 @@ Obrigado pelo projeto!`;
         workoutsByDate: { ...(saved.workoutsByDate || {}) },
         seasons: { ...(saved.seasons || {}) },
         currentSeason: saved.currentSeason || getSeasonKey(),
+        weeklyReports: { ...(saved.weeklyReports || {}) },
         weeklyReportsGenerated: Number(saved.weeklyReportsGenerated || 0),
+        reports: {
+          ...base.reports,
+          ...(saved.reports || {}),
+          daily: Array.isArray(saved.reports?.daily) ? saved.reports.daily : []
+        },
+        chronicles: Array.isArray(saved.chronicles) ? saved.chronicles.slice(0, 80) : [],
+        specializations: {
+          ...base.specializations,
+          ...(saved.specializations || {}),
+          future: Array.isArray(saved.specializations?.future) ? saved.specializations.future : base.specializations.future,
+          unlocked: Array.isArray(saved.specializations?.unlocked) ? saved.specializations.unlocked : []
+        },
         hallOfFame: { ...(saved.hallOfFame || {}) },
         secretAchievements: { ...(saved.secretAchievements || {}) },
         secretProgress: { ...base.secretProgress, ...(saved.secretProgress || {}) },
@@ -3537,34 +4135,50 @@ Obrigado pelo projeto!`;
       return `player-${Date.now()}-${Math.random().toString(16).slice(2)}`;
     }
 
+    const rankTracks = [
+      { base: "Ferro", min: 1, max: 4, icon: "◆", names: ["Escudo de Ferro", "Escudo Reforçado", "Guardião de Ferro"], color: "#B8C0CC", bg: "linear-gradient(145deg, rgba(184,192,204,0.16), rgba(75,85,99,0.12))", line: "rgba(184, 192, 204, 0.42)" },
+      { base: "Bronze", min: 5, max: 9, icon: "⚔", names: ["Bronze", "Lâmina de Bronze", "Guardião de Bronze"], color: "#CD7F32", bg: "linear-gradient(145deg, rgba(205,127,50,0.18), rgba(120,72,35,0.12))", line: "rgba(205, 127, 50, 0.46)" },
+      { base: "Prata", min: 10, max: 14, icon: "◇", names: ["Prata", "Selo de Prata", "Sentinela de Prata"], color: "#E5E7EB", bg: "linear-gradient(145deg, rgba(229,231,235,0.16), rgba(148,163,184,0.1))", line: "rgba(229, 231, 235, 0.42)" },
+      { base: "Ouro", min: 15, max: 19, icon: "✦", names: ["Ouro", "Coroa Dourada", "Guardião Dourado"], color: "#FBBF24", bg: "linear-gradient(145deg, rgba(251,191,36,0.18), rgba(180,83,9,0.1))", line: "rgba(251, 191, 36, 0.48)" },
+      { base: "Platina", min: 20, max: 29, icon: "✧", names: ["Platina", "Núcleo de Platina", "Ascendente de Platina"], color: "#93C5FD", bg: "linear-gradient(145deg, rgba(147,197,253,0.16), rgba(59,130,246,0.1))", line: "rgba(147, 197, 253, 0.42)" },
+      { base: "Diamante", min: 30, max: 39, icon: "◆", names: ["Diamante", "Cristal Vivo", "Monólito Diamante"], color: "#BFDBFE", bg: "linear-gradient(145deg, rgba(191,219,254,0.18), rgba(59,130,246,0.12))", line: "rgba(191, 219, 254, 0.48)" },
+      { base: "Mestre", min: 40, max: 49, icon: "▲", names: ["Mestre", "Mestre Ascendente", "Executor Mestre"], color: "#C4B5FD", bg: "linear-gradient(145deg, rgba(139,92,246,0.18), rgba(59,130,246,0.08))", line: "rgba(139, 92, 246, 0.46)" },
+      { base: "Ascendente", min: 50, max: Infinity, icon: "✹", names: ["Ascendente", "Lenda Viva", "Forma Ascendida"], color: "#FDE68A", bg: "linear-gradient(145deg, rgba(139,92,246,0.22), rgba(251,191,36,0.16))", line: "rgba(251, 191, 36, 0.5)" }
+    ];
+
+    function rankInfo(level = state.level) {
+      const track = rankTracks.find(item => level >= item.min && level <= item.max) || rankTracks[0];
+      const span = Number.isFinite(track.max) ? track.max - track.min + 1 : 12;
+      const local = Math.max(0, Math.min(span - 1, level - track.min));
+      const divisionIndex = Math.min(2, Math.floor((local / span) * 3));
+      const division = ["I", "II", "III"][divisionIndex];
+      const nextTrack = rankTracks[rankTracks.indexOf(track) + 1];
+      const progress = Number.isFinite(track.max)
+        ? Math.min(100, Math.round(((level - track.min + 1) / span) * 100))
+        : 100;
+      return {
+        ...track,
+        division,
+        label: `${track.base} ${division}`,
+        name: track.names[divisionIndex] || track.base,
+        progress,
+        nextLabel: nextTrack ? `${nextTrack.base} I` : "Ascensão contínua",
+        nextLevel: nextTrack ? nextTrack.min : null
+      };
+    }
+
     function getRank(level = state.level) {
-      if (level >= 50) return "Lenda";
-      if (level >= 40) return "Mestre";
-      if (level >= 30) return "Diamante";
-      if (level >= 20) return "Platina";
-      if (level >= 15) return "Ouro";
-      if (level >= 10) return "Prata";
-      if (level >= 5) return "Bronze";
-      return "Ferro";
+      return rankInfo(level).label;
     }
 
     function rankMeta(rank = getRank()) {
-      const map = {
-        Ferro: { icon: "◆", color: "#aab4bf", bg: "rgba(170, 180, 191, 0.12)", line: "rgba(170, 180, 191, 0.36)" },
-        Bronze: { icon: "⚔", color: "#d99a5f", bg: "rgba(217, 154, 95, 0.13)", line: "rgba(217, 154, 95, 0.38)" },
-        Prata: { icon: "◇", color: "#dce8f5", bg: "rgba(220, 232, 245, 0.12)", line: "rgba(220, 232, 245, 0.34)" },
-        Ouro: { icon: "✦", color: "#ffd166", bg: "rgba(255, 209, 102, 0.13)", line: "rgba(255, 209, 102, 0.4)" },
-        Platina: { icon: "✧", color: "#90f7ff", bg: "rgba(144, 247, 255, 0.12)", line: "rgba(144, 247, 255, 0.38)" },
-        Diamante: { icon: "◆", color: "#72e9ff", bg: "rgba(114, 233, 255, 0.14)", line: "rgba(114, 233, 255, 0.42)" },
-        Mestre: { icon: "▲", color: "#a990ff", bg: "rgba(169, 144, 255, 0.14)", line: "rgba(169, 144, 255, 0.42)" },
-        Lenda: { icon: "✹", color: "#f8fdff", bg: "rgba(248, 253, 255, 0.16)", line: "rgba(248, 253, 255, 0.46)" }
-      };
-      return map[rank] || map.Ferro;
+      const base = String(rank).split(" ")[0];
+      return rankTracks.find(item => item.base === base) || rankTracks[0];
     }
 
     function rankBadgeHtml(rank = getRank()) {
-      const meta = rankMeta(rank);
-      return `<span class="rank-badge" style="--rank-color:${meta.color}; --rank-bg:${meta.bg}; --rank-line:${meta.line};"><b>${meta.icon}</b>${rank}</span>`;
+      const info = typeof rank === "number" ? rankInfo(rank) : { ...rankMeta(rank), label: rank, name: rankMeta(rank).names[0] };
+      return `<span class="rank-badge" style="--rank-color:${info.color}; --rank-bg:${info.bg}; --rank-line:${info.line};" title="${info.name}"><b>${info.icon}</b>${info.label}</span>`;
     }
 
     function getBasePlan() {
@@ -3658,6 +4272,10 @@ Obrigado pelo projeto!`;
       return `${now.getFullYear()}-${week}`;
     }
 
+    function getWeekNumber() {
+      return Number(getWeekKey().split("-")[1] || 1);
+    }
+
     function getWeeklyBoss() {
       const now = new Date();
       const firstDay = new Date(now.getFullYear(), 0, 1);
@@ -3677,16 +4295,32 @@ Obrigado pelo projeto!`;
       const [year, month] = key.split("-").map(Number);
       const date = new Date(year, month - 1, 1);
       const label = date.toLocaleDateString("pt-BR", { month: "long", year: "numeric" });
-      return `Temporada ${label.charAt(0).toUpperCase()}${label.slice(1)}`;
+      const number = seasonNumber(key);
+      const themes = ["Ascensão da Disciplina", "Era do Conhecimento", "Forja do Corpo", "Prosperidade em Marcha", "Jornada Integral"];
+      return `Temporada ${number} - ${themes[(number - 1) % themes.length]}`;
     }
 
     function ensureSeason() {
       const key = getSeasonKey();
       state.currentSeason = key;
       if (!state.seasons[key]) {
-        state.seasons[key] = { xp: 0, missions: 0, workouts: 0, bosses: 0, titles: 0 };
+        state.seasons[key] = { xp: 0, missions: 0, workouts: 0, bosses: 0, titles: 0, reports: 0 };
       }
       return state.seasons[key];
+    }
+
+    function seasonNumber(key = getSeasonKey()) {
+      const start = new Date(state.startedAt || new Date());
+      const [year, month] = key.split("-").map(Number);
+      return Math.max(1, (year - start.getFullYear()) * 12 + month - start.getMonth());
+    }
+
+    function reportTimeFromSleep(time) {
+      const [hour = "23", minute = "00"] = String(time || "23:00").split(":");
+      const date = new Date();
+      date.setHours(Number(hour), Number(minute), 0, 0);
+      date.setHours(date.getHours() - 2);
+      return date.toTimeString().slice(0, 5);
     }
 
     function getTodayData() {
@@ -3872,6 +4506,10 @@ Obrigado pelo projeto!`;
       return ids.reduce((sum, id) => sum + (targetState.missionCompletions[id] || 0), 0);
     }
 
+    function dailyReportCount(targetState = state) {
+      return Array.isArray(targetState.reports?.daily) ? targetState.reports.daily.length : 0;
+    }
+
     function equippedTitleName() {
       if (!state.equippedTitle) return "Sem título";
       return titleDefinitions.find(title => title.id === state.equippedTitle)?.name || "Sem título";
@@ -3888,7 +4526,7 @@ Obrigado pelo projeto!`;
         arm: Number(formData?.arm || 0),
         chest: Number(formData?.chest || 0),
         notes: formData?.notes || "",
-        color: profile.avatarColor || "#57e7ff",
+        color: profile.avatarColor || "#3B82F6",
         glasses: profile.glasses === "sim",
         beard: profile.beard === "sim",
         targetWeight: Number(profile.targetWeight || 0),
@@ -4043,28 +4681,36 @@ Obrigado pelo projeto!`;
       const xp = dates.reduce((sum, key) => sum + (state.daily[key]?.exp || 0), 0);
       const bosses = dates.reduce((sum, key) => sum + (state.daily[key]?.bosses?.length || 0), 0);
       const activeDays = dates.filter(key => state.daily[key]?.missions?.length || state.workoutsByDate[key] || state.daily[key]?.bosses?.length).length;
-      const message = activeDays >= 4
-        ? "O Sistema reconheceu sua evolução esta semana."
-        : "A semana foi difícil, mas o personagem ainda está de pé.";
+      const reports = (state.reports.daily || []).filter(report => dates.includes(report.date)).length;
+      const message = activeDays >= 5
+        ? "SEMANA EXCELENTE\nVocê superou as expectativas desta semana."
+        : activeDays >= 3
+          ? "SEMANA MÉDIA\nNem todos os objetivos foram concluídos, mas você continuou avançando."
+          : "SEMANA DIFÍCIL\nSabemos que mudanças de vida exigem tempo. O importante é continuar caminhando.";
       const initial = state.reflection.initial;
       const current = state.reflection.current || initial;
       const weightChange = initial?.weight && current?.weight ? `${(Number(current.weight) - Number(initial.weight)).toFixed(1)} kg desde o início` : "Sem alteração registrada";
 
-      return `RELATÓRIO DA SEMANA
+      return `RELATÓRIO DA SEMANA ${getWeekNumber()}
 
-Missões concluídas: ${missions}
-Treinos concluídos: ${workouts}
-XP ganho: ${xp}
-Bosses derrotados: ${bosses}
-Maior atributo evoluído: ${strongestAttributeName()}
-Títulos desbloqueados: ${Object.keys(state.unlockedTitles).length}
-Dias ativos: ${activeDays}
-Melhor sequência: ${state.streak} dias
-Mudanças detectadas:
+O Sistema analisou sua jornada recente.
+
+Você completou:
+- ${missions} missões
+- ${workouts} treinos
+- ${bosses} boss${bosses === 1 ? "" : "es"}
+- ${reports} relatório${reports === 1 ? "" : "s"}
+
+Energia acumulada:
+- ${xp} XP
+- ${activeDays}/7 dias ativos
+- Melhor sequência: ${state.streak} dias
+- Atributo em destaque: ${strongestAttributeName()}
+- Títulos desbloqueados: ${Object.keys(state.unlockedTitles).length}
+
+Sinais detectados:
 - Peso: ${weightChange}
 - Medidas: ${current?.waist || current?.arm || current?.chest ? "medidas registradas" : "sem novas medidas"}
-- Sequência: ${state.streak} dias
-- Consistência: ${activeDays}/7 dias ativos
 
 ${message}`;
     }
@@ -4276,6 +4922,38 @@ Objetivo: ${goal}`;
       state.log = state.log.slice(0, 40);
     }
 
+    function addChronicle(title, text) {
+      const nextNumber = (state.chronicles?.[0]?.number || 0) + 1;
+      state.chronicles = state.chronicles || [];
+      state.chronicles.unshift({
+        number: nextNumber,
+        title,
+        text,
+        date: new Date().toISOString(),
+        dateLabel: new Date().toLocaleDateString("pt-BR", { day: "2-digit", month: "2-digit" })
+      });
+      state.chronicles = state.chronicles.slice(0, 80);
+    }
+
+    function buildDailyChronicle(report) {
+      const day = state.daily[report.date] || { missions: [], bosses: [], exp: 0 };
+      const workouts = state.workoutsByDate[report.date] || 0;
+      const challenge = state.systemAssessment.initialBoss || state.profile.obstacle || "a própria rotina";
+      const missionText = day.missions.length === 1 ? "1 missão" : `${day.missions.length} missões`;
+      const workoutText = workouts ? `, ${workouts} treino${workouts === 1 ? "" : "s"}` : "";
+      const bossText = day.bosses?.length ? " e um boss enfrentado" : "";
+      const moodLine = report.mood === "Brutal" || report.mood === "Difícil"
+        ? "Mesmo com resistência alta, o personagem permaneceu em movimento."
+        : "O Sistema detectou continuidade e presença.";
+      return `Hoje você concluiu ${missionText}${workoutText}${bossText}. Seu principal desafio continua sendo ${challenge}. ${moodLine}`;
+    }
+
+    function weeklyChronicleText(text) {
+      if (text.includes("SEMANA EXCELENTE")) return "A semana superou o esperado. O personagem demonstrou avanço consistente em múltiplas frentes.";
+      if (text.includes("SEMANA MÉDIA")) return "A semana oscilou, mas a jornada não foi abandonada. Continuidade preservada.";
+      return "A semana foi difícil. Ainda assim, o Sistema registrou permanência, e permanência também é evolução.";
+    }
+
     function narrate(message) {
       el.narratorText.innerHTML = `<strong>[Sistema]</strong> ${message}`;
     }
@@ -4333,6 +5011,8 @@ Objetivo: ${goal}`;
       renderSecretAchievements();
       renderSeason();
       renderLog();
+      renderChronicles();
+      renderFutureSpecializations();
     }
 
     function organizeScreens() {
@@ -4349,25 +5029,26 @@ Objetivo: ${goal}`;
     }
 
     function renderHomeSummary() {
-      const hour = new Date().getHours();
-      const greeting = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
-      const today = getTodayData();
-      const goal = dailyMissionIds().slice(0, 3);
-      const completed = goal.filter(id => today.missions.includes(id)).length;
-      const percent = Math.round((completed / goal.length) * 100);
-      const mainMission = getMainMissionForToday();
+      const nextExpValue = expToNext(state.level);
+      const expPercent = Math.min(100, Math.round((state.exp / nextExpValue) * 100));
+      const rank = rankInfo();
       const next = nextJourneyEvolution();
+      const goal = state.primaryGoal.name || "Defina uma direção para sua ascensão";
 
-      el.todayGreeting.textContent = `${greeting}, ${state.characterName}.`;
+      el.todayGreeting.textContent = state.characterName;
       el.journeyDayText.textContent = `Dia ${daysUsingSystem()} da sua Jornada`;
       el.homeSystemPhrase.textContent = systemNarrative();
-      el.mainMissionText.textContent = mainMission.category === "Academia" ? getTodayWorkout().title : mainMission.name;
-      el.startMainMissionBtn.dataset.mainMission = mainMission.id;
-      el.dailyProgressText.textContent = `${completed} / ${goal.length} missões concluídas`;
-      el.dailyProgressBar.style.width = `${percent}%`;
+      el.homeClassText.textContent = state.systemAssessment.initialClass;
+      el.homeRankText.innerHTML = rankBadgeHtml(rank.label);
+      el.homeTitleText.textContent = equippedTitleName();
+      el.homeBossText.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
+      el.dailyProgressText.textContent = `${state.exp} / ${nextExpValue}`;
+      el.dailyProgressBar.style.width = `${expPercent}%`;
       el.nextMilestoneTitle.textContent = next.title;
       el.nextMilestoneText.textContent = next.missing;
       el.nextRewardText.textContent = next.reward;
+      el.mainMissionText.textContent = goal;
+      el.startMainMissionBtn.dataset.mainMission = "";
     }
 
     function renderToday() {
@@ -4399,7 +5080,7 @@ Objetivo: ${goal}`;
     function renderStatus() {
       const next = expToNext(state.level);
       const expPercent = Math.min(100, Math.round((state.exp / next) * 100));
-      const rank = getRank();
+      const rank = rankInfo();
       const plan = getPlan();
       const unlockedAchievements = Object.keys(state.achievements).length;
 
@@ -4410,8 +5091,10 @@ Objetivo: ${goal}`;
       el.systemJourney.textContent = state.systemAssessment.journey;
       el.systemBoss.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
       el.systemTitle.textContent = equippedTitleName();
-      el.rankTag.innerHTML = rankBadgeHtml(rank);
-      el.rankValue.innerHTML = rankBadgeHtml(rank);
+      el.rankTag.innerHTML = rankBadgeHtml(rank.label);
+      el.rankValue.innerHTML = `${rankBadgeHtml(rank.label)}<span class="muted" style="display:block;margin-top:6px;">${rank.name}</span>`;
+      el.rankProgressBar.style.width = `${rank.progress}%`;
+      el.rankProgressText.textContent = rank.nextLevel ? `Próximo rank: ${rank.nextLabel} no nível ${rank.nextLevel}` : "Rank máximo da V1. Continue ascendendo.";
       el.equippedTitleValue.textContent = equippedTitleName();
       el.renameTokenText.textContent = `Tokens disponíveis: ${availableRenameTokens()}`;
       el.nextRenameTokenText.textContent = `Próximo token em ${workoutsUntilNextRenameToken()} treino(s)`;
@@ -4625,10 +5308,11 @@ Objetivo: ${goal}`;
         return `
           <div class="title-card ${unlocked ? "" : "locked"}">
             <div class="title-card-head">
+              <div class="title-icon">${unlocked ? title.icon || "✦" : "?"}</div>
               <div>
-                <span class="reward-chip">[${title.name}]</span>
-                <strong>${unlocked ? "Título desbloqueado" : "Título bloqueado"}</strong>
-                <span>${title.group} | ${title.desc}</span>
+                <strong>${title.name}</strong>
+                <span>${title.desc}</span>
+                <em class="title-category">${title.group}</em>
               </div>
               <span class="tag ${unlocked ? "cyan-tag" : ""}">${equipped ? "Equipado" : unlocked ? "Livre" : "Bloqueado"}</span>
             </div>
@@ -4701,13 +5385,21 @@ Objetivo: ${goal}`;
         ["Missões", season.missions],
         ["Treinos", season.workouts],
         ["Bosses", season.bosses],
-        ["Títulos", season.titles]
+        ["Títulos", season.titles],
+        ["Relatórios", season.reports || 0]
       ];
       el.seasonStats.innerHTML = stats.map(([label, value]) => `
         <div class="stat-box">
           <span>${label}</span>
           <strong>${value}</strong>
         </div>
+      `).join("");
+    }
+
+    function renderFutureSpecializations() {
+      el.baseSpecializationText.textContent = state.specializations.baseClass || "Executor";
+      el.futureSpecializationList.innerHTML = (state.specializations.future || []).map(name => `
+        <span class="chip">${name}</span>
       `).join("");
     }
 
@@ -4723,6 +5415,24 @@ Objetivo: ${goal}`;
             ${item.detail}
           </div>
           <span>${item.date}</span>
+        </div>
+      `).join("");
+    }
+
+    function renderChronicles() {
+      const chronicles = state.chronicles || [];
+      el.chronicleCount.textContent = chronicles.length;
+      if (!chronicles.length) {
+        el.chronicleList.innerHTML = `<p class="empty">Nenhuma crônica registrada. A jornada ainda está silenciosa.</p>`;
+        return;
+      }
+      el.chronicleList.innerHTML = chronicles.slice(0, 20).map(item => `
+        <div class="log-item">
+          <div>
+            <strong>Crônica #${item.number} - ${item.title}</strong><br>
+            ${item.text}
+          </div>
+          <span>${item.dateLabel}</span>
         </div>
       `).join("");
     }
@@ -4942,6 +5652,9 @@ Objetivo: ${goal}`;
       el.onboardingGoal.value = state.profile.goal || defaultState.profile.goal;
       el.onboardingLimitation.value = state.profile.limitation || defaultState.profile.limitation;
       el.onboardingObstacle.value = state.profile.obstacle || defaultState.profile.obstacle;
+      el.onboardingWorkoutTime.value = state.profile.usualWorkoutTime || "";
+      el.onboardingSleepTime.value = state.profile.sleepTime || defaultState.profile.sleepTime;
+      el.onboardingReminderTime.value = state.profile.reminderTime || "";
       el.onboardingReminderEnabled.value = String(Boolean(state.profile.reminderEnabled));
       Object.keys(diagnosticChoiceControls).forEach(syncDiagnosticChoiceButton);
       el.systemExplain.classList.remove("show");
@@ -5006,6 +5719,7 @@ Objetivo: ${goal}`;
         limitation: el.onboardingLimitation.value,
         experience: el.onboardingExperience.value,
         usualWorkoutTime: el.onboardingWorkoutTime.value,
+        sleepTime: el.onboardingSleepTime.value || "23:00",
         reminderEnabled: el.onboardingReminderEnabled.value === "true",
         reminderTime: el.onboardingReminderTime.value
       };
@@ -5034,6 +5748,7 @@ Objetivo: ${goal}`;
         ...state.notifications,
         enabled: el.onboardingReminderEnabled.value === "true",
         usualWorkoutTime: el.onboardingWorkoutTime.value,
+        dailyReportTime: reportTimeFromSleep(el.onboardingSleepTime.value || "23:00"),
         reminderTime: el.onboardingReminderTime.value,
         permission: "Notification" in window ? Notification.permission : "unsupported"
         }
@@ -5053,7 +5768,7 @@ Objetivo: ${goal}`;
         ["Boss Inicial", result.initialBoss],
         ["Atributo Forte", result.strongestAttribute || "Disciplina"],
         ["Atributo Fraco", result.weakestAttribute || "Vitalidade"],
-        ["Rank Inicial", "Ferro III"]
+        ["Rank Inicial", getRank(1)]
       ];
       el.analysisResult.innerHTML = rows.map(([label, value]) => `
         <div class="system-line ${label === "Jogador" ? "wide" : ""}">
@@ -5173,13 +5888,32 @@ Objetivo: ${goal}`;
 
     async function showWeeklyReport() {
       const text = weeklyReportText();
+      const key = getWeekKey();
+      state.weeklyReports[key] = { date: getDateKey(), text };
       state.weeklyReportsGenerated += 1;
+      ensureSeason().reports = (ensureSeason().reports || 0) + 1;
       el.weeklyReportOutput.textContent = text;
       addLog("Relatório semanal", "Relatório gerado localmente");
-      narrate(text.includes("reconheceu") ? "O Sistema reconheceu sua evolução esta semana." : "A semana foi difícil, mas o personagem ainda está de pé.");
+      addChronicle("Relatório semanal emitido", weeklyChronicleText(text));
+      narrate(text.includes("SEMANA EXCELENTE") ? "Você superou as expectativas desta semana." : "O Sistema registrou sua semana sem julgamento. A jornada continua.");
       checkAchievements();
       await saveState();
-      renderHallOfFame();
+      render();
+    }
+
+    async function maybeGenerateWeeklyReport() {
+      if (!state.onboarded || new Date().getDay() !== 0) return;
+      const key = getWeekKey();
+      if (state.weeklyReports[key]) return;
+      const text = weeklyReportText();
+      state.weeklyReports[key] = { date: getDateKey(), text, automatic: true };
+      state.weeklyReportsGenerated += 1;
+      ensureSeason().reports = (ensureSeason().reports || 0) + 1;
+      addLog("Relatório semanal", "Relatório automático gerado");
+      addChronicle("Relatório semanal automático", weeklyChronicleText(text));
+      checkAchievements();
+      await saveState();
+      render();
     }
 
     function showShareModal() {
@@ -5257,6 +5991,61 @@ Objetivo: ${goal}`;
         state.reflection.lastPromptDate = getDateKey();
         toast("Atualização do Reflexo disponível.");
         showReflectionModal();
+      }
+    }
+
+    function showDailyReportModal() {
+      if (!state.onboarded) return;
+      selectedDailyMood = "Excelente";
+      el.dailyMoodGrid.querySelectorAll(".mood-choice").forEach(button => {
+        button.classList.toggle("active", button.dataset.mood === selectedDailyMood);
+      });
+      el.dailyVictoryInput.value = "";
+      el.dailyImproveInput.value = "";
+      el.dailyFutureInput.value = "";
+      el.dailyReportDayText.textContent = daysUsingSystem();
+      state.reports.lastPromptDate = getDateKey();
+      el.dailyReportModal.classList.add("show");
+    }
+
+    function closeDailyReportModal() {
+      el.dailyReportModal.classList.remove("show");
+    }
+
+    async function saveDailyReport() {
+      const today = getDateKey();
+      const report = {
+        date: today,
+        mood: selectedDailyMood,
+        victory: el.dailyVictoryInput.value.trim(),
+        improve: el.dailyImproveInput.value.trim(),
+        future: el.dailyFutureInput.value.trim(),
+        createdAt: new Date().toISOString()
+      };
+      state.reports.daily = (state.reports.daily || []).filter(item => item.date !== today);
+      state.reports.daily.push(report);
+      state.reports.lastCompletedDate = today;
+      ensureSeason().reports = (ensureSeason().reports || 0) + 1;
+      addLog("Relatório diário", `Jornada ${report.mood}`);
+      addChronicle("Encerramento da Jornada", buildDailyChronicle(report));
+      narrate("Encerramento registrado. Nem todo avanço faz barulho, mas o Sistema percebe.");
+      closeDailyReportModal();
+      checkAchievements();
+      await saveState();
+      render();
+    }
+
+    async function maybePromptDailyReport() {
+      if (!state.onboarded) return;
+      const today = getDateKey();
+      if (state.reports.lastCompletedDate === today || state.reports.lastPromptDate === today) return;
+      const reportTime = state.notifications.dailyReportTime || reportTimeFromSleep(state.profile.sleepTime || "23:00");
+      const now = new Date().toTimeString().slice(0, 5);
+      if (now >= reportTime) {
+        state.reports.lastPromptDate = today;
+        await saveState();
+        toast("Encerramento da Jornada disponível.");
+        showDailyReportModal();
       }
     }
 
@@ -5342,15 +6131,15 @@ Objetivo: ${goal}`;
     function scheduleReminderCheck() {
       if (reminderTimer) window.clearInterval(reminderTimer);
       reminderTimer = window.setInterval(async () => {
-        if (!state.notifications.enabled || !state.notifications.reminderTime) return;
         const now = new Date();
         const time = now.toTimeString().slice(0, 5);
         const today = getDateKey(now);
-        if (time === state.notifications.reminderTime && state.notifications.lastReminderDate !== today) {
+        if (state.notifications.enabled && state.notifications.reminderTime && time === state.notifications.reminderTime && state.notifications.lastReminderDate !== today) {
           state.notifications.lastReminderDate = today;
           await saveState();
           showReminderNotification(false);
         }
+        await maybePromptDailyReport();
       }, 60000);
     }
 
@@ -5426,6 +6215,10 @@ Objetivo: ${goal}`;
       el.shareStatusBtn.addEventListener("click", showShareModal);
       el.weeklyReportBtn.addEventListener("click", showWeeklyReport);
       el.startMainMissionBtn.addEventListener("click", () => {
+        if (!el.startMainMissionBtn.dataset.mainMission) {
+          switchScreen("backup");
+          return;
+        }
         const mission = allMissions().find(item => item.id === el.startMainMissionBtn.dataset.mainMission);
         switchScreen(mission?.category === "Academia" ? "training" : "missions");
       });
@@ -5525,6 +6318,28 @@ Objetivo: ${goal}`;
       });
       el.reflectionModal.addEventListener("click", event => {
         if (event.target === el.reflectionModal) closeReflectionModal();
+      });
+
+      el.dailyMoodGrid.addEventListener("click", event => {
+        const button = event.target.closest("[data-mood]");
+        if (!button) return;
+        selectedDailyMood = button.dataset.mood;
+        el.dailyMoodGrid.querySelectorAll(".mood-choice").forEach(item => {
+          item.classList.toggle("active", item === button);
+        });
+      });
+
+      el.dailyReportForm.addEventListener("submit", event => {
+        event.preventDefault();
+        saveDailyReport();
+      });
+
+      document.querySelectorAll("[data-close-daily-report]").forEach(button => {
+        button.addEventListener("click", closeDailyReportModal);
+      });
+
+      el.dailyReportModal.addEventListener("click", event => {
+        if (event.target === el.dailyReportModal) closeDailyReportModal();
       });
 
       el.dailyMissionList.addEventListener("click", event => {
@@ -5788,6 +6603,8 @@ Objetivo: ${goal}`;
       await saveState();
       scheduleReminderCheck();
       window.setTimeout(maybePromptReflectionUpdate, 900);
+      window.setTimeout(maybePromptDailyReport, 1400);
+      window.setTimeout(maybeGenerateWeeklyReport, 1700);
       registerServiceWorker();
     }
 
