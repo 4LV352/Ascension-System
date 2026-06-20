@@ -5,7 +5,7 @@
        HEAD / PWA
   ========================== -->
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
   <meta name="theme-color" content="#0B0B0B">
   <meta name="description" content="Ascension System: desenvolvimento pessoal gamificado com RPG, treino, hábitos, finanças e missões.">
   <meta name="apple-mobile-web-app-capable" content="yes">
@@ -51,6 +51,8 @@
 
     html {
       scroll-behavior: smooth;
+      overflow-x: hidden;
+      touch-action: manipulation;
     }
 
     body {
@@ -62,8 +64,10 @@
         linear-gradient(145deg, #05060a 0%, #0b1018 48%, #05070c 100%);
       color: var(--text);
       font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 16px;
       overflow-x: hidden;
       user-select: none;
+      -webkit-text-size-adjust: 100%;
     }
 
     body::before {
@@ -100,6 +104,17 @@
     button {
       border: 0;
       cursor: pointer;
+      min-height: 44px;
+      touch-action: manipulation;
+      transition: transform 0.08s ease, filter 0.08s ease, background-color 0.12s ease, border-color 0.12s ease;
+    }
+
+    button:active,
+    .choice-button:active,
+    .mission:active,
+    .exercise-check:active {
+      transform: scale(0.985);
+      filter: brightness(1.14);
     }
 
     input,
@@ -241,6 +256,7 @@
       font-size: 0.82rem;
       font-weight: 900;
       text-transform: uppercase;
+      max-width: 100%;
     }
 
     .icon-btn {
@@ -252,7 +268,7 @@
     }
 
     .small-btn {
-      min-height: 44px;
+      min-height: 46px;
       padding: 0 12px;
       border: 1px solid rgba(255, 255, 255, 0.1);
       background: rgba(255, 255, 255, 0.055);
@@ -261,6 +277,7 @@
 
     .primary-btn {
       width: 100%;
+      min-height: 54px;
       padding: 0 14px;
       border: 1px solid rgba(59, 130, 246, 0.5);
       background: linear-gradient(135deg, rgba(59, 130, 246, 0.2), rgba(34, 197, 94, 0.12));
@@ -270,6 +287,7 @@
 
     .ghost-btn {
       width: 100%;
+      min-height: 54px;
       padding: 0 14px;
       border: 1px solid rgba(255, 255, 255, 0.13);
       background: rgba(255, 255, 255, 0.055);
@@ -278,6 +296,7 @@
 
     .danger-btn {
       width: 100%;
+      min-height: 54px;
       padding: 0 14px;
       border: 1px solid rgba(239, 68, 68, 0.36);
       background: rgba(239, 68, 68, 0.1);
@@ -575,12 +594,6 @@
       font-size: 0.72rem;
       font-weight: 950;
       text-transform: uppercase;
-    }
-
-    .journey-identity {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 10px;
     }
 
     .journey-reward {
@@ -2262,31 +2275,18 @@
             <p class="journey-message" id="homeSystemPhrase">Sua vida é o personagem. Cada decisão move a jornada.</p>
           </div>
 
-          <div class="journey-identity">
-            <div class="system-line">
-              <span>Classe</span>
-              <strong id="homeClassText">Executor</strong>
-            </div>
-            <div class="system-line">
-              <span>Rank</span>
-              <strong id="homeRankText">Ferro I</strong>
-            </div>
-            <div class="system-line gold-line">
-              <span>Título equipado</span>
-              <strong id="homeTitleText">Sem título</strong>
-            </div>
-            <div class="system-line red-line">
-              <span>Boss atual</span>
-              <strong id="homeBossText">Falta de disciplina</strong>
-            </div>
+          <div class="journey-block">
+            <span class="journey-block-label">Missão principal de hoje</span>
+            <h3 id="mainMissionText">Ir para academia</h3>
+            <button class="primary-btn" id="startMainMissionBtn" type="button">Começar missão</button>
           </div>
 
           <div class="journey-block">
             <div class="progress-meta">
-              <span>XP</span>
-              <span id="dailyProgressText">0 / 100</span>
+              <span>Progresso de hoje</span>
+              <span id="dailyProgressText">0 / 3 missões concluídas</span>
             </div>
-            <div class="progress" aria-label="Progresso de XP"><i id="dailyProgressBar"></i></div>
+            <div class="progress" aria-label="Progresso diário"><i id="dailyProgressBar"></i></div>
           </div>
 
           <div class="journey-block">
@@ -2304,11 +2304,6 @@
             </div>
           </div>
 
-          <div class="journey-block">
-            <span class="journey-block-label">Objetivo principal</span>
-            <h3 id="mainMissionText">Defina uma direção para sua ascensão</h3>
-            <button class="primary-btn" id="startMainMissionBtn" type="button">Abrir objetivo</button>
-          </div>
         </div>
       </article>
 
@@ -2371,7 +2366,7 @@
           <div>
             <div class="profile-actions">
               <div>
-                <label for="characterName">Nome do personagem <span class="tooltip" title="Renomear agora consome tokens. Você ganha 1 token a cada 10 treinos concluídos.">?</span></label>
+                <label for="characterName">Nome do personagem</label>
                 <input class="name-input" id="characterName" maxlength="32" autocomplete="off" readonly>
               </div>
               <button class="small-btn" id="renameBtn" type="button">Renomear</button>
@@ -2388,7 +2383,7 @@
               <strong id="profileClassValue">Humano Comum</strong>
             </div>
             <div class="mini-stat">
-              <span>Rank <span class="tooltip" title="Ranks sobem por nível. Títulos são independentes e podem ser equipados.">?</span></span>
+              <span>Rank</span>
               <strong id="rankValue">Ferro</strong>
               <div class="rank-progress">
                 <div class="progress" aria-label="Progresso do rank"><i id="rankProgressBar"></i></div>
@@ -2396,7 +2391,7 @@
               </div>
             </div>
             <div class="mini-stat wide">
-              <span>Título equipado <span class="tooltip" title="Títulos são conquistas equipáveis. Eles não substituem seu rank.">?</span></span>
+              <span>Título equipado</span>
               <strong id="equippedTitleValue">Sem título</strong>
             </div>
           </div>
@@ -2603,6 +2598,7 @@
           </div>
         </div>
         <p class="feedback-copy" id="cycleAdaptation" style="margin-top: 10px; margin-bottom: 0;">Plano adaptado ao perfil salvo.</p>
+        <button class="ghost-btn" id="regenerateWorkoutBtn" type="button" style="margin-top: 12px;">Regenerar treino</button>
       </article>
       <div class="plan-list" id="trainingPlan"></div>
     </section>
@@ -3226,12 +3222,23 @@
     </div>
   </div>
 
+  <div class="modal" id="workoutDetailModal" role="dialog" aria-modal="true" aria-labelledby="workoutDetailTitle">
+    <div class="modal-card">
+      <div class="section-title">
+        <h2 id="workoutDetailTitle">Treino</h2>
+        <button class="small-btn" type="button" data-close-workout-detail>Fechar</button>
+      </div>
+      <p class="feedback-copy" id="workoutDetailMeta">Detalhes do treino personalizado.</p>
+      <div class="exercise-list" id="workoutDetailList"></div>
+    </div>
+  </div>
+
   <!-- =========================
        JAVASCRIPT
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.8";
+    const APP_VERSION = "1.0.9";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -3521,6 +3528,7 @@ Obrigado pelo projeto!`;
       trainingCycle: 1,
       cycleProgress: 0,
       cycleReadyReview: false,
+      workoutPlan: null,
       bossesDefeated: 0,
       defeatedBosses: {},
       attributes: {
@@ -3533,6 +3541,11 @@ Obrigado pelo projeto!`;
       },
       customMissions: [],
       missionCompletions: {},
+      dailyMissionPlan: {
+        date: "",
+        ids: [],
+        mainId: ""
+      },
       daily: {},
       workoutsByDate: {},
       seasons: {},
@@ -3581,6 +3594,7 @@ Obrigado pelo projeto!`;
     let pendingOnboardingState = null;
     let activeSelection = null;
     let selectedDailyMood = "Excelente";
+    const busyActions = new Set();
 
     const el = {
       toast: document.querySelector("#toast"),
@@ -3601,10 +3615,6 @@ Obrigado pelo projeto!`;
       equippedTitleValue: document.querySelector("#equippedTitleValue"),
       journeyDayText: document.querySelector("#journeyDayText"),
       homeSystemPhrase: document.querySelector("#homeSystemPhrase"),
-      homeClassText: document.querySelector("#homeClassText"),
-      homeRankText: document.querySelector("#homeRankText"),
-      homeTitleText: document.querySelector("#homeTitleText"),
-      homeBossText: document.querySelector("#homeBossText"),
       systemPlayerName: document.querySelector("#systemPlayerName"),
       systemClass: document.querySelector("#systemClass"),
       profileClassValue: document.querySelector("#profileClassValue"),
@@ -3681,6 +3691,11 @@ Obrigado pelo projeto!`;
       cycleModel: document.querySelector("#cycleModel"),
       cycleAdaptation: document.querySelector("#cycleAdaptation"),
       trainingPlan: document.querySelector("#trainingPlan"),
+      regenerateWorkoutBtn: document.querySelector("#regenerateWorkoutBtn"),
+      workoutDetailModal: document.querySelector("#workoutDetailModal"),
+      workoutDetailTitle: document.querySelector("#workoutDetailTitle"),
+      workoutDetailMeta: document.querySelector("#workoutDetailMeta"),
+      workoutDetailList: document.querySelector("#workoutDetailList"),
       missionCount: document.querySelector("#missionCount"),
       filters: document.querySelector("#filters"),
       missionList: document.querySelector("#missionList"),
@@ -4082,8 +4097,10 @@ Obrigado pelo projeto!`;
         defeatedBosses: { ...(saved.defeatedBosses || {}) },
         customMissions: Array.isArray(saved.customMissions) ? saved.customMissions : [],
         missionCompletions: { ...(saved.missionCompletions || {}) },
+        dailyMissionPlan: { ...base.dailyMissionPlan, ...(saved.dailyMissionPlan || {}) },
         daily: { ...(saved.daily || {}) },
         workoutsByDate: { ...(saved.workoutsByDate || {}) },
+        workoutPlan: saved.workoutPlan || null,
         seasons: { ...(saved.seasons || {}) },
         currentSeason: saved.currentSeason || getSeasonKey(),
         weeklyReports: { ...(saved.weeklyReports || {}) },
@@ -4181,6 +4198,122 @@ Obrigado pelo projeto!`;
       return `<span class="rank-badge" style="--rank-color:${info.color}; --rank-bg:${info.bg}; --rank-line:${info.line};" title="${info.name}"><b>${info.icon}</b>${info.label}</span>`;
     }
 
+    const exerciseLibrary = [
+      { name: "Supino máquina", group: "Peito", places: ["Academia"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia", "Força", "Saúde"], equipment: "máquina", avoid: ["Ombro"], priority: 9, sets: "3", reps: "8-12", rest: "75s", note: "controle a descida" },
+      { name: "Supino reto com barra", group: "Peito", places: ["Academia"], levels: ["Intermediário", "Avançado"], goals: ["Hipertrofia", "Força"], equipment: "barra", avoid: ["Ombro"], priority: 10, sets: "4", reps: "6-10", rest: "90s", note: "carga segura" },
+      { name: "Flexão tradicional", group: "Peito", places: ["Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Saúde", "Condicionamento", "Emagrecimento"], equipment: "peso corporal", avoid: ["Ombro"], priority: 9, sets: "3", reps: "8-15", rest: "60s", note: "tronco firme" },
+      { name: "Crucifixo com halteres", group: "Peito", places: ["Academia", "Casa", "Condomínio"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia"], equipment: "halteres", avoid: ["Ombro"], priority: 7, sets: "3", reps: "10-12", rest: "60s", note: "amplitude confortável" },
+      { name: "Puxada frente", group: "Costas", places: ["Academia", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Força", "Saúde"], equipment: "polia", avoid: ["Ombro"], priority: 10, sets: "3", reps: "8-12", rest: "75s", note: "escápulas ativas" },
+      { name: "Remada baixa", group: "Costas", places: ["Academia", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Força"], equipment: "máquina", avoid: ["Coluna"], priority: 9, sets: "3", reps: "8-12", rest: "75s", note: "coluna neutra" },
+      { name: "Remada com elástico", group: "Costas", places: ["Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia", "Saúde", "Condicionamento"], equipment: "elástico", avoid: [], priority: 8, sets: "3", reps: "12-15", rest: "50s", note: "puxe com as costas" },
+      { name: "Barra australiana", group: "Costas", places: ["Calistenia", "Condomínio", "Casa"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia", "Força", "Condicionamento"], equipment: "barra baixa", avoid: ["Ombro"], priority: 8, sets: "3", reps: "máximo técnico", rest: "75s", note: "corpo alinhado" },
+      { name: "Desenvolvimento máquina", group: "Ombro", places: ["Academia"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia", "Força"], equipment: "máquina", avoid: ["Ombro"], priority: 8, sets: "3", reps: "8-12", rest: "75s", note: "sem dor" },
+      { name: "Elevação lateral", group: "Ombro", places: ["Academia", "Casa", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Saúde"], equipment: "halteres", avoid: ["Ombro"], priority: 8, sets: "3", reps: "12-15", rest: "45s", note: "leve e controlado" },
+      { name: "Face pull", group: "Ombro", places: ["Academia", "Casa", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Hipertrofia"], equipment: "polia/elástico", avoid: [], priority: 9, sets: "3", reps: "12-15", rest: "45s", note: "postura e ombro saudável" },
+      { name: "Tríceps corda", group: "Tríceps", places: ["Academia", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia"], equipment: "polia", avoid: ["Ombro"], priority: 8, sets: "3", reps: "10-12", rest: "60s", note: "cotovelos estáveis" },
+      { name: "Tríceps banco", group: "Tríceps", places: ["Casa", "Condomínio", "Calistenia"], levels: ["Intermediário", "Avançado"], goals: ["Hipertrofia", "Condicionamento"], equipment: "banco", avoid: ["Ombro"], priority: 6, sets: "3", reps: "8-12", rest: "60s", note: "ombro confortável" },
+      { name: "Rosca direta", group: "Bíceps", places: ["Academia", "Casa", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia"], equipment: "barra/halteres", avoid: [], priority: 8, sets: "3", reps: "10-12", rest: "60s", note: "sem balanço" },
+      { name: "Rosca martelo", group: "Bíceps", places: ["Academia", "Casa", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Força"], equipment: "halteres", avoid: [], priority: 7, sets: "3", reps: "10-12", rest: "60s", note: "punho neutro" },
+      { name: "Leg press", group: "Pernas", places: ["Academia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Força"], equipment: "máquina", avoid: ["Joelho"], priority: 10, sets: "4", reps: "10-12", rest: "90s", note: "amplitude segura" },
+      { name: "Agachamento guiado", group: "Pernas", places: ["Academia"], levels: ["Intermediário", "Avançado"], goals: ["Hipertrofia", "Força"], equipment: "smith", avoid: ["Joelho", "Coluna"], priority: 9, sets: "4", reps: "6-10", rest: "100s", note: "técnica primeiro" },
+      { name: "Agachamento no banco", group: "Pernas", places: ["Casa", "Condomínio", "Calistenia", "Academia"], levels: ["Iniciante"], goals: ["Saúde", "Condicionamento", "Emagrecimento"], equipment: "banco", avoid: ["Joelho"], priority: 7, sets: "3", reps: "10-12", rest: "60s", note: "sentar e levantar controlado" },
+      { name: "Ponte de glúteo", group: "Pernas", places: ["Casa", "Condomínio", "Calistenia", "Academia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Hipertrofia"], equipment: "peso corporal", avoid: [], priority: 8, sets: "3", reps: "12-15", rest: "45s", note: "protege joelho" },
+      { name: "Mesa flexora", group: "Pernas", places: ["Academia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Saúde"], equipment: "máquina", avoid: [], priority: 8, sets: "3", reps: "10-12", rest: "60s", note: "posterior de coxa" },
+      { name: "Cadeira extensora", group: "Pernas", places: ["Academia"], levels: ["Iniciante", "Intermediário"], goals: ["Hipertrofia"], equipment: "máquina", avoid: ["Joelho"], priority: 7, sets: "3", reps: "12", rest: "60s", note: "sem travar o joelho" },
+      { name: "Panturrilha em pé", group: "Pernas", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Hipertrofia", "Saúde"], equipment: "livre", avoid: [], priority: 6, sets: "4", reps: "12-15", rest: "45s", note: "pausa no topo" },
+      { name: "Prancha", group: "Core", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Condicionamento", "Emagrecimento", "Hipertrofia"], equipment: "peso corporal", avoid: ["Coluna"], priority: 9, sets: "3", reps: "30-45s", rest: "45s", note: "abdômen firme" },
+      { name: "Dead bug", group: "Core", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário"], goals: ["Saúde", "Condicionamento"], equipment: "peso corporal", avoid: [], priority: 8, sets: "3", reps: "10 cada lado", rest: "40s", note: "controle lombar" },
+      { name: "Caminhada inclinada", group: "Cardio", places: ["Academia", "Condomínio"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Emagrecimento", "Condicionamento", "Saúde"], equipment: "esteira", avoid: ["Joelho"], priority: 9, sets: "1", reps: "12-20 min", rest: "-", note: "ritmo sustentável" },
+      { name: "Bike ergométrica", group: "Cardio", places: ["Academia", "Condomínio", "Casa"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Emagrecimento", "Condicionamento", "Saúde"], equipment: "bike", avoid: [], priority: 9, sets: "1", reps: "12-20 min", rest: "-", note: "baixo impacto" },
+      { name: "Circuito leve", group: "Cardio", places: ["Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário"], goals: ["Emagrecimento", "Condicionamento"], equipment: "peso corporal", avoid: ["Joelho"], priority: 8, sets: "3", reps: "4 min", rest: "60s", note: "sem saltos" },
+      { name: "Polichinelo baixo impacto", group: "Cardio", places: ["Casa", "Condomínio", "Calistenia"], levels: ["Iniciante"], goals: ["Emagrecimento", "Condicionamento"], equipment: "peso corporal", avoid: ["Joelho"], priority: 5, sets: "3", reps: "45s", rest: "45s", note: "passo lateral sem salto" }
+    ];
+
+    function workoutSignature(profile = state.profile) {
+      return [profile.trainingPlace, profile.experience, profile.goal, profile.trainingDays, profile.limitation].join("|");
+    }
+
+    function splitForDays(days) {
+      if (days <= 2) return [{ code: "A", title: "Full Body A", groups: ["Peito", "Costas", "Pernas", "Ombro", "Core", "Cardio"] }, { code: "B", title: "Full Body B", groups: ["Pernas", "Costas", "Peito", "Bíceps", "Tríceps", "Core"] }];
+      if (days === 3) return [{ code: "A", title: "Peito + Ombro + Tríceps", groups: ["Peito", "Ombro", "Tríceps", "Core"] }, { code: "B", title: "Costas + Bíceps", groups: ["Costas", "Bíceps", "Core", "Cardio"] }, { code: "C", title: "Pernas + Condicionamento", groups: ["Pernas", "Core", "Cardio"] }];
+      if (days === 4) return [{ code: "A", title: "Upper A", groups: ["Peito", "Costas", "Ombro", "Tríceps", "Bíceps"] }, { code: "B", title: "Lower A", groups: ["Pernas", "Core", "Cardio"] }, { code: "C", title: "Upper B", groups: ["Costas", "Peito", "Ombro", "Bíceps", "Tríceps"] }, { code: "D", title: "Lower B", groups: ["Pernas", "Core", "Cardio"] }];
+      if (days === 5) return [{ code: "A", title: "Peito + Tríceps", groups: ["Peito", "Tríceps", "Core"] }, { code: "B", title: "Costas + Bíceps", groups: ["Costas", "Bíceps"] }, { code: "C", title: "Pernas", groups: ["Pernas", "Core"] }, { code: "D", title: "Ombro + Braços", groups: ["Ombro", "Bíceps", "Tríceps"] }, { code: "E", title: "Foco complementar", groups: ["Cardio", "Core", "Pernas", "Costas"] }];
+      return [{ code: "A", title: "Push", groups: ["Peito", "Ombro", "Tríceps"] }, { code: "B", title: "Pull", groups: ["Costas", "Bíceps", "Core"] }, { code: "C", title: "Legs", groups: ["Pernas", "Core"] }, { code: "D", title: "Push B", groups: ["Peito", "Ombro", "Tríceps"] }, { code: "E", title: "Pull B", groups: ["Costas", "Bíceps", "Cardio"] }, { code: "F", title: "Legs B", groups: ["Pernas", "Core", "Cardio"] }];
+    }
+
+    function targetExerciseCount(level) {
+      if (level === "Avançado") return 7;
+      if (level === "Intermediário") return 8;
+      return 10;
+    }
+
+    function formatExercise(item) {
+      return `${item.name} - ${item.sets}x${item.reps}${item.rest !== "-" ? ` | descanso ${item.rest}` : ""}${item.note ? ` | ${item.note}` : ""}`;
+    }
+
+    function pickExercises(groups, profile, count) {
+      const place = profile.trainingPlace || "Academia";
+      const level = profile.experience || "Iniciante";
+      const goal = profile.goal || "Hipertrofia";
+      const limitation = profile.limitation || "Nenhuma";
+      const selected = [];
+      const seen = new Set();
+      const groupQueue = [...groups];
+      if (["Emagrecimento", "Condicionamento", "Saúde"].includes(goal) && !groupQueue.includes("Cardio")) groupQueue.push("Cardio");
+      while (selected.length < count && groupQueue.length) {
+        const group = groupQueue.shift();
+        const options = exerciseLibrary
+          .filter(item => item.group === group)
+          .filter(item => item.places.includes(place) || (place === "Condomínio" && item.places.includes("Casa")))
+          .filter(item => item.levels.includes(level) || item.levels.includes("Iniciante"))
+          .filter(item => item.goals.includes(goal) || item.goals.includes("Saúde"))
+          .filter(item => limitation === "Nenhuma" || !item.avoid.includes(limitation))
+          .filter(item => !seen.has(item.name))
+          .sort((a, b) => b.priority - a.priority);
+        if (options[0]) {
+          selected.push(formatExercise(options[0]));
+          seen.add(options[0].name);
+        }
+        if (selected.length < count && groupQueue.length < groups.length * 2) groupQueue.push(group);
+      }
+      if (selected.length < count) {
+        exerciseLibrary
+          .filter(item => item.places.includes(place) && !seen.has(item.name) && (limitation === "Nenhuma" || !item.avoid.includes(limitation)))
+          .sort((a, b) => b.priority - a.priority)
+          .slice(0, count - selected.length)
+          .forEach(item => selected.push(formatExercise(item)));
+      }
+      return selected.slice(0, count);
+    }
+
+    function generateWorkoutPlan(profile = state.profile) {
+      const days = Math.min(6, Math.max(2, Number(profile.trainingDays || 3)));
+      const level = profile.experience || "Iniciante";
+      const division = splitForDays(days);
+      const count = targetExerciseCount(level);
+      const planDays = division.map(day => ({
+        ...day,
+        exercises: pickExercises(day.groups, profile, count)
+      }));
+      const summary = `${profile.trainingPlace || "Academia"}, ${days} dias/semana, ${level.toLowerCase()}, ${(profile.goal || "Hipertrofia").toLowerCase()}, ${profile.limitation && profile.limitation !== "Nenhuma" ? `limitação: ${profile.limitation.toLowerCase()}` : "sem limitação"}.`;
+      return {
+        name: days <= 2 ? "Full Body" : days === 3 ? "ABC Personalizado" : days === 4 ? "Upper/Lower" : days === 5 ? "ABC + Foco" : "Push/Pull/Legs",
+        model: days <= 2 ? "A/B" : days === 3 ? "ABC" : days === 4 ? "Upper/Lower" : days === 5 ? "ABCDE" : "PPL",
+        note: `Treino gerado com base em: ${summary}`,
+        signature: workoutSignature(profile),
+        generatedAt: new Date().toISOString(),
+        days: planDays
+      };
+    }
+
+    function ensureWorkoutPlan(force = false) {
+      if (force || !state.workoutPlan || state.workoutPlan.signature !== workoutSignature()) {
+        state.workoutPlan = generateWorkoutPlan();
+        state.exerciseChecks = {};
+      }
+      return state.workoutPlan;
+    }
+
     function getBasePlan() {
       if (state.trainingCycle <= 1) return workoutPlans[1];
       if (state.trainingCycle === 2) return workoutPlans[2];
@@ -4188,7 +4321,7 @@ Obrigado pelo projeto!`;
     }
 
     function getPlan() {
-      return personalizeWorkoutPlan(getBasePlan());
+      return ensureWorkoutPlan();
     }
 
     function personalizeWorkoutPlan(plan) {
@@ -4372,15 +4505,36 @@ Obrigado pelo projeto!`;
       }
     }
 
+    function ensureDailyMissionPlan() {
+      const today = getDateKey();
+      if (state.dailyMissionPlan.date === today && state.dailyMissionPlan.ids?.length) return state.dailyMissionPlan;
+      const weak = state.systemAssessment.weakestAttribute;
+      const goal = state.profile.goal || "";
+      const pool = ["water", "study", "mealprep", "finance", "walk", "sleep", "college"];
+      if (canRegisterWorkout() && !state.cycleReadyReview) pool.unshift("gym");
+      if (goal === "Finanças") pool.unshift("finance");
+      if (goal === "Conhecimento") pool.unshift("study", "college");
+      if (["Emagrecimento", "Hipertrofia", "Força", "Condicionamento"].includes(goal)) pool.unshift("gym", "walk", "mealprep");
+      if (weak === "Vitalidade") pool.unshift("water", "sleep", "walk");
+      if (weak === "Prosperidade") pool.unshift("finance");
+      if (weak === "Inteligência") pool.unshift("study", "college");
+      const ids = [...new Set(pool)].filter(id => allMissions().some(mission => mission.id === id)).slice(0, 4);
+      state.dailyMissionPlan = {
+        date: today,
+        ids,
+        mainId: ids[0] || "water"
+      };
+      return state.dailyMissionPlan;
+    }
+
     function dailyMissionIds() {
-      return ["gym", "study", "water", "finance"];
+      return ensureDailyMissionPlan().ids;
     }
 
     function getMainMissionForToday() {
       const today = getTodayData();
-      const workout = allMissions().find(mission => mission.id === "gym");
-      if (workout && !today.missions.includes("gym") && canRegisterWorkout() && !state.cycleReadyReview) return workout;
-      const daily = dailyMissionIds()
+      const plan = ensureDailyMissionPlan();
+      const daily = plan.ids
         .map(id => allMissions().find(mission => mission.id === id))
         .filter(Boolean);
       return daily.find(mission => !today.missions.includes(mission.id)) || allMissions().find(mission => !today.missions.includes(mission.id)) || daily[0] || allMissions()[0];
@@ -4735,6 +4889,10 @@ Objetivo: ${goal}`;
     }
 
     async function completeMission(missionId, options = {}) {
+      const busyKey = `mission-${missionId}`;
+      if (busyActions.has(busyKey)) return;
+      busyActions.add(busyKey);
+      try {
       const mission = allMissions().find(item => item.id === missionId);
       if (!mission) return;
       const today = getTodayData();
@@ -4776,6 +4934,9 @@ Objetivo: ${goal}`;
       render();
       showActionFeedback("Missão concluída", `+${mission.exp} XP`);
       if (state.cycleReadyReview) showCycleModal();
+      } finally {
+        busyActions.delete(busyKey);
+      }
     }
 
     function registerWorkoutProgress() {
@@ -4799,6 +4960,9 @@ Objetivo: ${goal}`;
     }
 
     async function completeWorkout() {
+      if (busyActions.has("workout")) return;
+      busyActions.add("workout");
+      try {
       if (!canRegisterWorkout()) {
         narrate(`Limite diário de ${state.workoutLimitPerDay} treino(s) atingido. O sistema percebeu a tentativa de farm.`);
         toast("Treino bloqueado pelo anti-farm diário.");
@@ -4814,9 +4978,15 @@ Objetivo: ${goal}`;
       render();
       showActionFeedback("Treino concluído", "+35 XP");
       if (state.cycleReadyReview) showCycleModal();
+      } finally {
+        busyActions.delete("workout");
+      }
     }
 
     async function defeatBoss() {
+      if (busyActions.has("boss")) return;
+      busyActions.add("boss");
+      try {
       const weekKey = getWeekKey();
       if (state.defeatedBosses[weekKey]) {
         narrate("Boss já derrotado nesta semana. Farm duplicado bloqueado pelo sistema.");
@@ -4834,6 +5004,9 @@ Objetivo: ${goal}`;
       await saveState();
       render();
       showActionFeedback("Boss derrotado", "+90 XP");
+      } finally {
+        busyActions.delete("boss");
+      }
     }
 
     async function advanceCycle() {
@@ -5022,33 +5195,32 @@ Objetivo: ${goal}`;
         if (node && target && node.parentElement !== target) target.appendChild(node);
       };
 
-      ["missionsCard", "todayCard", "bossCard", "logCard"].forEach(id => move(id, "missions"));
-      ["reflectionCard", "workoutTodayCard", "trainingCycleCard", "calendarCard", "attributesCard"].forEach(id => move(id, "training"));
+      ["todayCard", "workoutTodayCard", "missionsCard", "bossCard"].forEach(id => move(id, "missions"));
+      ["trainingCycleCard", "reflectionCard", "calendarCard", "attributesCard", "logCard"].forEach(id => move(id, "training"));
       ["achievementsCard", "titlesCard", "fameCard", "secretCard", "statsCard", "seasonCard", "weeklyReportCard"].forEach(id => move(id, "achievements"));
       ["statusPanel", "goalCard", "nextEvolutionCard", "narratorCard", "settingsCard", "aboutCard", "futureCard"].forEach(id => move(id, "backup"));
     }
 
     function renderHomeSummary() {
-      const nextExpValue = expToNext(state.level);
-      const expPercent = Math.min(100, Math.round((state.exp / nextExpValue) * 100));
-      const rank = rankInfo();
+      const hour = new Date().getHours();
+      const greeting = hour < 12 ? "Bom dia" : hour < 18 ? "Boa tarde" : "Boa noite";
+      const today = getTodayData();
+      const ids = dailyMissionIds().slice(0, 3);
+      const completed = ids.filter(id => today.missions.includes(id)).length;
+      const percent = Math.round((completed / Math.max(1, ids.length)) * 100);
+      const mainMission = getMainMissionForToday();
       const next = nextJourneyEvolution();
-      const goal = state.primaryGoal.name || "Defina uma direção para sua ascensão";
 
-      el.todayGreeting.textContent = state.characterName;
+      el.todayGreeting.textContent = `${greeting}, ${state.characterName}.`;
       el.journeyDayText.textContent = `Dia ${daysUsingSystem()} da sua Jornada`;
       el.homeSystemPhrase.textContent = systemNarrative();
-      el.homeClassText.textContent = state.systemAssessment.initialClass;
-      el.homeRankText.innerHTML = rankBadgeHtml(rank.label);
-      el.homeTitleText.textContent = equippedTitleName();
-      el.homeBossText.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
-      el.dailyProgressText.textContent = `${state.exp} / ${nextExpValue}`;
-      el.dailyProgressBar.style.width = `${expPercent}%`;
+      el.mainMissionText.textContent = mainMission.category === "Academia" ? getTodayWorkout().title : mainMission.name;
+      el.startMainMissionBtn.dataset.mainMission = mainMission.id;
+      el.dailyProgressText.textContent = `${completed} / ${ids.length} missões concluídas`;
+      el.dailyProgressBar.style.width = `${percent}%`;
       el.nextMilestoneTitle.textContent = next.title;
       el.nextMilestoneText.textContent = next.missing;
       el.nextRewardText.textContent = next.reward;
-      el.mainMissionText.textContent = goal;
-      el.startMainMissionBtn.dataset.mainMission = "";
     }
 
     function renderToday() {
@@ -5058,7 +5230,7 @@ Objetivo: ${goal}`;
       const ids = dailyMissionIds();
       const completed = ids.filter(id => today.missions.includes(id)).length;
       const percent = Math.round((completed / ids.length) * 100);
-      const mainMission = allMissions().find(mission => !today.missions.includes(mission.id)) || allMissions()[0];
+      const mainMission = getMainMissionForToday();
 
       el.missionsTodayGreeting.textContent = `${greeting}, ${state.characterName}.`;
       el.missionsMainMissionText.textContent = `Missão principal: ${mainMission.name}`;
@@ -5068,6 +5240,7 @@ Objetivo: ${goal}`;
       el.streakTag.textContent = `${state.streak} dia${state.streak === 1 ? "" : "s"}`;
       el.dailyMissionList.innerHTML = ids.map(id => {
         const mission = allMissions().find(item => item.id === id);
+        if (!mission) return "";
         const done = today.missions.includes(id);
         return `
           <button class="${done ? "ghost-btn" : "primary-btn"}" type="button" data-daily-mission="${id}">
@@ -5211,10 +5384,32 @@ Objetivo: ${goal}`;
       const plan = getPlan();
       el.trainingPlan.innerHTML = plan.days.map(day => `
         <article class="panel plan-day">
-          <h3>${day.code}: ${day.title}</h3>
-          <ul>${day.exercises.map(exercise => `<li>${exercise}</li>`).join("")}</ul>
+          <div class="workout-name">
+            <div>
+              <h3>Treino ${day.code} - ${day.title}</h3>
+              <p class="muted">${day.exercises.length} exercícios</p>
+            </div>
+            <button class="small-btn" type="button" data-workout-detail="${day.code}">Ver treino</button>
+          </div>
         </article>
       `).join("");
+    }
+
+    function showWorkoutDetail(code) {
+      const day = getPlan().days.find(item => item.code === code);
+      if (!day) return;
+      el.workoutDetailTitle.textContent = `Treino ${day.code} - ${day.title}`;
+      el.workoutDetailMeta.textContent = getPlan().note;
+      el.workoutDetailList.innerHTML = day.exercises.map(exercise => `
+        <div class="exercise-check">
+          <span>${exercise}</span>
+        </div>
+      `).join("");
+      el.workoutDetailModal.classList.add("show");
+    }
+
+    function closeWorkoutDetail() {
+      el.workoutDetailModal.classList.remove("show");
     }
 
     function renderAttributes() {
@@ -5688,10 +5883,37 @@ Objetivo: ${goal}`;
     }
 
     function validateOnboardingStep() {
-      if (onboardingStep === 0 && !el.onboardingName.value.trim() && !el.onboardingCharacterName.value.trim()) {
-        toast("Informe pelo menos um nome para o Sistema reconhecer o jogador.");
-        el.onboardingName.focus();
+      const namePattern = /^[\p{L}\s'.-]+$/u;
+      const fail = (message, field) => {
+        toast(message || "Preencha esta etapa antes de continuar.");
+        if (field) field.focus();
         return false;
+      };
+      if (onboardingStep === 0) {
+        const realName = el.onboardingName.value.trim();
+        const characterName = el.onboardingCharacterName.value.trim();
+        const age = Number(el.onboardingAge.value);
+        const height = Number(el.onboardingHeight.value);
+        const weight = Number(el.onboardingWeight.value);
+        if (!realName && !characterName) return fail("Preencha esta etapa antes de continuar.", el.onboardingName);
+        if (realName && !namePattern.test(realName)) return fail("Nome deve usar letras, espaços e acentos. Números não são aceitos.", el.onboardingName);
+        if (characterName && !namePattern.test(characterName)) return fail("Nome do personagem não pode conter números.", el.onboardingCharacterName);
+        if (!age || age < 8 || age > 120) return fail("Informe uma idade válida.", el.onboardingAge);
+        if (!height || height < 80 || height > 240) return fail("Informe uma altura válida em centímetros.", el.onboardingHeight);
+        if (!weight || weight < 20 || weight > 300) return fail("Informe um peso atual válido.", el.onboardingWeight);
+      }
+      if (onboardingStep === 1) {
+        if (!el.onboardingWorks.value || !el.onboardingTrains.value || !el.onboardingTrainingDays.value || !el.onboardingTrainingPlace.value) {
+          return fail("Escolha as opções desta etapa antes de continuar.");
+        }
+      }
+      if (onboardingStep === 2) {
+        if (!el.onboardingGoal.value || !el.onboardingLimitation.value || !el.onboardingSleepTime.value) {
+          return fail("Complete objetivo, limitação e horário de sono.");
+        }
+      }
+      if (onboardingStep === 3 && !el.onboardingObstacle.value) {
+        return fail("Escolha o boss inicial antes de continuar.");
       }
       return true;
     }
@@ -5751,7 +5973,8 @@ Objetivo: ${goal}`;
         dailyReportTime: reportTimeFromSleep(el.onboardingSleepTime.value || "23:00"),
         reminderTime: el.onboardingReminderTime.value,
         permission: "Notification" in window ? Notification.permission : "unsupported"
-        }
+        },
+        workoutPlan: generateWorkoutPlan(profile)
       };
     }
 
@@ -6216,11 +6439,10 @@ Objetivo: ${goal}`;
       el.weeklyReportBtn.addEventListener("click", showWeeklyReport);
       el.startMainMissionBtn.addEventListener("click", () => {
         if (!el.startMainMissionBtn.dataset.mainMission) {
-          switchScreen("backup");
+          switchScreen("missions");
           return;
         }
-        const mission = allMissions().find(item => item.id === el.startMainMissionBtn.dataset.mainMission);
-        switchScreen(mission?.category === "Academia" ? "training" : "missions");
+        switchScreen("missions");
       });
       el.selectionCancelBtn.addEventListener("click", closeSelectionSheet);
       el.selectionSheet.addEventListener("click", event => {
@@ -6362,6 +6584,30 @@ Objetivo: ${goal}`;
 
       el.completeWorkoutBtn.addEventListener("click", () => {
         state.cycleReadyReview ? showCycleModal() : completeWorkout();
+      });
+
+      el.regenerateWorkoutBtn.addEventListener("click", async () => {
+        ensureWorkoutPlan(true);
+        addLog("Treino regenerado", state.workoutPlan.note);
+        narrate("Novo treino gerado offline com base no perfil atual.");
+        await saveState();
+        renderWorkout();
+        renderTrainingPlan();
+        toast("Treino personalizado regenerado.");
+      });
+
+      el.trainingPlan.addEventListener("click", event => {
+        const button = event.target.closest("[data-workout-detail]");
+        if (!button) return;
+        showWorkoutDetail(button.dataset.workoutDetail);
+      });
+
+      document.querySelectorAll("[data-close-workout-detail]").forEach(button => {
+        button.addEventListener("click", closeWorkoutDetail);
+      });
+
+      el.workoutDetailModal.addEventListener("click", event => {
+        if (event.target === el.workoutDetailModal) closeWorkoutDetail();
       });
 
       el.filters.addEventListener("click", event => {
