@@ -4633,10 +4633,15 @@ Obrigado pelo projeto!`;
       state.exp += amount;
       state.totalExp += amount;
       ensureSeason().xp += amount;
-      while (state.exp >= expToNext(state.level)) {
-        state.exp -= expToNext(state.level);
+      let levelUps = 0;
+      while (state.exp >= expToNext(state.level) && levelUps < 100) {
+        const next = expToNext(state.level);
+        if (!Number.isFinite(next) || next <= 0) break;
+        state.exp -= next;
         state.level += 1;
+        levelUps += 1;
       }
+      if (levelUps >= 100) state.exp = Math.min(state.exp, expToNext(state.level) - 1);
       if (state.level > previousLevel) {
         toast(`Level ${previousLevel} > ${state.level}. Rank atual: ${getRank()}.`);
         narrate("Novo nível alcançado. Você está mais próximo da próxima ascensão.");
@@ -5182,27 +5187,54 @@ Objetivo: ${goal}`;
     }
 
     function render() {
-      renderHomeSummary();
-      renderToday();
-      renderStatus();
-      renderMilestone();
-      renderGoal();
-      renderCalendar();
-      renderReflection();
-      renderWorkout();
-      renderTrainingPlan();
-      renderAttributes();
-      renderMissions();
-      renderBoss();
-      renderAchievements();
-      renderTitles();
-      renderStats();
-      renderHallOfFame();
-      renderSecretAchievements();
-      renderSeason();
-      renderLog();
-      renderChronicles();
-      renderFutureSpecializations();
+      renderBase();
+      renderScreenContent(screenFromHash());
+    }
+
+    function renderPart(name, callback) {
+      try {
+        callback();
+      } catch (error) {
+        console.error(`Falha ao renderizar ${name}.`, error);
+      }
+    }
+
+    function renderBase() {
+      renderPart("resumo", renderHomeSummary);
+      renderPart("status", renderStatus);
+      renderPart("marco", renderMilestone);
+      renderPart("objetivo", renderGoal);
+      renderPart("temporada", renderSeason);
+    }
+
+    function renderScreenContent(screenName) {
+      if (screenName === "missions") {
+        renderPart("missões do dia", renderToday);
+        renderPart("treino do dia", renderWorkout);
+        renderPart("missões", renderMissions);
+        renderPart("boss", renderBoss);
+        return;
+      }
+      if (screenName === "training") {
+        renderPart("calendário", renderCalendar);
+        renderPart("reflexão", renderReflection);
+        renderPart("plano de treino", renderTrainingPlan);
+        renderPart("atributos", renderAttributes);
+        renderPart("histórico", renderLog);
+        return;
+      }
+      if (screenName === "achievements") {
+        renderPart("conquistas", renderAchievements);
+        renderPart("títulos", renderTitles);
+        renderPart("estatísticas", renderStats);
+        renderPart("hall da fama", renderHallOfFame);
+        renderPart("secretas", renderSecretAchievements);
+        renderPart("crônicas", renderChronicles);
+        return;
+      }
+      if (screenName === "backup") {
+        renderPart("futuro", renderFutureSpecializations);
+      }
     }
 
     function organizeScreens() {
@@ -6440,6 +6472,7 @@ Objetivo: ${goal}`;
       document.querySelectorAll(".nav-link").forEach(link => {
         link.classList.toggle("active", link.dataset.screen === screenName);
       });
+      renderScreenContent(screenName);
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
 
