@@ -4006,6 +4006,14 @@ Obrigado pelo projeto!`;
           return;
         }
 
+        let settled = false;
+        const finish = (callback, value) => {
+          if (settled) return;
+          settled = true;
+          window.clearTimeout(timeoutId);
+          callback(value);
+        };
+        const timeoutId = window.setTimeout(() => finish(reject, new Error("IndexedDB demorou para responder")), 3000);
         const request = indexedDB.open(DB_NAME, DB_VERSION);
         request.onupgradeneeded = () => {
           const database = request.result;
@@ -4013,8 +4021,15 @@ Obrigado pelo projeto!`;
             database.createObjectStore(STORE_NAME);
           }
         };
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          if (settled) {
+            request.result.close();
+            return;
+          }
+          finish(resolve, request.result);
+        };
+        request.onerror = () => finish(reject, request.error);
+        request.onblocked = () => finish(reject, new Error("IndexedDB bloqueado"));
       });
     }
 
@@ -4059,7 +4074,9 @@ Obrigado pelo projeto!`;
     }
 
     function mergeState(saved) {
-      const base = structuredClone(defaultState);
+      const base = typeof structuredClone === "function"
+        ? structuredClone(defaultState)
+        : JSON.parse(JSON.stringify(defaultState));
       if (!saved || typeof saved !== "object") {
         base.playerId = createPlayerId();
         base.sync.playerId = base.playerId;
@@ -6834,7 +6851,14 @@ Objetivo: ${goal}`;
         db = await openDb();
         state = mergeState(await readStateFromDb(db));
       } catch {
-        state = mergeState(null);
+        let fallbackState = null;
+        try {
+          const saved = localStorage.getItem(STORE_NAME);
+          fallbackState = saved ? JSON.parse(saved) : null;
+        } catch {
+          // O app continua com um estado novo se o armazenamento do navegador estiver indisponível.
+        }
+        state = mergeState(fallbackState);
       }
       checkAchievements();
       ensureSeason();
