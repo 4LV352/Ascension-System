@@ -1,4 +1,4 @@
-const CACHE_NAME = "ascension-system-v20";
+const CACHE_NAME = "ascension-system-v21";
 const APP_SHELL = [
   "./",
   "./index.html",

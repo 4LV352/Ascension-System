@@ -3276,7 +3276,7 @@
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.10";
+    const APP_VERSION = "1.0.11";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -4306,6 +4306,17 @@ Obrigado pelo projeto!`;
       return `${item.name} - ${item.sets}x${item.reps}${item.rest !== "-" ? ` | descanso ${item.rest}` : ""}${item.note ? ` | ${item.note}` : ""}`;
     }
 
+    function safeFallbackExercises(profile = {}) {
+      const limitation = profile.limitation || "Nenhuma";
+      const lowImpactCardio = limitation === "Joelho" ? "Bike ergométrica" : "Caminhada leve";
+      return [
+        { name: lowImpactCardio, group: "Cardio", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Condicionamento", "Emagrecimento", "Hipertrofia", "Força"], equipment: "baixo impacto", avoid: [], priority: 4, sets: "1", reps: "10-15 min", rest: "-", note: "ritmo confortável" },
+        { name: "Mobilidade geral", group: "Mobilidade", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Condicionamento", "Emagrecimento", "Hipertrofia", "Força"], equipment: "peso corporal", avoid: [], priority: 4, sets: "2", reps: "6-8 min", rest: "-", note: "sem dor" },
+        { name: "Respiração + core leve", group: "Core", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Condicionamento", "Emagrecimento", "Hipertrofia", "Força"], equipment: "peso corporal", avoid: [], priority: 4, sets: "2", reps: "8-10 ciclos", rest: "30s", note: "abdômen ativo" },
+        { name: "Descanso ativo", group: "Recuperação", places: ["Academia", "Casa", "Condomínio", "Calistenia"], levels: ["Iniciante", "Intermediário", "Avançado"], goals: ["Saúde", "Condicionamento", "Emagrecimento", "Hipertrofia", "Força"], equipment: "livre", avoid: [], priority: 3, sets: "1", reps: "8-12 min", rest: "-", note: "recuperação segura" }
+      ];
+    }
+
     function pickExercises(groups, profile, count) {
       const place = profile.trainingPlace || "Academia";
       const level = profile.experience || "Iniciante";
@@ -4313,9 +4324,13 @@ Obrigado pelo projeto!`;
       const limitation = profile.limitation || "Nenhuma";
       const selected = [];
       const seen = new Set();
-      const groupQueue = [...groups];
+      const baseGroups = [...new Set((groups || []).filter(Boolean))];
+      const groupQueue = [...baseGroups];
       if (["Emagrecimento", "Condicionamento", "Saúde"].includes(goal) && !groupQueue.includes("Cardio")) groupQueue.push("Cardio");
-      while (selected.length < count && groupQueue.length) {
+      const maxIterations = Math.max(1, baseGroups.length * count * 4);
+      let iterations = 0;
+      while (selected.length < count && groupQueue.length && iterations < maxIterations) {
+        iterations += 1;
         const group = groupQueue.shift();
         const options = exerciseLibrary
           .filter(item => item.group === group)
@@ -4328,15 +4343,43 @@ Obrigado pelo projeto!`;
         if (options[0]) {
           selected.push(formatExercise(options[0]));
           seen.add(options[0].name);
+          if (options.length > 1 && selected.length < count) groupQueue.push(group);
         }
-        if (selected.length < count && groupQueue.length < groups.length * 2) groupQueue.push(group);
+      }
+      if (iterations >= maxIterations) {
+        console.error("pickExercises atingiu o limite de segurança.", { groups, profile, count, selected: selected.length });
       }
       if (selected.length < count) {
         exerciseLibrary
-          .filter(item => item.places.includes(place) && !seen.has(item.name) && (limitation === "Nenhuma" || !item.avoid.includes(limitation)))
+          .filter(item => !seen.has(item.name))
+          .filter(item => item.places.includes(place) || (place === "Condomínio" && item.places.includes("Casa")) || item.places.includes("Calistenia"))
+          .filter(item => item.levels.includes(level) || item.levels.includes("Iniciante") || level === "Avançado")
+          .filter(item => item.goals.includes(goal) || item.goals.includes("Saúde") || ["Cardio", "Core"].includes(item.group))
+          .filter(item => limitation === "Nenhuma" || !item.avoid.includes(limitation))
           .sort((a, b) => b.priority - a.priority)
           .slice(0, count - selected.length)
-          .forEach(item => selected.push(formatExercise(item)));
+          .forEach(item => {
+            selected.push(formatExercise(item));
+            seen.add(item.name);
+          });
+      }
+      if (selected.length < count) {
+        const fallbackExercises = safeFallbackExercises(profile);
+        fallbackExercises
+          .filter(item => !seen.has(item.name))
+          .slice(0, count - selected.length)
+          .forEach(item => {
+            selected.push(formatExercise(item));
+            seen.add(item.name);
+          });
+      }
+      const fallbackExercises = safeFallbackExercises(profile);
+      for (let index = selected.length; index < count; index += 1) {
+        const fallback = fallbackExercises[index % fallbackExercises.length];
+        selected.push(formatExercise({
+          ...fallback,
+          name: `${fallback.name} ${Math.floor(index / fallbackExercises.length) + 1}`
+        }));
       }
       return selected.slice(0, count);
     }
