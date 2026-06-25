@@ -2271,6 +2271,355 @@
         grid-template-columns: 0.92fr 1.08fr;
       }
     }
+
+    /* =========================
+       SPRINT 2.0 UX REVAMP
+    ========================== */
+    :root {
+      --radius: 18px;
+      --panel: rgba(9, 13, 23, 0.78);
+      --panel-strong: rgba(13, 18, 31, 0.96);
+      --line: rgba(96, 165, 250, 0.18);
+      --line-strong: rgba(96, 165, 250, 0.46);
+      --shadow: 0 20px 70px rgba(0, 0, 0, 0.48);
+    }
+
+    html,
+    body {
+      max-width: 100%;
+      overscroll-behavior-x: none;
+    }
+
+    body {
+      background:
+        radial-gradient(circle at 50% -10%, rgba(59, 130, 246, 0.26), transparent 22rem),
+        radial-gradient(circle at 92% 18%, rgba(139, 92, 246, 0.2), transparent 20rem),
+        radial-gradient(circle at 8% 72%, rgba(34, 197, 94, 0.08), transparent 18rem),
+        linear-gradient(180deg, #05070d 0%, #090d16 52%, #04060a 100%);
+    }
+
+    .app {
+      max-width: 640px;
+      padding-inline: 14px;
+    }
+
+    .topbar {
+      padding: 10px 0 14px;
+    }
+
+    .brand h1 {
+      font-size: 1rem;
+      letter-spacing: 0.08em;
+    }
+
+    .brand .subtitle {
+      font-size: 0.66rem;
+      letter-spacing: 0.08em;
+    }
+
+    .panel {
+      border-radius: 22px;
+      background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.055), rgba(255, 255, 255, 0.015)),
+        var(--panel);
+      box-shadow: var(--shadow);
+      animation: panelIn 0.28s ease both;
+    }
+
+    .screen.active {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      animation: screenIn 0.22s ease both;
+    }
+
+    #screen-status.active {
+      min-height: calc(100vh - 132px);
+      align-content: start;
+    }
+
+    #homeSummaryCard {
+      position: relative;
+      overflow: hidden;
+      min-height: calc(100vh - 156px);
+      border-color: rgba(96, 165, 250, 0.34);
+      background:
+        radial-gradient(circle at 50% 0%, rgba(59, 130, 246, 0.22), transparent 18rem),
+        linear-gradient(180deg, rgba(15, 23, 42, 0.95), rgba(5, 8, 15, 0.96));
+    }
+
+    #homeSummaryCard::before {
+      position: absolute;
+      inset: -40% -20% auto;
+      height: 55%;
+      pointer-events: none;
+      content: "";
+      background: conic-gradient(from 180deg, transparent, rgba(59, 130, 246, 0.2), transparent, rgba(139, 92, 246, 0.18), transparent);
+      filter: blur(18px);
+      opacity: 0.8;
+      animation: slowOrbit 14s linear infinite;
+    }
+
+    .journey-home {
+      position: relative;
+      gap: 14px;
+    }
+
+    .journey-hero {
+      min-height: 150px;
+      align-content: end;
+      padding: 18px;
+      border-radius: 24px;
+      background:
+        linear-gradient(145deg, rgba(59, 130, 246, 0.2), rgba(139, 92, 246, 0.08)),
+        rgba(255, 255, 255, 0.035);
+    }
+
+    .journey-hero h2 {
+      margin-top: 10px;
+      font-size: clamp(1.65rem, 10vw, 3rem);
+      line-height: 0.98;
+      letter-spacing: -0.05em;
+    }
+
+    .journey-message {
+      max-width: 32ch;
+      margin-top: 10px;
+      color: #cbd5e1;
+      font-size: 0.95rem;
+      line-height: 1.45;
+    }
+
+    .journey-block,
+    .command-card {
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.055);
+      backdrop-filter: blur(16px);
+    }
+
+    .home-command-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+    }
+
+    .command-card {
+      display: grid;
+      gap: 5px;
+      padding: 13px;
+      border: 1px solid rgba(96, 165, 250, 0.18);
+    }
+
+    .command-card span {
+      color: var(--muted);
+      font-size: 0.68rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .command-card strong {
+      font-size: 1rem;
+      line-height: 1.2;
+    }
+
+    .command-card.danger {
+      border-color: rgba(239, 68, 68, 0.28);
+      background: rgba(239, 68, 68, 0.08);
+    }
+
+    .command-card.gold {
+      border-color: rgba(251, 191, 36, 0.28);
+      background: rgba(251, 191, 36, 0.08);
+    }
+
+    .continue-journey-btn,
+    #startMainMissionBtn,
+    #completeWorkoutBtn {
+      width: 100%;
+      min-height: 58px;
+      border-radius: 18px;
+      font-size: 0.92rem;
+      box-shadow: 0 0 32px rgba(59, 130, 246, 0.22);
+    }
+
+    .mission {
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 10px;
+      padding: 10px;
+      border-radius: 16px;
+    }
+
+    .mission-title h3 {
+      font-size: 0.92rem;
+    }
+
+    .mission .primary-btn {
+      min-width: 102px;
+      min-height: 46px;
+      border-radius: 14px;
+    }
+
+    .exercise-card {
+      display: grid;
+      grid-template-columns: auto 1fr;
+      gap: 12px;
+      align-items: center;
+      padding: 12px;
+      border: 1px solid rgba(96, 165, 250, 0.16);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.045);
+      transition: transform 0.12s ease, border-color 0.12s ease, background 0.12s ease;
+    }
+
+    .exercise-card:active {
+      transform: scale(0.985);
+      border-color: rgba(96, 165, 250, 0.42);
+      background: rgba(59, 130, 246, 0.09);
+    }
+
+    .exercise-card input {
+      width: 24px;
+      height: 24px;
+      min-height: 24px;
+      accent-color: var(--cyan);
+    }
+
+    .exercise-copy {
+      display: grid;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .exercise-copy strong {
+      font-size: 1rem;
+    }
+
+    .exercise-stats {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .exercise-stats span {
+      min-height: 24px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.06);
+      color: #cbd5e1;
+      font-size: 0.7rem;
+      font-weight: 850;
+    }
+
+    .exercise-start {
+      color: var(--cyan);
+      font-size: 0.72rem;
+      font-weight: 950;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+    }
+
+    .exercise-card.done {
+      border-color: rgba(34, 197, 94, 0.34);
+      background: rgba(34, 197, 94, 0.08);
+    }
+
+    .onboarding-card {
+      min-height: calc(100vh - 24px);
+      border-radius: 28px;
+      place-items: stretch;
+    }
+
+    .onboarding-screen.active {
+      animation: screenIn 0.24s ease both;
+    }
+
+    #onboardingForm {
+      min-height: min(520px, calc(100vh - 260px));
+      align-content: center;
+    }
+
+    .onboarding-question {
+      display: none !important;
+    }
+
+    .onboarding-question.active {
+      display: grid !important;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid rgba(96, 165, 250, 0.18);
+      border-radius: 24px;
+      background: rgba(255, 255, 255, 0.045);
+      animation: questionIn 0.22s ease both;
+    }
+
+    .onboarding-question label {
+      color: #e2e8f0;
+      font-size: 1.15rem;
+      font-weight: 950;
+      line-height: 1.15;
+      text-transform: none;
+    }
+
+    .choice-button,
+    .onboarding-question input {
+      min-height: 58px;
+      border-radius: 18px;
+      font-size: 1rem;
+    }
+
+    .onboarding-actions {
+      position: sticky;
+      bottom: 0;
+      padding-top: 10px;
+      background: linear-gradient(to top, rgba(10, 14, 22, 0.98), transparent);
+    }
+
+    .achievement.unlocked {
+      border-color: rgba(251, 191, 36, 0.28);
+      background: radial-gradient(circle at 0% 0%, rgba(251, 191, 36, 0.14), rgba(255, 255, 255, 0.035));
+    }
+
+    .rank-badge {
+      box-shadow: 0 0 22px var(--rank-line);
+    }
+
+    @keyframes screenIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes panelIn {
+      from { opacity: 0; transform: translateY(8px) scale(0.99); }
+      to { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    @keyframes questionIn {
+      from { opacity: 0; transform: translateX(12px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    @keyframes slowOrbit {
+      to { transform: rotate(360deg); }
+    }
+
+    @media (min-width: 520px) {
+      .home-command-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *,
+      *::before,
+      *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 0.001ms !important;
+      }
+    }
   </style>
 </head>
 <body>
@@ -2319,6 +2668,21 @@
             <button class="primary-btn" id="startMainMissionBtn" type="button">Começar missão</button>
           </div>
 
+          <div class="home-command-grid" aria-label="Resumo da jornada atual">
+            <div class="command-card">
+              <span>Treino de hoje</span>
+              <strong id="homeWorkoutTitle">Treino A</strong>
+            </div>
+            <div class="command-card danger">
+              <span>Boss atual</span>
+              <strong id="homeBossName">Segunda-feira</strong>
+            </div>
+            <div class="command-card gold">
+              <span>XP diário</span>
+              <strong id="homeXpText">0 XP</strong>
+            </div>
+          </div>
+
           <div class="journey-block">
             <div class="progress-meta">
               <span>Progresso de hoje</span>
@@ -2342,6 +2706,7 @@
             </div>
           </div>
 
+          <button class="primary-btn continue-journey-btn" id="continueJourneyBtn" type="button">Continuar Jornada</button>
         </div>
       </article>
 
@@ -3276,7 +3641,7 @@
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.11";
+    const APP_VERSION = "2.0.0";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -3355,6 +3720,11 @@ Obrigado pelo projeto!`;
       ], [1, 10, 25, 50, 75, 100, 150, 220, 300, 500], s => s.completedMissions, n => `Conclua ${n} missões reais.`),
       ...titleSeries("attributeForce", "Força", "◆", ["Aprendiz do Ferro", "Portador do Peso", "Guerreiro do Ferro", "Quebrador de Barras", "Monarca da Força"], [10, 50, 100, 250, 500], s => Math.max(s.attributes["Força"] || 0, s.titleProgress.force || 0), n => `Acumule ${n} pontos de Força.`),
       ...titleSeries("attributeIntel", "Inteligência", "◇", ["Estudante", "Pesquisador", "Erudito", "Arquivista Arcano", "Sábio Supremo"], [10, 50, 100, 250, 500], s => Math.max(s.attributes["Inteligência"] || 0, s.titleProgress.intelligence || 0), n => `Acumule ${n} pontos de Inteligência.`),
+      ...titleSeries("habit", "Hábitos", "◉", ["Acordado", "Ritual Iniciado", "Guardião do Hábito", "Rotina Viva", "Sistema Estável", "Núcleo Disciplinado"], [1, 3, 7, 14, 30, 60], s => (s.missionCompletions.sleep || 0) + (s.missionCompletions.water || 0), n => `Conclua ${n} missões de hábito.`),
+      ...titleSeries("health", "Saúde", "✚", ["Corpo Desperto", "Guardião da Água", "Vitalidade Inicial", "Coração Ativo", "Regenerador", "Ascendente Vital"], [1, 3, 8, 15, 30, 60], s => (s.missionCompletions.water || 0) + (s.missionCompletions.walk || 0) + (s.missionCompletions.mealprep || 0), n => `Conclua ${n} ações de saúde.`),
+      ...titleSeries("timeTitle", "Tempo", "⌁", ["Primeiro Dia", "Semana Um", "Presença Real", "Mês Vivo", "Veterano do Sistema", "Ano da Ascensão"], [1, 7, 14, 30, 90, 365], s => daysUsingSystemFromState(s), n => `Permaneça ${n} dia${n === 1 ? "" : "s"} no Sistema.`),
+      ...titleSeries("eventTitle", "Eventos", "✺", ["Evento Detectado", "Semana Registrada", "Temporada Iniciada", "Cronista Sazonal", "Eco de Temporada"], [1, 2, 4, 8, 12], s => Object.keys(s.seasons || {}).length + Number(s.weeklyReportsGenerated || 0), n => `Participe de ${n} evento${n === 1 ? "" : "s"} do Sistema.`),
+      ...titleSeries("specialTitle", "Especiais", "✦", ["Recém Invocado", "Contrato Aceito", "Portador do Núcleo", "Usuário do Sistema", "Anomalia Promissora"], [1, 2, 5, 10, 20], s => (s.onboarded ? 1 : 0) + Object.keys(s.unlockedTitles || {}).length, n => `Desbloqueie ${n} marco${n === 1 ? "" : "s"} especial${n === 1 ? "" : "is"}.`),
       ...titleSeries("secretTitle", "Secretos", "?", [
         "Fantasma do Sistema", "Filho da Madrugada", "Teimoso", "Observador da Ascensão", "Eco do Futuro",
         "Anomalia Detectada", "Sombra da Rotina", "Desperto em Silêncio"
@@ -3633,6 +4003,19 @@ Obrigado pelo projeto!`;
     let activeSelection = null;
     let selectedDailyMood = "Excelente";
     const busyActions = new Set();
+    const onboardingQuestions = [
+      { label: "Como deseja ser conhecido dentro do Sistema?", selectors: ["#onboardingName", "#onboardingCharacterName"], required: [] },
+      { label: "Qual missão deseja cumprir neste ciclo?", selectors: ["#onboardingGoal"], required: ["#onboardingGoal"] },
+      { label: "Qual seu nível de batalha hoje?", selectors: ["#onboardingTrains"], required: ["#onboardingTrains"] },
+      { label: "Onde seu corpo físico vai treinar?", selectors: ["#onboardingTrainingPlace"], required: ["#onboardingTrainingPlace"] },
+      { label: "Quantos dias por semana o Sistema pode contar com você?", selectors: ["#onboardingTrainingDays"], required: ["#onboardingTrainingDays"] },
+      { label: "Existe alguma limitação que o Sistema deve respeitar?", selectors: ["#onboardingLimitation"], required: ["#onboardingLimitation"] },
+      { label: "Qual boss mais atrapalha sua evolução hoje?", selectors: ["#onboardingObstacle"], required: ["#onboardingObstacle"] },
+      { label: "Qual sua idade e identificação corporal?", selectors: ["#onboardingAge", "#onboardingSex"], required: ["#onboardingAge"] },
+      { label: "Quanto pesa seu corpo físico hoje?", selectors: ["#onboardingWeight", "#onboardingHeight", "#onboardingTargetWeight"], required: ["#onboardingWeight", "#onboardingHeight"] },
+      { label: "Como é sua rotina fora do Sistema?", selectors: ["#onboardingWorks"], required: ["#onboardingWorks"] },
+      { label: "Quando o Sistema deve chamar você de volta?", selectors: ["#onboardingWorkoutTime", "#onboardingSleepTime", "#onboardingReminderTime", "#onboardingReminderEnabled"], required: [] }
+    ];
 
     const el = {
       toast: document.querySelector("#toast"),
@@ -3696,6 +4079,10 @@ Obrigado pelo projeto!`;
       todayGreeting: document.querySelector("#todayGreeting"),
       mainMissionText: document.querySelector("#mainMissionText"),
       startMainMissionBtn: document.querySelector("#startMainMissionBtn"),
+      homeWorkoutTitle: document.querySelector("#homeWorkoutTitle"),
+      homeBossName: document.querySelector("#homeBossName"),
+      homeXpText: document.querySelector("#homeXpText"),
+      continueJourneyBtn: document.querySelector("#continueJourneyBtn"),
       missionsTodayGreeting: document.querySelector("#missionsTodayGreeting"),
       missionsMainMissionText: document.querySelector("#missionsMainMissionText"),
       dailyProgressTag: document.querySelector("#dailyProgressTag"),
@@ -4285,7 +4672,24 @@ Obrigado pelo projeto!`;
     ];
 
     function workoutSignature(profile = state.profile) {
-      return [profile.trainingPlace, profile.experience, profile.goal, profile.trainingDays, profile.limitation].join("|");
+      return [
+        profile.trainingPlace,
+        profile.experience,
+        profile.goal,
+        profile.trainingDays,
+        profile.limitation,
+        profile.age,
+        profile.sex,
+        profile.weight,
+        profile.height,
+        profile.usualWorkoutTime,
+        profile.obstacle,
+        state.systemAssessment.initialClass,
+        state.systemAssessment.initialBoss,
+        state.streak,
+        state.completedMissions,
+        state.totalWorkouts
+      ].join("|");
     }
 
     function splitForDays(days) {
@@ -4296,7 +4700,12 @@ Obrigado pelo projeto!`;
       return [{ code: "A", title: "Push", groups: ["Peito", "Ombro", "Tríceps"] }, { code: "B", title: "Pull", groups: ["Costas", "Bíceps", "Core"] }, { code: "C", title: "Legs", groups: ["Pernas", "Core"] }, { code: "D", title: "Push B", groups: ["Peito", "Ombro", "Tríceps"] }, { code: "E", title: "Pull B", groups: ["Costas", "Bíceps", "Cardio"] }, { code: "F", title: "Legs B", groups: ["Pernas", "Core", "Cardio"] }];
     }
 
-    function targetExerciseCount(level) {
+    function targetExerciseCount(level, profile = state.profile) {
+      const age = Number(profile.age || 0);
+      const limitation = profile.limitation || "Nenhuma";
+      const days = Number(profile.trainingDays || 3);
+      if (limitation !== "Nenhuma" || (age && age < 15) || (age && age > 55)) return 6;
+      if (days <= 2) return 6;
       if (level === "Avançado") return 7;
       if (level === "Intermediário") return 8;
       return 10;
@@ -4388,12 +4797,12 @@ Obrigado pelo projeto!`;
       const days = Math.min(6, Math.max(2, Number(profile.trainingDays || 3)));
       const level = profile.experience || "Iniciante";
       const division = splitForDays(days);
-      const count = targetExerciseCount(level);
+      const count = targetExerciseCount(level, profile);
       const planDays = division.map(day => ({
         ...day,
         exercises: pickExercises(day.groups, profile, count)
       }));
-      const summary = `${profile.trainingPlace || "Academia"}, ${days} dias/semana, ${level.toLowerCase()}, ${(profile.goal || "Hipertrofia").toLowerCase()}, ${profile.limitation && profile.limitation !== "Nenhuma" ? `limitação: ${profile.limitation.toLowerCase()}` : "sem limitação"}.`;
+      const summary = `${profile.trainingPlace || "Academia"}, ${days} dias/semana, ${level.toLowerCase()}, ${(profile.goal || "Hipertrofia").toLowerCase()}, ${profile.limitation && profile.limitation !== "Nenhuma" ? `limitação: ${profile.limitation.toLowerCase()}` : "sem limitação"}, ${profile.age ? `${profile.age} anos` : "idade não informada"}, ${profile.weight ? `${profile.weight} kg` : "peso livre"}, boss: ${(profile.obstacle || state.systemAssessment.initialBoss || "consistência").toLowerCase()}, classe: ${(state.systemAssessment.initialClass || "recomeçante").toLowerCase()}, histórico: ${state.totalWorkouts} treinos e ${state.completedMissions} missões.`;
       return {
         name: days <= 2 ? "Full Body" : days === 3 ? "ABC Personalizado" : days === 4 ? "Upper/Lower" : days === 5 ? "ABC + Foco" : "Push/Pull/Legs",
         model: days <= 2 ? "A/B" : days === 3 ? "ABC" : days === 4 ? "Upper/Lower" : days === 5 ? "ABCDE" : "PPL",
@@ -4564,6 +4973,12 @@ Obrigado pelo projeto!`;
 
     function daysUsingSystem() {
       const started = new Date(state.startedAt || new Date());
+      const diff = Date.now() - started.getTime();
+      return Math.max(1, Math.floor(diff / 86400000) + 1);
+    }
+
+    function daysUsingSystemFromState(source) {
+      const started = new Date(source.startedAt || new Date());
       const diff = Date.now() - started.getTime();
       return Math.max(1, Math.floor(diff / 86400000) + 1);
     }
@@ -5337,6 +5752,7 @@ Objetivo: ${goal}`;
         if (!(target instanceof Element)) return;
         const actionTarget = target.closest(`
           #startMainMissionBtn,
+          #continueJourneyBtn,
           #completeWorkoutBtn,
           #regenerateWorkoutBtn,
           #newMissionBtn,
@@ -5369,6 +5785,11 @@ Objetivo: ${goal}`;
         const label = actionTarget.textContent.trim() || actionTarget.getAttribute("aria-label") || actionTarget.id || "Ação";
         runCriticalAction(label, async () => {
           if (actionTarget.matches("#startMainMissionBtn")) {
+            history.replaceState(null, "", "#missions");
+            switchScreen("missions");
+            return;
+          }
+          if (actionTarget.matches("#continueJourneyBtn")) {
             history.replaceState(null, "", "#missions");
             switchScreen("missions");
             return;
@@ -5441,7 +5862,7 @@ Objetivo: ${goal}`;
           }
           if (actionTarget.matches("#onboardingNextBtn")) {
             if (!validateOnboardingStep()) return;
-            if (onboardingStep < 3) {
+            if (onboardingStep < onboardingQuestions.length - 1) {
               onboardingStep += 1;
               renderOnboardingStep();
               return;
@@ -5527,12 +5948,19 @@ Objetivo: ${goal}`;
       const percent = Math.round((completed / Math.max(1, ids.length)) * 100);
       const mainMission = getMainMissionForToday();
       const next = nextJourneyEvolution();
+      const workout = getTodayWorkout();
+      const dailyXp = allMissions()
+        .filter(mission => today.missions.includes(mission.id))
+        .reduce((sum, mission) => sum + (mission.exp || 0), 0);
 
       el.todayGreeting.textContent = `${greeting}, ${state.characterName}.`;
       el.journeyDayText.textContent = `Dia ${daysUsingSystem()} da sua Jornada`;
       el.homeSystemPhrase.textContent = systemNarrative();
-      el.mainMissionText.textContent = mainMission.category === "Academia" ? getTodayWorkout().title : mainMission.name;
+      el.mainMissionText.textContent = mainMission.category === "Academia" ? workout.title : mainMission.name;
       el.startMainMissionBtn.dataset.mainMission = mainMission.id;
+      el.homeWorkoutTitle.textContent = workout.title;
+      el.homeBossName.textContent = getWeeklyBoss() || state.systemAssessment.initialBoss;
+      el.homeXpText.textContent = `${dailyXp} XP`;
       el.dailyProgressText.textContent = `${completed} / ${ids.length} missões concluídas`;
       el.dailyProgressBar.style.width = `${percent}%`;
       el.nextMilestoneTitle.textContent = next.title;
@@ -5674,6 +6102,40 @@ Objetivo: ${goal}`;
       `).join("");
     }
 
+    function parseExerciseCard(exercise) {
+      const [rawName, rawDetails = ""] = String(exercise).split(" - ");
+      const details = rawDetails.split("|").map(part => part.trim()).filter(Boolean);
+      const volume = details[0] || "";
+      const rest = details.find(part => part.toLowerCase().includes("descanso")) || "";
+      const note = details.find(part => part !== volume && part !== rest) || "";
+      const volumeMatch = volume.match(/^([^x]+)x(.+)$/i);
+      return {
+        name: rawName.trim() || "Exercício",
+        sets: volumeMatch ? `${volumeMatch[1].trim()} séries` : volume || "Execução técnica",
+        reps: volumeMatch ? volumeMatch[2].trim() : "ritmo controlado",
+        rest: rest.replace(/descanso/i, "").trim() || "conforme necessário",
+        note
+      };
+    }
+
+    function exerciseCardHtml(exercise, index, done = false, selectable = true) {
+      const card = parseExerciseCard(exercise);
+      return `
+        <label class="exercise-card ${done ? "done" : ""}">
+          ${selectable ? `<input type="checkbox" data-exercise="${index}" ${done ? "checked" : ""}>` : `<span class="achievement-icon">▶</span>`}
+          <span class="exercise-copy">
+            <strong>${card.name}</strong>
+            <span class="exercise-stats">
+              <span>${card.sets}</span>
+              <span>${card.reps}</span>
+              <span>${card.rest}</span>
+            </span>
+            <span class="exercise-start">${card.note || "Toque para registrar progresso"}</span>
+          </span>
+        </label>
+      `;
+    }
+
     function renderWorkout() {
       const workout = getTodayWorkout();
       const plan = getPlan();
@@ -5688,12 +6150,7 @@ Objetivo: ${goal}`;
       el.completeWorkoutBtn.textContent = state.cycleReadyReview ? "Avaliar ciclo" : "Concluir treino";
       el.exerciseList.innerHTML = workout.exercises.map((exercise, index) => {
         const done = checked.includes(index);
-        return `
-          <label class="exercise-check ${done ? "done" : ""}">
-            <input type="checkbox" data-exercise="${index}" ${done ? "checked" : ""}>
-            <span>${exercise}</span>
-          </label>
-        `;
+        return exerciseCardHtml(exercise, index, done, true);
       }).join("");
     }
 
@@ -5717,11 +6174,7 @@ Objetivo: ${goal}`;
       if (!day) return;
       el.workoutDetailTitle.textContent = `Treino ${day.code} - ${day.title}`;
       el.workoutDetailMeta.textContent = getPlan().note;
-      el.workoutDetailList.innerHTML = day.exercises.map(exercise => `
-        <div class="exercise-check">
-          <span>${exercise}</span>
-        </div>
-      `).join("");
+      el.workoutDetailList.innerHTML = day.exercises.map((exercise, index) => exerciseCardHtml(exercise, index, false, false)).join("");
       el.workoutDetailModal.classList.add("show");
     }
 
@@ -5769,7 +6222,6 @@ Objetivo: ${goal}`;
             <div class="mission-meta" style="margin-top: 8px;">
               <span class="chip">${mission.category}</span>
               <span class="chip">+${mission.exp} EXP</span>
-              <span class="chip">${mission.attribute}</span>
             </div>
           </div>
           <button class="primary-btn" type="button" data-mission="${mission.id}">Concluir</button>
@@ -5796,12 +6248,15 @@ Objetivo: ${goal}`;
       el.achievementCount.textContent = `${unlocked}/${achievements.length}`;
       el.achievementList.innerHTML = achievements.map(achievement => {
         const isUnlocked = Boolean(state.achievements[achievement.id]);
+        const unlockedDate = isUnlocked ? new Date(state.achievements[achievement.id]).toLocaleDateString("pt-BR") : "";
+        const rarity = achievement.rarity || (achievement.id.includes("ninety") ? "Épica" : achievement.id.includes("thirty") || achievement.id.includes("Boss") ? "Rara" : "Comum");
         return `
           <div class="achievement ${isUnlocked ? "unlocked" : ""}">
             <div class="achievement-icon">${isUnlocked ? "★" : "?"}</div>
             <div>
               <strong>${achievement.title}</strong>
               <span>${achievement.desc}</span>
+              <span>${rarity}${isUnlocked ? ` • ${unlockedDate}` : ""}</span>
             </div>
           </div>
         `;
@@ -6169,6 +6624,7 @@ Objetivo: ${goal}`;
       el.onboardingReminderTime.value = state.profile.reminderTime || "";
       el.onboardingReminderEnabled.value = String(Boolean(state.profile.reminderEnabled));
       Object.keys(diagnosticChoiceControls).forEach(syncDiagnosticChoiceButton);
+      applyConversationalLabels();
       el.systemExplain.classList.remove("show");
       el.onboardingModal.classList.add("show");
       showOnboardingScreen("splash");
@@ -6181,22 +6637,65 @@ Objetivo: ${goal}`;
       });
     }
 
+    function applyConversationalLabels() {
+      const labels = {
+        onboardingName: "Como devo chamar você fora do Sistema?",
+        onboardingCharacterName: "Como deseja ser conhecido dentro do Sistema?",
+        onboardingAge: "Quantos ciclos de vida você já completou?",
+        onboardingHeight: "Qual a altura do seu corpo físico?",
+        onboardingWeight: "Quanto pesa seu corpo físico hoje?",
+        onboardingTargetWeight: "Existe um peso-alvo para esta jornada?",
+        onboardingWorkoutTime: "Em qual horário você costuma treinar?",
+        onboardingSleepTime: "Quando seu corpo normalmente entra em repouso?",
+        onboardingReminderTime: "Quando o Sistema deve chamar você?",
+        customMissionName: "Qual missão deseja registrar?",
+        goalInputName: "Qual missão deseja cumprir neste ciclo?"
+      };
+      Object.entries(labels).forEach(([id, text]) => {
+        const input = document.querySelector(`#${id}`);
+        const label = input?.id && document.querySelector(`label[for="${input.id}"]`);
+        if (label) label.textContent = text;
+      });
+    }
+
+    function prepareOnboardingQuestionFlow() {
+      document.querySelectorAll(".onboarding-question").forEach(node => {
+        node.classList.remove("onboarding-question", "active");
+        node.removeAttribute("data-question-index");
+      });
+
+      onboardingQuestions.forEach((question, index) => {
+        question.selectors.forEach(selector => {
+          const field = document.querySelector(selector);
+          const wrapper = field?.closest(".diagnostic-choice-field") || field?.closest(".class-rank > div") || field?.parentElement;
+          if (!wrapper) return;
+          wrapper.classList.add("onboarding-question");
+          wrapper.dataset.questionIndex = String(index);
+        });
+      });
+    }
+
     function renderOnboardingStep() {
-      const labels = [
-        "Etapa 1: Informações básicas",
-        "Etapa 2: Situação atual",
-        "Etapa 3: Objetivos",
-        "Etapa 4: Obstáculos"
-      ];
-      const percent = (onboardingStep + 1) * 25;
+      const total = onboardingQuestions.length;
+      const question = onboardingQuestions[onboardingStep] || onboardingQuestions[0];
+      const percent = Math.round(((onboardingStep + 1) / total) * 100);
+      prepareOnboardingQuestionFlow();
       document.querySelectorAll("[data-onboarding-step]").forEach(step => {
-        step.classList.toggle("active", Number(step.dataset.onboardingStep) === onboardingStep);
+        step.classList.add("active");
+      });
+      document.querySelectorAll(".onboarding-question").forEach(wrapper => {
+        wrapper.classList.toggle("active", Number(wrapper.dataset.questionIndex) === onboardingStep);
+      });
+      document.querySelectorAll("[data-onboarding-step] > *").forEach(node => {
+        if (node.matches('input[type="hidden"]')) return;
+        const visible = node.matches(".onboarding-question.active") || Boolean(node.querySelector(".onboarding-question.active"));
+        node.style.display = visible ? "" : "none";
       });
       el.onboardingStepTag.textContent = `${percent}%`;
-      el.onboardingStepLabel.textContent = labels[onboardingStep];
+      el.onboardingStepLabel.textContent = question.label;
       el.onboardingProgressBar.style.width = `${percent}%`;
       el.onboardingBackBtn.disabled = onboardingStep === 0;
-      el.onboardingNextBtn.textContent = onboardingStep === 3 ? "Iniciar análise" : "Continuar";
+      el.onboardingNextBtn.textContent = onboardingStep === total - 1 ? "Revelar meu Sistema" : "Continuar";
     }
 
     function validateOnboardingStep() {
@@ -6209,29 +6708,26 @@ Objetivo: ${goal}`;
       if (onboardingStep === 0) {
         const realName = el.onboardingName.value.trim();
         const characterName = el.onboardingCharacterName.value.trim();
-        const age = Number(el.onboardingAge.value);
-        const height = Number(el.onboardingHeight.value);
-        const weight = Number(el.onboardingWeight.value);
-        if (!realName && !characterName) return fail("Preencha esta etapa antes de continuar.", el.onboardingName);
+        if (!realName && !characterName) return fail("Como deseja ser conhecido dentro do Sistema?", el.onboardingName);
         if (realName && !namePattern.test(realName)) return fail("Nome deve usar letras, espaços e acentos. Números não são aceitos.", el.onboardingName);
         if (characterName && !namePattern.test(characterName)) return fail("Nome do personagem não pode conter números.", el.onboardingCharacterName);
+      }
+      if (onboardingStep === 7) {
+        const age = Number(el.onboardingAge.value);
         if (!age || age < 8 || age > 120) return fail("Informe uma idade válida.", el.onboardingAge);
+      }
+      if (onboardingStep === 8) {
+        const height = Number(el.onboardingHeight.value);
+        const weight = Number(el.onboardingWeight.value);
         if (!height || height < 80 || height > 240) return fail("Informe uma altura válida em centímetros.", el.onboardingHeight);
-        if (!weight || weight < 20 || weight > 300) return fail("Informe um peso atual válido.", el.onboardingWeight);
+        if (!weight || weight < 20 || weight > 300) return fail("Quanto pesa seu corpo físico hoje?", el.onboardingWeight);
       }
-      if (onboardingStep === 1) {
-        if (!el.onboardingWorks.value || !el.onboardingTrains.value || !el.onboardingTrainingDays.value || !el.onboardingTrainingPlace.value) {
-          return fail("Escolha as opções desta etapa antes de continuar.");
-        }
-      }
-      if (onboardingStep === 2) {
-        if (!el.onboardingGoal.value || !el.onboardingLimitation.value || !el.onboardingSleepTime.value) {
-          return fail("Complete objetivo, limitação e horário de sono.");
-        }
-      }
-      if (onboardingStep === 3 && !el.onboardingObstacle.value) {
-        return fail("Escolha o boss inicial antes de continuar.");
-      }
+      const question = onboardingQuestions[onboardingStep];
+      const missing = question?.required?.find(selector => {
+        const field = document.querySelector(selector);
+        return field && !field.value;
+      });
+      if (missing) return fail("O Sistema precisa desta resposta para continuar.", document.querySelector(missing));
       return true;
     }
 
@@ -6299,19 +6795,17 @@ Objetivo: ${goal}`;
       if (!pendingOnboardingState) return;
       const result = pendingOnboardingState.systemAssessment;
       const rows = [
-        ["Jogador", pendingOnboardingState.characterName],
-        ["Potencial Detectado", result.potential || "Promissor"],
-        ["Maior Desafio", result.challenge || "Consistência"],
-        ["Maior Força", result.mainStrength || result.strongestAttribute || "Determinação"],
-        ["Classe Inicial", result.initialClass],
-        ["Jornada Recomendada", result.journey],
-        ["Boss Inicial", result.initialBoss],
-        ["Atributo Forte", result.strongestAttribute || "Disciplina"],
-        ["Atributo Fraco", result.weakestAttribute || "Vitalidade"],
-        ["Rank Inicial", getRank(1)]
+        ["Jogador registrado", pendingOnboardingState.characterName],
+        ["Classe desbloqueada", result.initialClass],
+        ["Boss identificado", result.initialBoss],
+        ["Primeira jornada criada", result.journey],
+        ["Título recebido", "Recém Invocado"],
+        ["XP inicial", "+50 XP"],
+        ["Força dominante", result.mainStrength || result.strongestAttribute || "Determinação"],
+        ["Ponto a evoluir", result.challenge || result.weakestAttribute || "Consistência"]
       ];
       el.analysisResult.innerHTML = rows.map(([label, value]) => `
-        <div class="system-line ${label === "Jogador" ? "wide" : ""}">
+        <div class="system-line ${label === "Jogador registrado" || label === "Primeira jornada criada" ? "wide" : ""}">
           <span>${label}</span>
           <strong>${value}</strong>
         </div>
@@ -6351,9 +6845,12 @@ Objetivo: ${goal}`;
         ...state,
         ...pendingOnboardingState
       };
+      addExp(50);
+      checkTitles();
       addLog("Avaliação inicial", `${state.systemAssessment.initialClass} | ${state.systemAssessment.journey}`);
       narrate(`Avaliação concluída. Classe ${state.systemAssessment.initialClass} atribuída. Boss inicial: ${state.systemAssessment.initialBoss}.`);
       el.onboardingModal.classList.remove("show");
+      showActionFeedback("Classe desbloqueada", state.systemAssessment.initialClass);
       if (state.notifications.enabled) await requestNotificationPermission();
       await saveState();
       render();
@@ -6777,6 +7274,7 @@ Objetivo: ${goal}`;
         }
         switchScreen("missions");
       });
+      el.continueJourneyBtn.addEventListener("click", () => switchScreen("missions"));
       el.selectionCancelBtn.addEventListener("click", closeSelectionSheet);
       el.selectionSheet.addEventListener("click", event => {
         if (event.target === el.selectionSheet) closeSelectionSheet();
@@ -6818,7 +7316,7 @@ Objetivo: ${goal}`;
       });
       el.onboardingNextBtn.addEventListener("click", () => {
         if (!validateOnboardingStep()) return;
-        if (onboardingStep < 3) {
+        if (onboardingStep < onboardingQuestions.length - 1) {
           onboardingStep += 1;
           renderOnboardingStep();
           return;
