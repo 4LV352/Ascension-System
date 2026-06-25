@@ -1596,10 +1596,18 @@
       padding: 18px 12px calc(18px + var(--safe-bottom));
       background: rgba(2, 4, 8, 0.72);
       backdrop-filter: blur(8px);
+      pointer-events: none;
     }
 
     .modal.show {
       display: grid;
+      pointer-events: auto;
+    }
+
+    .modal:not(.show),
+    .selection-sheet:not(.show) {
+      visibility: hidden;
+      pointer-events: none !important;
     }
 
     .modal-card {
@@ -1611,6 +1619,34 @@
       border-radius: 14px;
       background: rgba(10, 14, 22, 0.98);
       box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
+    }
+
+    .system-error-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 120;
+      display: grid;
+      place-items: center;
+      padding: 18px;
+      background:
+        radial-gradient(circle at 50% 0%, rgba(239, 68, 68, 0.14), transparent 22rem),
+        rgba(2, 4, 8, 0.94);
+    }
+
+    .system-error-card {
+      display: grid;
+      width: min(460px, 100%);
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid rgba(239, 68, 68, 0.34);
+      border-radius: 16px;
+      background: rgba(10, 14, 22, 0.98);
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.58);
+    }
+
+    .system-error-card h2 {
+      margin: 0;
+      color: var(--red);
     }
 
     .onboarding-card {
@@ -2094,6 +2130,7 @@
       box-shadow: 0 14px 42px rgba(0, 0, 0, 0.44);
       font-size: 0.86rem;
       font-weight: 850;
+      pointer-events: none;
     }
 
     .toast.show {
@@ -2114,6 +2151,7 @@
       background: rgba(8, 12, 20, 0.96);
       box-shadow: 0 22px 80px rgba(0, 0, 0, 0.58);
       text-align: center;
+      pointer-events: none;
     }
 
     .action-feedback.show {
@@ -3238,7 +3276,7 @@
   ========================== -->
   <script>
     const FEEDBACK_WHATSAPP = "5511977993017";
-    const APP_VERSION = "1.0.9";
+    const APP_VERSION = "1.0.10";
     const STORE_NAME = "ascension-state";
     const DB_NAME = "ascension-system-db";
     const DB_VERSION = 1;
@@ -5154,6 +5192,10 @@ Objetivo: ${goal}`;
     }
 
     function toast(message) {
+      if (!el.toast) {
+        console.log("[Ascension toast]", message);
+        return;
+      }
       el.toast.textContent = message;
       el.toast.classList.remove("show");
       void el.toast.offsetWidth;
@@ -5161,6 +5203,11 @@ Objetivo: ${goal}`;
     }
 
     function showActionFeedback(title, detail) {
+      console.log(`[Ascension action] ${title}`, detail || "");
+      if (!el.actionFeedback) {
+        toast(`${title}${detail ? ` — ${detail}` : ""}`);
+        return;
+      }
       el.actionFeedback.innerHTML = `<strong>${title}</strong><span>${detail}</span>`;
       el.actionFeedback.classList.remove("show");
       void el.actionFeedback.offsetWidth;
@@ -5182,8 +5229,186 @@ Objetivo: ${goal}`;
     }
 
     function openFeedback() {
+      showActionFeedback("Feedback", "Abrindo canal de contato...");
       const url = `https://wa.me/${FEEDBACK_WHATSAPP}?text=${encodeURIComponent(FEEDBACK_MESSAGE)}`;
       window.open(url, "_blank", "noopener");
+    }
+
+    function showSystemErrorScreen(error) {
+      console.error("Erro crítico ao carregar o Ascension System.", error);
+      document.querySelector("#systemErrorScreen")?.remove();
+      const screen = document.createElement("section");
+      screen.id = "systemErrorScreen";
+      screen.className = "system-error-screen";
+      screen.innerHTML = `
+        <div class="system-error-card" role="alertdialog" aria-labelledby="systemErrorTitle">
+          <h2 id="systemErrorTitle">Erro ao carregar o sistema.</h2>
+          <p class="muted">O app encontrou uma falha na inicialização. Você pode tentar recarregar ou limpar cache/service worker para recuperar a versão nova.</p>
+          <div class="modal-actions">
+            <button class="primary-btn" id="retrySystemBtn" type="button">Tentar novamente</button>
+            <button class="ghost-btn" id="recoverSystemBtn" type="button">Recuperar sistema</button>
+          </div>
+        </div>
+      `;
+      document.body.appendChild(screen);
+      screen.querySelector("#retrySystemBtn")?.addEventListener("click", () => location.reload());
+      screen.querySelector("#recoverSystemBtn")?.addEventListener("click", recoverSystem);
+    }
+
+    async function recoverSystem() {
+      console.log("[Ascension debug] Recuperar sistema acionado.");
+      const confirmed = confirm("Recuperar o sistema vai limpar cache/offline e recarregar o app. Se o problema continuar, os dados locais podem precisar ser reimportados por backup. Continuar?");
+      if (!confirmed) return;
+      try {
+        if ("serviceWorker" in navigator) {
+          const registrations = await navigator.serviceWorker.getRegistrations();
+          await Promise.all(registrations.map(registration => registration.unregister()));
+        }
+        if ("caches" in window) {
+          const keys = await caches.keys();
+          await Promise.all(keys.map(key => caches.delete(key)));
+        }
+        if (db) db.close();
+      } catch (error) {
+        console.error("Falha ao recuperar cache/service worker.", error);
+      } finally {
+        location.reload();
+      }
+    }
+
+    function runCriticalAction(label, action) {
+      console.log(`[Ascension debug] Clique: ${label}`);
+      showActionFeedback(label, "Comando recebido");
+      Promise.resolve()
+        .then(action)
+        .catch(error => {
+          console.error(`Falha ao executar: ${label}`, error);
+          toast(`Falha em: ${label}`);
+          showSystemErrorScreen(error);
+        });
+    }
+
+    function installCriticalClickGuards() {
+      document.addEventListener("click", event => {
+        const target = event.target;
+        if (!(target instanceof Element)) return;
+        const actionTarget = target.closest(`
+          #startMainMissionBtn,
+          #completeWorkoutBtn,
+          #regenerateWorkoutBtn,
+          #newMissionBtn,
+          [data-feedback],
+          .nav-link,
+          [data-daily-mission],
+          [data-mission],
+          [data-close-modal],
+          [data-close-rename],
+          [data-close-goal],
+          [data-close-share],
+          [data-close-reflection],
+          [data-close-daily-report],
+          [data-close-workout-detail],
+          #startJourneyBtn,
+          #continueIntroBtn,
+          #skipIntroBtn,
+          #explainSystemBtn,
+          #beginAssessmentBtn,
+          #backToIntroBtn,
+          #onboardingBackBtn,
+          #onboardingNextBtn,
+          #enterSystemBtn
+        `.replace(/\s+/g, ""));
+
+        if (!actionTarget) return;
+        event.preventDefault();
+        event.stopImmediatePropagation();
+
+        const label = actionTarget.textContent.trim() || actionTarget.getAttribute("aria-label") || actionTarget.id || "Ação";
+        runCriticalAction(label, async () => {
+          if (actionTarget.matches("#startMainMissionBtn")) {
+            history.replaceState(null, "", "#missions");
+            switchScreen("missions");
+            return;
+          }
+          if (actionTarget.matches("#completeWorkoutBtn")) {
+            state.cycleReadyReview ? showCycleModal() : await completeWorkout();
+            return;
+          }
+          if (actionTarget.matches("#regenerateWorkoutBtn")) {
+            ensureWorkoutPlan(true);
+            addLog("Treino regenerado", state.workoutPlan.note);
+            narrate("Novo treino gerado offline com base no perfil atual.");
+            await saveState();
+            renderWorkout();
+            renderTrainingPlan();
+            toast("Treino personalizado regenerado.");
+            return;
+          }
+          if (actionTarget.matches("#newMissionBtn")) {
+            showMissionModal();
+            return;
+          }
+          if (actionTarget.matches("[data-feedback]")) {
+            openFeedback();
+            return;
+          }
+          if (actionTarget.matches(".nav-link")) {
+            const screen = actionTarget.dataset.screen;
+            history.replaceState(null, "", `#${screen}`);
+            switchScreen(screen);
+            return;
+          }
+          if (actionTarget.matches("[data-daily-mission]")) {
+            await completeMission(actionTarget.dataset.dailyMission);
+            return;
+          }
+          if (actionTarget.matches("[data-mission]")) {
+            await completeMission(actionTarget.dataset.mission);
+            return;
+          }
+          if (actionTarget.matches("[data-close-modal]")) return closeMissionModal();
+          if (actionTarget.matches("[data-close-rename]")) return closeRenameModal();
+          if (actionTarget.matches("[data-close-goal]")) return closeGoalModal();
+          if (actionTarget.matches("[data-close-share]")) return closeShareModal();
+          if (actionTarget.matches("[data-close-reflection]")) return closeReflectionModal();
+          if (actionTarget.matches("[data-close-daily-report]")) return closeDailyReportModal();
+          if (actionTarget.matches("[data-close-workout-detail]")) return closeWorkoutDetail();
+          if (actionTarget.matches("#startJourneyBtn")) return showOnboardingScreen("intro");
+          if (actionTarget.matches("#continueIntroBtn")) return showOnboardingScreen("prep");
+          if (actionTarget.matches("#skipIntroBtn")) {
+            showOnboardingScreen("splash");
+            el.systemExplain?.classList.remove("show");
+            return;
+          }
+          if (actionTarget.matches("#explainSystemBtn")) {
+            el.systemExplain?.classList.toggle("show");
+            return;
+          }
+          if (actionTarget.matches("#beginAssessmentBtn")) {
+            showOnboardingScreen("form");
+            renderOnboardingStep();
+            el.onboardingName?.focus();
+            return;
+          }
+          if (actionTarget.matches("#backToIntroBtn")) return showOnboardingScreen("intro");
+          if (actionTarget.matches("#onboardingBackBtn")) {
+            onboardingStep = Math.max(0, onboardingStep - 1);
+            renderOnboardingStep();
+            return;
+          }
+          if (actionTarget.matches("#onboardingNextBtn")) {
+            if (!validateOnboardingStep()) return;
+            if (onboardingStep < 3) {
+              onboardingStep += 1;
+              renderOnboardingStep();
+              return;
+            }
+            startSystemAnalysis();
+            return;
+          }
+          if (actionTarget.matches("#enterSystemBtn")) await finishOnboarding();
+        });
+      }, true);
     }
 
     function render() {
@@ -6062,11 +6287,19 @@ Objetivo: ${goal}`;
         el.analysisMessage.textContent = messages[index];
       }, 650);
       const duration = 2200 + Math.floor(Math.random() * 1500);
-      window.setTimeout(() => {
+      const timeout = window.setTimeout(() => {
         window.clearInterval(interval);
         renderAnalysisResult();
         showOnboardingScreen("result");
-      }, duration);
+      }, Math.min(duration, 5000));
+      window.setTimeout(() => {
+        window.clearInterval(interval);
+        window.clearTimeout(timeout);
+        if (el.onboardingModal?.classList.contains("show")) {
+          renderAnalysisResult();
+          showOnboardingScreen("result");
+        }
+      }, 5000);
     }
 
     async function finishOnboarding() {
@@ -6467,8 +6700,14 @@ Objetivo: ${goal}`;
     }
 
     function switchScreen(screenName) {
+      const targetScreen = document.querySelector(`#screen-${screenName}`);
+      if (!targetScreen) {
+        console.error(`Tela não encontrada: ${screenName}`);
+        toast("Tela indisponível. Voltando para Home.");
+        screenName = "status";
+      }
       document.querySelectorAll(".screen").forEach(screen => screen.classList.remove("active"));
-      document.querySelector(`#screen-${screenName}`).classList.add("active");
+      document.querySelector(`#screen-${screenName}`)?.classList.add("active");
       document.querySelectorAll(".nav-link").forEach(link => {
         link.classList.toggle("active", link.dataset.screen === screenName);
       });
@@ -6482,6 +6721,7 @@ Objetivo: ${goal}`;
     }
 
     function bindEvents() {
+      console.log("[Ascension debug] Registrando event listeners principais.");
       el.renameBtn.addEventListener("click", showRenameModal);
       el.editGoalBtn.addEventListener("click", showGoalModal);
       el.goalProgressBtn.addEventListener("click", quickUpdateGoalProgress);
@@ -6873,9 +7113,22 @@ Objetivo: ${goal}`;
       if (!("serviceWorker" in navigator)) return;
       if (!["http:", "https:"].includes(location.protocol)) return;
       try {
-        await navigator.serviceWorker.register("./sw.js");
-      } catch {
-        console.warn("Service worker não registrado.");
+        const registration = await navigator.serviceWorker.register(`./sw.js?v=${APP_VERSION}`);
+        registration.addEventListener("updatefound", () => {
+          const worker = registration.installing;
+          if (!worker) return;
+          worker.addEventListener("statechange", () => {
+            if (worker.state === "installed" && navigator.serviceWorker.controller) {
+              toast("Atualização disponível. Reabra o app para aplicar.");
+              console.log("[Ascension debug] Nova versão do service worker instalada.");
+            }
+          });
+        });
+        navigator.serviceWorker.addEventListener("controllerchange", () => {
+          console.log("[Ascension debug] Service worker atualizado.");
+        });
+      } catch (error) {
+        console.warn("Service worker não registrado.", error);
       }
     }
 
@@ -6893,25 +7146,46 @@ Objetivo: ${goal}`;
         }
         state = mergeState(fallbackState);
       }
-      checkAchievements();
-      ensureSeason();
-      initCustomChoiceControls();
-      initDiagnosticChoiceControls();
-      bindEvents();
-      organizeScreens();
-      render();
-      switchScreen(screenFromHash());
-      if (!state.onboarded) showOnboarding();
-      if (state.cycleReadyReview) showCycleModal();
-      await saveState();
-      scheduleReminderCheck();
-      window.setTimeout(maybePromptReflectionUpdate, 900);
-      window.setTimeout(maybePromptDailyReport, 1400);
-      window.setTimeout(maybeGenerateWeeklyReport, 1700);
-      registerServiceWorker();
+      try {
+        installCriticalClickGuards();
+        checkAchievements();
+        ensureSeason();
+        initCustomChoiceControls();
+        initDiagnosticChoiceControls();
+        try {
+          bindEvents();
+        } catch (error) {
+          console.error("Falha ao registrar parte dos listeners. Fallback crítico permanece ativo.", error);
+          toast("Modo de segurança ativado para os botões.");
+        }
+        organizeScreens();
+        render();
+        switchScreen(screenFromHash());
+        if (!state.onboarded) showOnboarding();
+        if (state.cycleReadyReview) showCycleModal();
+        await Promise.race([
+          saveState(),
+          new Promise(resolve => window.setTimeout(resolve, 5000))
+        ]);
+        scheduleReminderCheck();
+        window.setTimeout(maybePromptReflectionUpdate, 900);
+        window.setTimeout(maybePromptDailyReport, 1400);
+        window.setTimeout(maybeGenerateWeeklyReport, 1700);
+        registerServiceWorker();
+      } catch (error) {
+        showSystemErrorScreen(error);
+      }
     }
 
-    init();
+    window.addEventListener("error", event => {
+      console.error("Erro global capturado.", event.error || event.message);
+    });
+
+    window.addEventListener("unhandledrejection", event => {
+      console.error("Promise rejeitada sem tratamento.", event.reason);
+    });
+
+    init().catch(showSystemErrorScreen);
   </script>
 </body>
 </html>

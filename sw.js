@@ -1,4 +1,4 @@
-const CACHE_NAME = "ascension-system-v19";
+const CACHE_NAME = "ascension-system-v20";
 const APP_SHELL = [
   "./",
   "./index.html",
@@ -35,9 +35,14 @@ self.addEventListener("activate", event => {
 self.addEventListener("fetch", event => {
   if (event.request.method !== "GET") return;
 
+  if (new URL(event.request.url).pathname.endsWith("/sw.js")) {
+    event.respondWith(fetch(event.request, { cache: "no-store" }));
+    return;
+  }
+
   if (event.request.mode === "navigate") {
     event.respondWith(
-      fetch(event.request)
+      fetch(event.request, { cache: "no-store" })
         .then(response => {
           if (response.ok) {
             const copy = response.clone();
@@ -76,4 +81,10 @@ self.addEventListener("notificationclick", event => {
       return self.clients.openWindow("./index.html");
     })
   );
+});
+
+self.addEventListener("message", event => {
+  if (event.data?.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
 });
